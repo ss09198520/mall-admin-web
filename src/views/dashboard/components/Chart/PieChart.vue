@@ -1,4 +1,4 @@
-<!-- 饼图 -->
+<!-- 圓餅圖 -->
 <template>
   <div
       :id="id"
@@ -47,7 +47,7 @@ function initChart() {
   pieChart.setOption({
     title: {
       show: true,
-      text: '产品分类总览南丁格尔饼图',
+      text: '產品分類總覽南丁格爾餅圖',
       x: 'center',
       padding: 15,
       textStyle: {
@@ -77,10 +77,10 @@ function initChart() {
           borderRadius: 8
         },
         data: [
-          { value: 26, name: '家用电器' },
-          { value: 27, name: '户外运动' },
-          { value: 24, name: '汽车用品' },
-          { value: 23, name: '手机数码' }
+          { value: 26, name: '家用電器' },
+          { value: 27, name: '戶外運動' },
+          { value: 24, name: '汽車用品' },
+          { value: 23, name: '手機產品' }
         ]
       }
     ]

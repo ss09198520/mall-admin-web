@@ -86,7 +86,6 @@
 
     <div v-if="showCopyright==true" class="copyright">
       <p>{{ $t('login.copyright') }}</p>
-      <p>{{ $t('login.icp') }}</p>
     </div>
   </div>
 </template>

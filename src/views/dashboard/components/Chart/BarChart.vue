@@ -1,4 +1,4 @@
-<!-- 柱状图 -->
+<!-- 柱狀圖 -->
 <template>
   <div
       :id="id"
@@ -47,7 +47,7 @@ function initChart() {
   barChart.setOption({
     title: {
       show: true,
-      text: '分公司业绩总览(2021年)',
+      text: '分公司業績總覽(2021年)',
       x: 'center',
       padding: 15,
       textStyle: {
@@ -75,12 +75,12 @@ function initChart() {
     legend: {
       x: 'center',
       y: 'bottom',
-      data: ['收入', '毛利润', '收入增长率', '利润增长率']
+      data: ['收入', '毛利', '收入增長率', '利潤增長率']
     },
     xAxis: [
       {
         type: 'category',
-        data: ['上海', '北京', '浙江', '广东', '深圳', '四川', '湖北', '安徽'],
+        data: ['台北', '基隆', '桃園', '新北', '新竹', '台中', '高雄', '台南'],
         axisPointer: {
           type: 'shadow'
         }
@@ -117,7 +117,7 @@ function initChart() {
 
       },
       {
-        name: '毛利润',
+        name: '毛利',
         type: 'bar',
         data: [
           6200, 6500, 5500, 4500, 4200, 3800, 4200, 6700, 5213,
@@ -125,13 +125,13 @@ function initChart() {
         barWidth: 20
       },
       {
-        name: '收入增长率',
+        name: '收入增長率',
         type: 'line',
         yAxisIndex: 1,
         data: [42, 41, 53, 65, 67, 65, 52, 45, 43]
       },
       {
-        name: '利润增长率',
+        name: '利潤增長率',
         type: 'line',
         yAxisIndex: 1,
         data: [82, 81, 56, 45, 51, 65, 65, 67, 78]

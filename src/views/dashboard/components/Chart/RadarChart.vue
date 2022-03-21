@@ -47,7 +47,7 @@ function initChart() {
   radarChart.setOption({
     title: {
       show: true,
-      text: '订单状态总雷达图',
+      text: '訂單狀態總雷達圖',
       x: 'center',
       padding: 15,
       textStyle: {
@@ -66,18 +66,18 @@ function initChart() {
     legend: {
       x: 'center',
       y: 'bottom',
-      data: ['预定数量', '下单数量','发货数量']
+      data: ['預定數量', '下單數量','發貨數量']
     },
     radar: {
       // shape: 'circle',
       radius: '60%',
       indicator: [
-        { name: '家用电器', max: 6500 },
-        { name: '服装箱包', max: 16000 },
-        { name: '运动户外', max: 30000 },
-        { name: '手机数码', max: 38000 },
-        { name: '汽车用品', max: 52000 },
-        { name: '家具厨具', max: 25000 }
+        { name: '家用電器', max: 6500 },
+        { name: '服裝箱包', max: 16000 },
+        { name: '運動戶外', max: 30000 },
+        { name: '手機產品', max: 38000 },
+        { name: '汽車用品', max: 52000 },
+        { name: '家具廚具', max: 25000 }
       ]
     },
     series: [
@@ -87,15 +87,15 @@ function initChart() {
         data: [
           {
             value: [4200, 10000, 20000, 35000, 50000, 18000],
-            name: '预定数量'
+            name: '預定數量'
           },
           {
             value: [5000, 14000, 28000, 26000, 42000, 21000],
-            name: '下单数量'
+            name: '下單數量'
           },
           {
             value: [5000, 12000, 23000, 18000, 31000, 11000],
-            name: '发货数量'
+            name: '發貨數量'
           }
         ]
       }

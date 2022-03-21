@@ -48,7 +48,7 @@ function initChart() {
   funnelChart.setOption({
     title: {
       show: true,
-      text: '订单线索转化漏斗图',
+      text: '訂單線索轉化漏斗圖',
       x: 'center',
       padding: 15,
       textStyle: {

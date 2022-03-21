@@ -13,7 +13,6 @@ const defaultSettings: DefaultSettings = {
     showSettings: true,
     tagsView: true,
     fixedHeader: false,
-    // 是否显示Logo
     sidebarLogo: true,
     errorLog: 'production'
 }

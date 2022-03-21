@@ -1,24 +1,23 @@
 export default {
-    // 路由国际化
+    // 路由國際化
     route: {
-        dashboard: '首页',
-        document: '项目文档'
+        dashboard: '首頁',
+        document: '項目文檔'
     },
-    // 登录页面国际化
+    // 登錄頁面國際化
     login:{
-        title: '有来商城管理系统Vue3',
-        username:'用户名',
-        password:'密码',
-        login:'登 录',
-        code:'请输入验证码',
-        copyright:'Copyright © 2021 - 2022 youlai.tech All Rights Reserved. 有来技术 版权所有',
-        icp:'ICP备案号:皖ICP备20006496号-2'
+        title: '後台管理系統Vue3',
+        username:'用戶名',
+        password:'密碼',
+        login:'登 錄',
+        code:'請輸入驗證碼',
+        copyright:'Copyright © 2021 - 2022 版權所有',
     },
     navbar:{
-        dashboard: '首页',
-        logout:'注销',
-        document:'项目文档',
-        gitee:'码云'
+        dashboard: '首頁',
+        logout:'註銷',
+        document:'項目文檔',
+        gitee:'碼雲'
     }
 
 }

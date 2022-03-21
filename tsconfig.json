@@ -16,7 +16,7 @@
       "@/*": ["src/*"]
     },
     "extends": "./tsconfig.extends.json",
-    "skipLibCheck": true,  // element-plus 生产打包报错，通过此配置修改 TS 不对第三方依赖类型检查
+    "skipLibCheck": true,  // element-plus PROD打包報錯，通過此設定修改 TS 不對第三方依賴檢查
     "allowSyntheticDefaultImports": true // 默认导入
   },
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"]
