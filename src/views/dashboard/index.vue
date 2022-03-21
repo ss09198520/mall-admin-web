@@ -4,23 +4,6 @@
 
     <!-- 数据 -->
     <el-row :gutter="40" class="card-panel-col">
-<!--      <el-col :xs="24" :lg="6" class="card-panel-col">
-        <div class="card-panel">
-          <div class="card-panel-icon-wrapper" style="margin-top: -10px">
-            <el-image style="width:200px; height: 100px"
-                      src="https://gitee.com/haoxr/image/raw/master/20210606213932.png"/>
-          </div>
-          <div class="card-panel-description">
-            <div class="card-panel-text">
-              {{ nickname }}
-            </div>
-            <div class="card-panel-text">
-              <el-tag size="mini" type="danger">莫得感情</el-tag>
-              <el-tag size="mini" type="success" style="margin-left: 5px">打工人</el-tag>
-            </div>
-          </div>
-        </div>
-      </el-col>-->
 
       <el-col :xs="24" :sm="12"  :lg="6" class="card-panel-col">
         <div class="card-panel">

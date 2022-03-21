@@ -32,6 +32,14 @@ Object.keys(directive).forEach(key => {
 // 全局方法
 app.config.globalProperties.$listDictsByCode = listDictsByCode
 
+// vite + vue 3 + type script for devtools enable
+const win: any = window
+if (process.env.NODE_ENV === 'development') {
+    if ('__VUE_DEVTOOLS_GLOBAL_HOOK__' in win) {
+        win.__VUE_DEVTOOLS_GLOBAL_HOOK__.Vue = app
+    }
+}
+
 // 注册全局组件
 app.component('Pagination', Pagination)
     .use(store)

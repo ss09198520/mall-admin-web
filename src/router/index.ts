@@ -43,6 +43,41 @@ export const constantRoutes: Array<RouteRecordRaw> = [
             }
         ]
     },
+    {
+        path: '/d3',
+        component: Layout,
+        name: 'd3',
+        meta:{
+            title:"d3-Chart",
+            icon:"table",
+            hidden:false,
+            alwaysShow:null,
+            roles:["ADMIN"]
+        },
+        children: [
+            {
+                path: 'd',
+                component: () => import('@/views/d3/index.vue'),
+                name: 'Dashboard-d3',
+                meta: {title: 'Force-based I', icon: 'dashboard', affix: true}
+            },
+            {
+                path: 'd2',
+                component: () => import('@/views/d3/index.vue'),
+                name: 'Dashboard-d32',
+                meta: {title: 'Force-based II', icon: 'dashboard', affix: true}
+            }
+        ]
+    },
+    // 404 page must be placed at the end !!!
+    {
+        path: '/:pathMatch(.*)',
+        name: 'not-found',
+        redirect: '/404',
+        meta: {
+            hidden: true
+        }
+    },
 
     // 外部链接
     /*{
