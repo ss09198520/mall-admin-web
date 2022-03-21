@@ -2,11 +2,11 @@
   <div class="sidebar-logo-container" :class="{'collapse':collapse}">
     <transition name="sidebarLogoFade">
       <router-link v-if="collapse" key="collapse" class="sidebar-logo-link" to="/">
-        <img v-if="logo" :src="logo" class="sidebar-logo">
+        <img v-if="logo" :src="`${publicPath}fet_logo_en_sm.jpg`" class="sidebar-logo">
         <h1 v-else class="sidebar-title">{{ title }} </h1>
       </router-link>
       <router-link v-else key="expand" class="sidebar-logo-link" to="/">
-        <img v-if="logo" :src="logo" class="sidebar-logo">
+        <img v-if="logo" :src="`${publicPath}fet_logo_en_sm.jpg`" class="sidebar-logo">
         <h1 class="sidebar-title">{{ title }} </h1>
       </router-link>
     </transition>
@@ -24,8 +24,9 @@ export default {
   },
   data() {
     return {
-      title: 'youlai-mall',
-      logo: 'https://gitee.com/haoxr/image/raw/master/default/logo.png'
+      title: 'fet-system',
+      publicPath: import.meta.env.BASE_URL,
+      logo: 'https://www.fetnet.net/resources/common/images/fetnet-logo.png'
     }
   }
 }
