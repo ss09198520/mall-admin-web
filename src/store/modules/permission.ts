@@ -27,6 +27,7 @@ export const filterAsyncRoutes = (routes: RouteRecordRaw[], roles: string[]) => 
     routes.forEach(route => {
         const tmp = {...route} as any
         if (hasPermission(roles, tmp)) {
+            console.log('component',typeof tmp.component)
             if (tmp.component == 'Layout') {
                 tmp.component = Layout
             } else {
@@ -61,14 +62,29 @@ export const usePermissionStore = defineStore({
         },
         generateRoutes(roles: string[]) {
             return new Promise((resolve, reject) => {
-                listRoutes().then(response => {
-                    const asyncRoutes = response.data
-                    let accessedRoutes = filterAsyncRoutes(asyncRoutes, roles)
-                    this.setRoutes(accessedRoutes)
-                    resolve(accessedRoutes)
-                }).catch(error => {
-                    reject(error)
-                })
+                const asyncRoutes = JSON.parse('[{"path":"/system","component":"Layout","name":"1","meta":{"title":"系统管理","icon":"table","hidden":false,"alwaysShow":null,"roles":["ADMIN"]},"children":[{"path":"user","component":"system/user/index","name":"2","meta":{"title":"用户管理","icon":"user","hidden":false,"alwaysShow":null,"roles":["ADMIN"]}},{"path":"role","component":"system/role/index","name":"3","meta":{"title":"角色管理","icon":"peoples","hidden":false,"alwaysShow":null,"roles":["ADMIN"]}},{"path":"menu","component":"system/menu/index","name":"4","meta":{"title":"菜单管理","icon":"tree-table","hidden":false,"alwaysShow":null,"roles":["ADMIN"]}},{"path":"dept","component":"system/dept/index","name":"5","meta":{"title":"部门管理","icon":"tree","hidden":false,"alwaysShow":null,"roles":["ADMIN"]}},{"path":"dict","component":"system/dict/index","name":"6","meta":{"title":"字典管理","icon":"education","hidden":false,"alwaysShow":null,"roles":["ADMIN"]}},{"path":"client","component":"system/client/index","name":"7","meta":{"title":"客户端管理","icon":"tab","hidden":true,"alwaysShow":null,"roles":["ADMIN"]}}]}]')
+                // const asyncRoutes = [
+                //     { path: '/system', component: Layout, alwaysShow: true, name: '系统管理', hidden: false ,meta : {title:'系统管理',icon:'table',roles: ['ROOT','ADMIN']},
+                //         children: [
+                //         { path: 'user', component: () => import('@/views/system/user/index.vue'), alwaysShow: true, name: '用户管理', hidden: false ,meta : {title:'用户管理',icon:'user',roles: ['ROOT','ADMIN']}},
+                //         { path: 'role', component: () => import('@/views/system/role/index.vue'), alwaysShow: true, name: '角色管理', hidden: false ,meta : {title:'角色管理',icon:'peoples',roles: ['ROOT','ADMIN']}},
+                //         { path: 'menu', component: () => import('@/views/system/menu/index.vue'), alwaysShow: true, name: '菜单管理', hidden: false ,meta : {title:'菜单管理',icon:'tree-table',roles: ['ROOT','ADMIN']}},
+                //         { path: 'dept', component: () => import('@/views/system/dept/index.vue'), alwaysShow: true, name: '部门管理2', hidden: false ,meta : {title:'部门管理2',icon:'tree',roles: ['ROOT','ADMIN']}}]
+                //     },
+                // ]
+                console.log('asyncRoutes' , asyncRoutes)
+                let accessedRoutes = filterAsyncRoutes(asyncRoutes, roles)
+                this.setRoutes(accessedRoutes)
+                resolve(accessedRoutes)
+                // listRoutes().then(response => {
+                //     const asyncRoutes = response.data
+                //     console.log('asyncRoutes',asyncRoutes)
+                //     let accessedRoutes = filterAsyncRoutes(asyncRoutes, roles)
+                //     this.setRoutes(accessedRoutes)
+                //     resolve(accessedRoutes)
+                // }).catch(error => {
+                //     reject(error)
+                // })
             })
         }
     }

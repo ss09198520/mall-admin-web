@@ -57,35 +57,63 @@ export const useUserStore = defineStore({
                     reject(error)
                 })
             })
+            // return new Promise((resolve, reject) => {
+            //     const {access_token, token_type} = {access_token: "2YotnFZFEjr1zCsicMWpAA" ,token_type: "example"}
+            //     const accessToken = token_type + " " + access_token
+            //     localStorage.set("token", accessToken)
+            //     this.token = accessToken
+            //     resolve(access_token)
+            // })
+            
         },
         /**
          *  获取用户信息（昵称、头像、角色集合、权限集合）
          */
         getUserInfo() {
             return new Promise(((resolve, reject) => {
-                    getUserInfo().then(response => {
-                        const {data} = response
-                        if (!data) {
-                            return reject('Verification failed, please Login again.')
+                    // getUserInfo().then(response => {
+                    //     const {data} = response
+                    //     if (!data) {
+                    //         return reject('Verification failed, please Login again.')
+                    //     }
+                    //     const {nickname, avatar, roles, perms} = data
+                    //     if (!roles || roles.length <= 0) {
+                    //         reject('getUserInfo: roles must be a non-null array!')
+                    //     }
+                    //     this.nickname = nickname
+                    //     this.avatar = avatar
+                    //     this.roles = roles
+                    //     this.perms = perms
+                    //     resolve(data)
+                    // }).catch(error => {
+                    //     reject(error)
+                    // })
+                    const {data} = {
+                        data:{
+                            nickname:'',
+                            avatar:'',
+                            roles:['ROOT','ADMIN','GUEST'],
+                            perms:[],
                         }
-                        const {nickname, avatar, roles, perms} = data
-                        if (!roles || roles.length <= 0) {
-                            reject('getUserInfo: roles must be a non-null array!')
-                        }
-                        this.nickname = nickname
-                        this.avatar = avatar
-                        this.roles = roles
-                        this.perms = perms
-                        resolve(data)
-                    }).catch(error => {
-                        reject(error)
-                    })
+                    }
+                    if (!data) {
+                        return reject('Verification failed, please Login again.')
+                    }
+                    const {nickname, avatar, roles, perms} = data
+                    if (!roles || roles.length <= 0) {
+                        reject('getUserInfo: roles must be a non-null array!')
+                    }
+                    this.nickname = nickname
+                    this.avatar = avatar
+                    this.roles = roles
+                    this.perms = perms
+                    resolve(data)
                 })
             )
         },
 
         /**
-         *  注销
+         *  登出
          */
         logout() {
             return new Promise(((resolve, reject) => {
