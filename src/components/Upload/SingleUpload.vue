@@ -35,7 +35,7 @@ import {computed, ref} from "vue";
 import {Plus, Close} from '@element-plus/icons-vue'
 import {ElMessage, ElUpload} from "element-plus"
 import {uploadFile, deleteFile} from "@/api/system/file";
-import {UploadFile} from "element-plus/es/components/upload/src/upload.type";
+import {UploadFile} from "element-plus/es/components/upload/src/upload";
 
 const uploadRef = ref(ElUpload)
 const emit = defineEmits(['update:modelValue']);

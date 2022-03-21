@@ -1,7 +1,7 @@
 import request from "@/utils/request";
 
 /**
- * 登录
+ * 登入
  * @param data
  */
 export function login(data: object) {
@@ -10,13 +10,13 @@ export function login(data: object) {
         method:'post',
         params: data,
         headers: {
-            'Authorization': 'Basic bWFsbC1hZG1pbi13ZWI6MTIzNDU2' // 客户端信息Base64明文：mall-admin-web:123456
+            'Authorization': 'Basic bWFsbC1hZG1pbi13ZWI6MTIzNDU2' // 客戶端信息Base64明文：mall-admin-web:123456
         }
     })
 }
 
 /**
- * 登录成功后获取用户信息（包括用户头像、权限列表等）
+ * 登錄成功後獲取用戶信息（包括用戶頭像、權限列表等）
  */
 export function getUserInfo() {
     return request({
@@ -26,7 +26,7 @@ export function getUserInfo() {
 }
 
 /**
- * 注销
+ * 註銷
  */
 export function logout() {
     return request({
@@ -36,7 +36,7 @@ export function logout() {
 }
 
 /**
- * 获取图片验证码
+ * 獲取圖片驗證碼
  */
 export function getCaptcha() {
     return request({

@@ -82,19 +82,25 @@
     <el-row :gutter="40">
 
       <!-- 项目介绍 -->
-      <el-col :md="12" :lg="12" class="card-panel-col">
+      <!-- <el-col :md="12" :lg="12" class="card-panel-col">
         <Project/>
-      </el-col>
+      </el-col> -->
 
       <!-- 团队介绍 -->
-      <el-col :md="12" :lg="12" class="card-panel-col">
+      <!-- <el-col :md="12" :lg="12" class="card-panel-col">
         <Team/>
-      </el-col>
+      </el-col> -->
+      
+
     </el-row>
 
 
     <!-- Echarts 图表 -->
     <el-row :gutter="40" style="margin-top: 20px">
+      <el-col :xs="24" :sm="12" :lg="8" class="card-panel-col">
+        <!--订单漏斗图-->
+        <FunnelChart id="funnelChart" height="400px" width="100%" class="chart-container"/>
+      </el-col>
       <el-col :sm="24" :lg="8" class="card-panel-col">
         <BarChart id="barChart" height="400px" width="100%" class="chart-container"/>
       </el-col>
