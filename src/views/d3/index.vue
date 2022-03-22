@@ -4,8 +4,13 @@
     <!-- D3圖表  -->
     <el-row style="margin-top: 20px">
       <el-col>
-        <!--订单漏斗图-->
-        <FunnelChart id="funnelChart" height="400px" width="100%" class="chart-container"/>
+        <!--基礎網路力向圖-->
+<!--        <ForceBasedChart id="funnelChart" height="400px" width="100%" class="chart-container"/>-->
+        <router-view v-slot="{ Component ,route}" class="chart-container" height="1000px" width="100%">
+          <transition name="router-fade" mode="out-in">
+            <component :is="Component" :key="route.path"/>
+          </transition>
+        </router-view>
       </el-col>
     </el-row>
 
@@ -18,11 +23,7 @@
 import {computed, nextTick, onMounted, reactive, toRefs, watchEffect} from "vue";
 
 // 组件引用
-import GithubCorner from '@/components/GithubCorner/index.vue'
-import BarChart from "./components/D3-Chart/BarChart.vue";
-import PieChart from "./components/D3-Chart/PieChart.vue";
-import RadarChart from "./components/D3-Chart/RadarChart.vue";
-import FunnelChart from "./components/D3-Chart/ForceBasedLabelPlacementI.vue";
+// import ForceBasedChart from "./components/D3-Chart/ForceBasedLabelPlacementI.vue";
 
 
 import {useUserStoreHook} from "@/store/modules/user"

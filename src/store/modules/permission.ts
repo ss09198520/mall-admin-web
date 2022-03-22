@@ -27,7 +27,6 @@ export const filterAsyncRoutes = (routes: RouteRecordRaw[], roles: string[]) => 
     routes.forEach(route => {
         const tmp = {...route} as any
         if (hasPermission(roles, tmp)) {
-            console.log('component',typeof tmp.component)
             if (tmp.component == 'Layout') {
                 tmp.component = Layout
             } else {
@@ -72,7 +71,7 @@ export const usePermissionStore = defineStore({
                 //         { path: 'dept', component: () => import('@/views/system/dept/index.vue'), alwaysShow: true, name: '部门管理2', hidden: false ,meta : {title:'部门管理2',icon:'tree',roles: ['ROOT','ADMIN']}}]
                 //     },
                 // ]
-                console.log('asyncRoutes' , asyncRoutes)
+                // console.log('asyncRoutes' , asyncRoutes)
                 let accessedRoutes = filterAsyncRoutes(asyncRoutes, roles)
                 this.setRoutes(accessedRoutes)
                 resolve(accessedRoutes)

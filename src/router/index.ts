@@ -40,7 +40,7 @@ export const constantRoutes: Array<RouteRecordRaw> = [
                 component: () => import('@/views/dashboard/index.vue'),
                 name: 'Dashboard',
                 meta: {title: 'dashboard', icon: 'dashboard', affix: true}
-            }
+            },
         ]
     },
     {
@@ -48,7 +48,7 @@ export const constantRoutes: Array<RouteRecordRaw> = [
         component: Layout,
         name: 'd3',
         meta:{
-            title:"d3-Chart",
+            title:"d3.js",
             icon:"table",
             hidden:false,
             alwaysShow:null,
@@ -56,17 +56,25 @@ export const constantRoutes: Array<RouteRecordRaw> = [
         },
         children: [
             {
-                path: 'd',
+                path: 'charts',
                 component: () => import('@/views/d3/index.vue'),
-                name: 'Dashboard-d3',
-                meta: {title: 'Force-based I', icon: 'dashboard', affix: true}
+                name: 'charts-d3',
+                meta: {title: 'charts-d3', icon: 'chart'},
+                children: [
+                    {
+                        path: 'ForceBasedLabelPlacementI',
+                        component: () => import('@/views/d3/components/D3-Chart/ForceBasedLabelPlacementI.vue'),
+                        name: 'd3-ForceBasedLabelPlacementI',
+                        meta: {title: 'Force-based I', noCache: true}
+                    },
+                    {
+                        path: 'ForceBasedLabelPlacementII',
+                        component: () => import('@/views/d3/components/D3-Chart/ForceDirectedGraph.vue'),
+                        name: 'd3-ForceBasedLabelPlacementII',
+                        meta: {title: 'Force Directed Graph', noCache: true}
+                    },
+                ]
             },
-            {
-                path: 'd2',
-                component: () => import('@/views/d3/index.vue'),
-                name: 'Dashboard-d32',
-                meta: {title: 'Force-based II', icon: 'dashboard', affix: true}
-            }
         ]
     },
     // 404 page must be placed at the end !!!
@@ -91,7 +99,7 @@ export const constantRoutes: Array<RouteRecordRaw> = [
         ]
     }*/
     // 多级嵌套路由
-    /* {
+    {
          path: '/nested',
          component: Layout,
          redirect: '/nested/level1/level2',
@@ -129,7 +137,7 @@ export const constantRoutes: Array<RouteRecordRaw> = [
                  ]
              },
          ]
-     }*/
+     }
 ]
 
 const router = createRouter({

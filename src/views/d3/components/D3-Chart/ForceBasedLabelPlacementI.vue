@@ -18,7 +18,7 @@ import resize from '@/utils/resize'
 const props = defineProps({
   id: {
     type: String,
-    default: 'funnelChart'
+    default: 'ForceBasedLabel'
   },
   className: {
     type: String,
@@ -45,7 +45,7 @@ const {
 } = resize()
 
 async function initChart() {
-  // const funnelChart = init(document.getElementById(props.id) as HTMLDivElement)
+
   let width = 1000
   let height = 700
   let color = d3.scaleOrdinal(d3.schemeCategory10)
@@ -81,7 +81,6 @@ async function initChart() {
         target: i * 2 + 1
       })
     })
-
     let labelLayout = d3.forceSimulation(label.nodes)
         .force('charge', d3.forceManyBody().strength(-50))
         .force('link', d3.forceLink(label.links).distance(0).strength(2))
@@ -91,9 +90,11 @@ async function initChart() {
         .force('center', d3.forceCenter(width / 2, height / 2))
         .force('x', d3.forceX(width / 2).strength(1))
         .force('y', d3.forceY(height / 2).strength(1))
-        .force('link', d3.forceLink(graph.links).id(function (d) {
+        .force('link', d3.forceLink(graph.links).id( (d) => {
           return d.id
-        }).distance(50).strength(1))
+        })
+        .distance(50)
+        .strength(1))
         .on('tick', ticked)
 
     let adjlist = []
@@ -111,12 +112,11 @@ async function initChart() {
     let container = svg.append('g')
 
     svg.call(
-        d3.zoom()
-            .scaleExtent([.1, 4]) // eslint-disable-line
-            .on('zoom', function (e) {
-              console.log('zoom e' , e)
-              container.attr('transform', e.transform) }
-            )
+      d3.zoom()
+        .scaleExtent([.1, 4]) // eslint-disable-line
+        .on('zoom', function (e) {
+          container.attr('transform', e.transform) }
+        )
     )
 
     let link = container.append('g').attr('class', 'links')
@@ -138,13 +138,13 @@ async function initChart() {
         })
 
     node.on('mouseover', focus)
-        .on('mouseout', unfocus)
+        .on('mouseout', unFocus)
 
     node.call(
         d3.drag()
-            .on('start', dragstarted)
+            .on('start', dragStarted)
             .on('drag', dragged)
-            .on('end', dragended)
+            .on('end', dragEnded)
     )
 
     let labelNode = container.append('g').attr('class', 'labelNodes')
@@ -160,7 +160,8 @@ async function initChart() {
         .style('font-size', 12)
         .style('pointer-events', 'none') // to prevent mouseover/drag capture
 
-    node.on('mouseover', focus).on('mouseout', unfocus)
+    node.on('mouseover', focus)
+        .on('mouseout', unFocus)
 
     function ticked() {
       node.call(updateNode)
@@ -193,9 +194,9 @@ async function initChart() {
       return 0
     }
 
-    function focus(event) {
-      console.log('focus', event) // eslint-disable-line
-      console.log('node', node)
+    function focus(d) {
+      // console.log('focus', d) // eslint-disable-line
+      // console.log('node', node)
       let index = d3.select(this).datum().index
       node.style('opacity', function (o) {
         return neigh(index, o.index) ? 1 : 0.1
@@ -208,7 +209,7 @@ async function initChart() {
       })
     }
 
-    function unfocus() {
+    function unFocus() {
       labelNode.attr('display', 'block')
       node.style('opacity', 1)
       link.style('opacity', 1)
@@ -235,25 +236,36 @@ async function initChart() {
       })
     }
 
-    function dragstarted(d) {
-      d3.event.sourceEvent.stopPropagation()
-      if (!d3.event.active) graphLayout.alphaTarget(0.3).restart()
-      d.fx = d.x
-      d.fy = d.y
+    function dragStarted(dragEvent , d) {
+      // console.log(this)
+      // console.log('dragstarted dragEvent',dragEvent)
+      // console.log('d3 event',d3.event)
+      // console.log('dragEvent sourceEvent',dragEvent.sourceEvent)
+      // console.log('d3.event.active', dragEvent.active)
+      // console.log('d3.select(this)' , d3.select(this))
+
+      dragEvent.sourceEvent.stopPropagation()
+      if (!dragEvent.active) graphLayout.alphaTarget(0.3).restart()
+      dragEvent.subject.fx = dragEvent.subject.x
+      dragEvent.subject.fy = dragEvent.subject.y
+      // d.fx = d.x;
+      // d.fy = d.y;
     }
 
-    function dragged(d) {
-      d.fx = d3.event.x
-      d.fy = d3.event.y
+    function dragged(dragEvent, d) {
+      dragEvent.subject.fx = dragEvent.x;
+      dragEvent.subject.fy = dragEvent.y;
+      // d.fx = dragEvent.x;
+      // d.fy = dragEvent.y;
     }
 
-    function dragended(d) {
-      if (!d3.event.active) graphLayout.alphaTarget(0)
+    function dragEnded(dragEvent ,d) {
+      console.log('dragEnded d' , d)
+      if (!dragEvent.active) graphLayout.alphaTarget(0)
       d.fx = null
       d.fy = null
     }
   })
-
 }
 
 onBeforeUnmount(() => {
