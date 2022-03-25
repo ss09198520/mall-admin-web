@@ -68,14 +68,20 @@ export const constantRoutes: Array<RouteRecordRaw> = [
                         meta: {title: 'Force-based I', noCache: true}
                     },
                     {
-                        path: 'ForceDirectedGraphI',
+                        path: 'ForceDirectedGraph',
                         component: () => import('@/views/d3/components/D3-Chart/ForceDirectedGraph.vue'),
-                        name: 'd3-ForceDirectedGraphI',
+                        name: 'd3-ForceDirectedGraph',
                         meta: {title: 'Force Directed Graph I', noCache: true}
                     },
                     {
-                        path: 'ForceDirectedGraphII',
+                        path: 'ForceDirectedGraphI',
                         component: () => import('@/views/d3/components/D3-Chart/ForceDirectedGraphI.vue'),
+                        name: 'd3-ForceDirectedGraphI',
+                        meta: {title: 'Force Directed Graph II', noCache: true}
+                    },
+                    {
+                        path: 'ForceDirectedGraphII',
+                        component: () => import('@/views/d3/components/D3-Chart/ForceDirectedGraphII.vue'),
                         name: 'd3-ForceDirectedGraphII',
                         meta: {title: 'Force Directed Graph II', noCache: true}
                     },

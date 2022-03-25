@@ -5,6 +5,7 @@
       :class="className"
       :style="{height, width}"
   >
+    <h2>Force-Direct Graph</h2>
     <el-button
         type="success"
         @click="reDraw"
@@ -13,26 +14,23 @@
     >
       重新生成
     </el-button>
-    <h2>Force-Direct Graph</h2>
-    <svg width="960" height="600" class="container-border"></svg>
   </div>
 </template>
 
-<script setup >
-  import {nextTick, onActivated, onBeforeUnmount, onDeactivated, onMounted} from "vue";
-  import { reactive, ref, toRefs } from 'vue'
+<script setup>
+import {nextTick, onActivated, onBeforeUnmount, onDeactivated, onMounted, reactive, toRefs} from "vue";
 
-  import * as d3 from 'd3';
-  import resize from '@/utils/resize'
+import * as d3 from 'd3';
+import resize from '@/utils/resize'
 
-  const props = defineProps({
+const props = defineProps({
     id: {
       type: String,
       default: 'ForceDirectGraph'
     },
     className: {
       type: String,
-      default: ''
+      default: 'container-border'
     },
     width: {
       type: String,
@@ -71,7 +69,48 @@
 
   // Node Dataset
   const data = {
-    "nodes": [
+    container: null,
+    svg: null,
+    svgNodes: null,
+    svgRelationships: null,
+
+    node: null,
+    nodes: null,
+
+    dots: null,
+    links: null,
+    linksText: null,
+
+    relationship: null,
+    relationshipOutline: null,
+    relationshipOverlay: null,
+    relationshipText: null,
+    relationships: null,
+
+    simulation: null,
+    svgTranslate: null,
+    svgScale: null,
+
+    justLoaded: false,
+    options: {
+      arrowSize: 4,
+      // colors: colors(),
+      highlight: undefined,
+      // iconMap: fontAwesomeIcons(),
+      icons: undefined,
+      imageMap: {},
+      images: undefined,
+      infoPanel: true,
+      minCollision: undefined,
+      neo4jData: undefined,
+      neo4jDataUrl: undefined,
+      nodeOutlineFillColor: undefined,
+      nodeRadius: 25,
+      relationshipColor: '#a5abb6',
+      zoomFit: true
+    },
+
+    nodesData: [
       {"id": 1, "name": "A"},
       {"id": 2, "name": "B"},
       {"id": 3, "name": "C"},
@@ -83,7 +122,7 @@
       {"id": 9, "name": "I"},
       {"id": 10, "name": "J"}
     ],
-    "relations": [
+    relations: [
       {"source": 1, relation: '關係A', "target": 2},
       {"source": 1, relation: '關係A', "target": 3},
       {"source": 1, relation: '關係A', "target": 6},
@@ -99,8 +138,7 @@
   // reactive声明响应式数据，用于声明引用数据类型
   const state = reactive(data)
   // 使用toRefs解构
-  const {nodes, relations} = toRefs(state)
-
+  const {svg , container , nodesData, relations , svgTranslate , svgScale , options , justLoaded , simulation ,node , nodes} = toRefs(state)
 
   function reDraw(){
     state.nodes = [
@@ -118,39 +156,139 @@
     forceLink2();
   }
 
+  function appendGraph() {
+    state.svg = state.container
+        .append('svg')
+        .attr('width', '100%')
+        .attr('height', '100%')
+        .attr('class', 'neo4jd3-graph')
+        .call(d3.zoom().on('zoom', function(zoomEvent) {
+          console.log('event',zoomEvent)
+          let scale = zoomEvent.transform.k,
+              translate = [zoomEvent.transform.x, zoomEvent.transform.y];
+          if (svgTranslate) {
+            translate[0] += svgTranslate[0];
+            translate[1] += svgTranslate[1];
+          }
+          console.log('svgScale ' , svgScale )
+          console.log('svgTranslate' , svgTranslate)
+
+          if (svgScale) {
+            scale *= svgScale;
+          }
+
+          state.svg.attr('transform', 'translate(' + translate[0] + ', ' + translate[1] + ') scale(' + scale + ')');
+        }))
+        .on('dblclick.zoom', null)
+        .append('g')
+        .attr('width', '100%')
+        .attr('height', '100%');
+
+    state.svgRelationships = state.svg.append('g')
+        .attr('class', 'relationships');
+
+    state.svgNodes = state.svg.append('g')
+        .attr('class', 'nodes');
+  }
+
+  function zoomFit(transitionDuration) {
+    console.log('state.svg.node()' , state.svg.node())
+    let bounds = state.svg.node().getBBox(),
+        parent = state.svg.node().parentElement.parentElement,
+        fullWidth = parent.clientWidth,
+        fullHeight = parent.clientHeight,
+        width = bounds.width,
+        height = bounds.height,
+        midX = bounds.x + width / 2,
+        midY = bounds.y + height / 2;
+
+    if (width === 0 || height === 0) {
+      return; // nothing to fit
+    }
+
+    state.svgScale = 0.85 / Math.max(width / fullWidth, height / fullHeight);
+    state.svgTranslate = [fullWidth / 2 - svgScale * midX, fullHeight / 2 - svgScale * midY];
+
+    state.svg
+            .attr('transform', 'translate(' + svgTranslate[0] + ', ' + svgTranslate[1] + ') scale(' + svgScale + ')');
+    // smoothTransform(svgTranslate, svgScale);
+  }
+
+  function initSimulation() {
+    // 設定力模擬器
+    return d3.forceSimulation(nodesData.value)
+        // .alphaDecay(0) // 收斂永不停止
+        // .velocityDecay(0.2) // 設定摩擦係數
+        .force("link", d3.forceLink().id((d) => d.id).links(relations.value))
+        // .force('link', d3.forceLink().id((d) => d.id))
+        // 設定中心點位置
+        // .force("center", d3.forceCenter(250, 150))
+        .force("center", d3.forceCenter().x(550).y(150))
+        // 設定節點間電荷力
+        .force("charge", d3.forceManyBody().strength(-300))
+        // .force("charge", d3.forceManyBody().strength(1))
+        // 設定節點間彼此的互斥力
+        .force("collide", d3.forceCollide().strength(0.2).radius(50).iterations(1))
+        .on('tick', ticked)
+        .on('end', function () {
+          if (options.zoomFit && !justLoaded) {
+            state.justLoaded = true
+            zoomFit(2)
+          }
+        });
+  }
+  // 綁定節點 線 文字
+  function ticked(d){
+    console.log('ticked',d)
+    state.links
+        .attr("x1", (d) => d.source.x)
+        .attr("y1", (d) => d.source.y)
+        .attr("x2", (d) => d.target.x)
+        .attr("y2", (d) => d.target.y);
+    state.linksText
+        .attr('x', function (d) { return (d.source.x + d.target.x) / 2 })
+        .attr('y', function (d) { return (d.source.y + d.target.y) / 2 })
+
+    state.dots.attr("cx", d=> d.x)
+        .attr("cy", d => d.y)
+        .attr('transform', function (d) { return 'translate(' + d.x + ',' + d.y + ')' });
+  }
+
   async function forceLink2(){
 
     // js
-    // 设置一个颜色比例尺
+    // 設定一个顏色比例尺
     let colorScale = d3.scaleOrdinal()
-        .domain(d3.range(nodes.value.length))
+        .domain(d3.range(nodesData.value.length))
         .range(d3.schemeCategory10)
-    const svg = d3.select('.container-border') //取得SVG 畫布
-    const g = svg.append('g')
 
-    let exit = svg.exit();
-    exit.remove();
+    state.container = d3.select('.container-border') //取得基礎位置
+
+    appendGraph()
+    state.simulation = initSimulation();
+
+    const g = state.svg.append('g')
     // 生成節點 Group
-    const dots = g.selectAll('.circleText')
-        .data(nodes.value)
+    state.dots = g.selectAll('.circleText')
+        .data(nodesData.value)
         .enter()
         .append('g')
     // 生成節點
-    dots.append('circle')
+    state.dots.append('circle')
         .attr('r', 25)
         .attr('fill', (d, i) => {
           return colorScale(i)
         })
         .style('opacity', 0.4)
     // 生成節點文字
-    dots.append("text")
+    state.dots.append("text")
         .attr('x', -15)
         .attr('y', -15)
         .attr('dy', -10)
         .text(d => d.name)
 
     // 生成線群組
-    const links = g.append('g')
+    state.links = g.append('g')
           .selectAll("line")
           .data(relations.value)
           .join("line")
@@ -161,7 +299,7 @@
           .attr('stroke-width', 2.5) //粗細
 
     // 線上的文字
-    const linksText = g.append('g')
+    state.linksText = g.append('g')
           .selectAll('text')
           .data(relations.value)
           .enter()
@@ -170,38 +308,6 @@
           .attr('x', -15)
           .attr('y', -15)
           .attr('dy', -10)
-
-    // 設定力模擬器
-    const simulation = d3.forceSimulation(nodes.value)
-        // .alphaDecay(0) // 收斂永不停止
-        // .velocityDecay(0.2) // 設定摩擦係數
-        .force("link",  d3.forceLink().id( (d) => d.id ).links(relations.value))
-        // 設定中心點位置
-        // .force("center", d3.forceCenter(250, 150))
-        .force("center", d3.forceCenter().x(550).y(150))
-        // 設定節點間電荷力
-        .force("charge", d3.forceManyBody().strength(-300))
-        // .force("charge", d3.forceManyBody().strength(1))
-        // 設定節點間彼此的互斥力
-        .force("collide", d3.forceCollide().strength(0.2).radius(50).iterations(1))
-        .on('tick', ticked)
-
-
-    // 綁定節點 線 文字
-    function ticked(d){
-      links
-          .attr("x1", (d) => d.source.x)
-          .attr("y1", (d) => d.source.y)
-          .attr("x2", (d) => d.target.x)
-          .attr("y2", (d) => d.target.y);
-      linksText
-          .attr('x', function (d) { return (d.source.x + d.target.x) / 2 })
-          .attr('y', function (d) { return (d.source.y + d.target.y) / 2 })
-
-      dots.attr("cx", d=> d.x)
-          .attr("cy", d => d.y)
-          .attr('transform', function (d) { return 'translate(' + d.x + ',' + d.y + ')' });
-    }
   }
 
 
