@@ -158,7 +158,7 @@ const props = defineProps({
           .attr('height', '100%')
           .attr('class', 'neo4jd3-graph')
           .call(d3.zoom().on('zoom', function(zoomEvent) {
-            console.log('event',zoomEvent)
+            // console.log('event',zoomEvent)
             let scale = zoomEvent.transform.k,
                 translate = [zoomEvent.transform.x, zoomEvent.transform.y];
             if (state.svgTranslate) {
@@ -199,10 +199,10 @@ const props = defineProps({
       }
 
       state.svgScale = 0.85 / Math.max(width / fullWidth, height / fullHeight);
-      state.svgTranslate = [fullWidth / 2 - svgScale * midX, fullHeight / 2 - svgScale * midY];
+      state.svgTranslate = [fullWidth / 2 - state.svgScale * midX, fullHeight / 2 - state.svgScale * midY];
 
       state.svg
-          .attr('transform', 'translate(' + svgTranslate[0] + ', ' + svgTranslate[1] + ') scale(' + svgScale + ')');
+          .attr('transform', 'translate(' + state.svgTranslate[0] + ', ' + state.svgTranslate[1] + ') scale(' + state.svgScale + ')');
       // smoothTransform(svgTranslate, svgScale);
     }
 
@@ -297,7 +297,8 @@ const props = defineProps({
 
     function appendOverlayToRelationship(relationship) {
       return relationship.append('path')
-          .attr('class', 'overlay');
+          .attr('class', 'overlay')
+          .style('opacity', 0.1);
     }
 
     function appendTextToRelationship(relationship) {
@@ -342,7 +343,7 @@ const props = defineProps({
       return state.node.enter()
           .append('g')
           .attr('class', (d) => {
-            // console.log('appendNode', d)
+            console.log('appendNode', d)
             let highlight, i,
                 classes = 'node',
                 label = d.name;
@@ -425,8 +426,8 @@ const props = defineProps({
     const image = (d) => {
       let i, imagesForLabel, img, imgLevel, label, labelPropertyValue, property, value;
 
-      if (options.images) {
-        imagesForLabel = options.imageMap[d.labels[0]];
+      if (state.options.images) {
+        imagesForLabel = state.options.imageMap[d.labels[0]];
 
         if (imagesForLabel) {
           imgLevel = 0;
@@ -449,7 +450,7 @@ const props = defineProps({
                 (!property || d.properties[property] !== undefined) &&
                 (!value || d.properties[property] === value)) {
               if (labelPropertyValue.length > imgLevel) {
-                img = options.images[imagesForLabel[i]];
+                img = state.options.images[imagesForLabel[i]];
                 imgLevel = labelPropertyValue.length;
               }
             }
@@ -510,8 +511,8 @@ const props = defineProps({
       d.fx = null
       d.fy = null
 
-      if (typeof options.onNodeDragEnd === 'function') {
-        options.onNodeDragEnd(d);
+      if (state.options.onNodeDragEnd  && typeof state.options.onNodeDragEnd === 'function') {
+        state.options.onNodeDragEnd(d);
       }
     }
 
@@ -542,7 +543,7 @@ const props = defineProps({
     function appendRingToNode(node) {
       return node.append('circle')
           .attr('class', 'ring')
-          .attr('r', options.nodeRadius * 1.16)
+          .attr('r', state.options.nodeRadius * 1.16)
           .append('title')
           .text(d => d.name)
       // .text( d => toString(d))
@@ -564,10 +565,9 @@ const props = defineProps({
     }
 
     // 綁定節點 線 文字
-    const ticked = () => {
+    function ticked () {
       tickNodes()
       tickRelationships()
-      const llll = d3.selectAll('.relationship')
       // Array.prototype.forEach(state.relationship)
       // llll.each( (d) => {
       //   console.log(this)
@@ -631,7 +631,7 @@ const props = defineProps({
         });
       }
     }
-    const tickRelationships = () => {
+    function tickRelationships () {
       if (state.relationship) {
         state.relationship.attr('transform', function(d) {
           let angle = rotation(d.source, d.target);
@@ -639,16 +639,12 @@ const props = defineProps({
         });
 
         tickRelationshipsTexts();
-        let bbb = state.relationship
-        bbb.each((d) => {
-          console.log('tickRelationshipsTexts' , d , this)
-        })
-        // tickRelationshipsOutlines();
-        // tickRelationshipsOverlays();
+        tickRelationshipsOutlines();
+        tickRelationshipsOverlays();
       }
     }
 
-    const tickRelationshipsTexts = () => {
+    function tickRelationshipsTexts () {
       state.relationshipText.attr('transform', function(d) {
         let angle = (rotation(d.source, d.target) + 360) % 360,
             mirror = angle > 90 && angle < 270,
@@ -663,15 +659,16 @@ const props = defineProps({
     }
 
     const tickRelationshipsOutlines = () => {
-      state.relationship.each( (relationship) => {
-        console.log('d3.select(this)' ,relationship.value, d3.select(relationship))
+      state.relationship.each( function (d,i) {
+        console.log('d3.select(this)' ,this.constructor.name)
         let rel = d3.select(this),
             outline = rel.select('.outline'),
             text = rel.select('.text'),
-            bbox = text.node().getBBox(),
+            // bbox = text.node().getBBox(),
             padding = 3;
+        console.log('text outline' ,outline, text)
 
-        outline.attr('d', function(d) {
+        state.relationshipOutline.attr('d', function(d) {
           let center = { x: 0, y: 0 },
               angle = rotation(d.source, d.target),
               textBoundingBox = text.node().getBBox(),
@@ -704,6 +701,25 @@ const props = defineProps({
               ' L ' + rotatedPointG2.x + ' ' + rotatedPointG2.y +
               ' Z';
         });
+      });
+    }
+
+    function tickRelationshipsOverlays () {
+      state.relationshipOverlay.attr('d', function(d) {
+        let center = { x: 0, y: 0 },
+            angle = rotation(d.source, d.target),
+            n1 = unitaryNormalVector(d.source, d.target),
+            n = unitaryNormalVector(d.source, d.target, 50),
+            rotatedPointA = rotatePoint(center, { x: 0 - n.x, y: 0 - n.y }, angle),
+            rotatedPointB = rotatePoint(center, { x: d.target.x - d.source.x - n.x, y: d.target.y - d.source.y - n.y }, angle),
+            rotatedPointC = rotatePoint(center, { x: d.target.x - d.source.x + n.x - n1.x, y: d.target.y - d.source.y + n.y - n1.y }, angle),
+            rotatedPointD = rotatePoint(center, { x: 0 + n.x - n1.x, y: 0 + n.y - n1.y }, angle);
+
+        return 'M ' + rotatedPointA.x + ' ' + rotatedPointA.y +
+            ' L ' + rotatedPointB.x + ' ' + rotatedPointB.y +
+            ' L ' + rotatedPointC.x + ' ' + rotatedPointC.y +
+            ' L ' + rotatedPointD.x + ' ' + rotatedPointD.y +
+            ' Z';
       });
     }
 
@@ -751,7 +767,7 @@ const props = defineProps({
       node: null,
       nodes: null,
 
-      // relationship: null,
+      relationship: null,
       relationships: null,
       relationshipOutline: null,
       relationshipOverlay: null,

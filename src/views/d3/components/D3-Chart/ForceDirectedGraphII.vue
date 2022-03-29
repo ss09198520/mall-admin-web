@@ -126,10 +126,23 @@ const props = defineProps({
       imageMap: {},
       images: undefined,
       infoPanel: true,
-      minCollision: undefined,
+      minCollision: 60,
       neo4jData: undefined,
       neo4jDataUrl: undefined,
       nodeOutlineFillColor: undefined,
+      onNodeDoubleClick: function(node) {
+        switch(node.id) {
+          case '25':
+            // Google
+            window.open(node.properties.url, '_blank');
+            break;
+          default:
+            let maxNodes = 5,
+                data = randomD3Data(node, maxNodes);
+            updateWithD3Data(data);
+            break;
+        }
+      },
       nodeRadius: 25,
       relationshipColor: '#a5abb6',
       zoomFit: true
@@ -148,16 +161,16 @@ const props = defineProps({
       {"id": 10, "name": "J"}
     ],
     relationsData: [
-      {"source": 1, relation: '關係A', "target": 2},
-      {"source": 1, relation: '關係A', "target": 3},
-      {"source": 1, relation: '關係A', "target": 6},
-      {"source": 2, relation: '關係A', "target": 3},
-      {"source": 2, relation: '關係A', "target": 7},
-      {"source": 3, relation: '關係A', "target": 4},
-      {"source": 8, relation: '關係A', "target": 3},
-      {"source": 4, relation: '關係A', "target": 5},
-      {"source": 4, relation: '關係A', "target": 9},
-      {"source": 5, relation: '關係A', "target": 10}
+      {"id": 1,"source": 1, relation: '關係A', "target": 2},
+      {"id": 2,"source": 1, relation: '關係A', "target": 3},
+      {"id": 3,"source": 1, relation: '關係A', "target": 6},
+      {"id": 4,"source": 2, relation: '關係A', "target": 3},
+      {"id": 5,"source": 2, relation: '關係A', "target": 7},
+      {"id": 6,"source": 3, relation: '關係A', "target": 4},
+      {"id": 7,"source": 8, relation: '關係A', "target": 3},
+      {"id": 8,"source": 4, relation: '關係A', "target": 5},
+      {"id": 9,"source": 4, relation: '關係A', "target": 9},
+      {"id": 10,"source": 5, relation: '關係A', "target": 10}
     ]
   }
   // reactive声明响应式数据，用于声明引用数据类型
@@ -172,18 +185,15 @@ const props = defineProps({
         .attr('height', '100%')
         .attr('class', 'neo4jd3-graph')
         .call(d3.zoom().on('zoom', function(zoomEvent) {
-          console.log('event',zoomEvent)
           let scale = zoomEvent.transform.k,
               translate = [zoomEvent.transform.x, zoomEvent.transform.y];
-          if (svgTranslate) {
-            translate[0] += svgTranslate[0];
-            translate[1] += svgTranslate[1];
+          if (state.svgTranslate) {
+            translate[0] += state.svgTranslate[0];
+            translate[1] += state.svgTranslate[1];
           }
-          console.log('svgScale ' , svgScale )
-          console.log('svgTranslate' , svgTranslate)
 
-          if (svgScale) {
-            scale *= svgScale;
+          if (svgScale.value) {
+            scale *= svgScale.value;
           }
 
           state.svg.attr('transform', 'translate(' + translate[0] + ', ' + translate[1] + ') scale(' + scale + ')');
@@ -225,18 +235,22 @@ const props = defineProps({
 
   const initSimulation = () => {
     // 設定力模擬器
-    return d3.forceSimulation(nodesData.value)
+    return d3.forceSimulation()
         // .alphaDecay(0) // 收斂永不停止
         // .velocityDecay(0.2) // 設定摩擦係數
-        .force("link", d3.forceLink().id((d) => d.id).links(relationsData.value))
+        .force("link", d3.forceLink().id((d) => d.id))
         // 設定中心點位置
         // .force("center", d3.forceCenter(250, 150))
-        .force("center", d3.forceCenter().x(550).y(150))
+        // .force("center", d3.forceCenter().x(550).y(150))
+        .force('center', d3.forceCenter(state.svg.node().parentElement.parentElement.clientWidth / 2, state.svg.node().parentElement.parentElement.clientHeight / 2))
         // 設定節點間電荷力
         .force("charge", d3.forceManyBody().strength(-300))
         // .force("charge", d3.forceManyBody().strength(1))
         // 設定節點間彼此的互斥力
         .force("collide", d3.forceCollide().strength(0.2).radius(50).iterations(1))
+        .force('collide', d3.forceCollide().radius(function(d) {
+          return state.options.minCollision;
+        }).iterations(2))
         .on('tick', ticked)
         .on('end', () => {
           if (state.options.zoomFit && !justLoaded) {
@@ -274,18 +288,19 @@ const props = defineProps({
     state.simulation.force('link').links(state.relationships);
   }
 
-  function updateRelationships(relationshipsData) {
-    let _relationships = []
-    let _relationship
+/**
+ * Update Node Relationships
+ * @param relationshipsData
+ */
+function updateRelationships(relationshipsData) {
 
-    Array.prototype.push.apply(_relationships, relationshipsData);
-    state.relationships = _relationships
+    Array.prototype.push.apply(state.relationships, relationshipsData);
 
-    _relationship = state.svgRelationships.selectAll('.relationship')
-        .data(_relationships, function(d) { return d.id; });
+    state.relationship = state.svgRelationships.selectAll('.relationship')
+        .data(state.relationships, function(d) { return d.id; });
 
-    let relationshipEnter = appendRelationshipToGraph(_relationship);
-    state.relationship = relationshipEnter.relationship.merge(_relationship);
+    let relationshipEnter = appendRelationshipToGraph();
+    state.relationship = relationshipEnter.relationship.merge(state.relationship);
     // outline
     state.relationshipOutline = state.svg.selectAll('.relationship .outline');
     state.relationshipOutline = relationshipEnter.outline.merge(state.relationshipOutline);
@@ -299,9 +314,9 @@ const props = defineProps({
     state.relationshipText = relationshipEnter.text.merge(state.relationshipText);
   }
 
-  function appendRelationshipToGraph(_relationship) {
+  const appendRelationshipToGraph = () => {
 
-    let relationship = appendRelationship(_relationship),
+    let relationship = appendRelationship(),
         text = appendTextToRelationship(relationship),
         outline = appendOutlineToRelationship(relationship),
         overlay = appendOverlayToRelationship(relationship);
@@ -314,8 +329,8 @@ const props = defineProps({
   }
 
   // 新增線群組
-  function appendRelationship(_relationship) {
-    return _relationship.enter()
+  function appendRelationship() {
+    return state.relationship.enter()
         .append('g')
         .attr('class', 'relationship')
         // .on('dblclick', function(d) {
@@ -339,7 +354,8 @@ const props = defineProps({
 
   function appendOverlayToRelationship(relationship) {
     return relationship.append('path')
-        .attr('class', 'overlay');
+        .attr('class', 'overlay')
+        .style('opacity', 0);
   }
 
   function appendTextToRelationship(relationship) {
@@ -420,8 +436,8 @@ const props = defineProps({
         .on('dblclick', (event , d) => {
           stickNode(event,d);
 
-          if (typeof options.onNodeDoubleClick === 'function') {
-            options.onNodeDoubleClick(d);
+          if (typeof state.options.onNodeDoubleClick === 'function') {
+            state.options.onNodeDoubleClick(d);
           }
         })
         // .on('mouseenter', (d) => {
@@ -462,6 +478,59 @@ const props = defineProps({
     }
 
     return code;
+  }
+  const randomLabel = () => {
+    let icons = Object.keys(state.options.iconMap);
+    return icons[icons.length * Math.random() << 0];
+  }
+
+  const randomD3Data = (d, maxNodesToGenerate) => {
+    let data = {
+          nodes: [],
+          relationships: []
+        },
+        i,
+        label,
+        node,
+        numNodes = (maxNodesToGenerate * Math.random() << 0) + 1,
+        relationship,
+        s = {
+          nodes: state.nodes.length,
+          relationships: state.relationships.length
+        };
+
+    for (i = 0; i < numNodes; i++) {
+      label = randomLabel();
+
+      node = {
+        id: s.nodes + 1 + i,
+        labels: [label],
+        properties: {
+          random: label
+        },
+        x: d.x,
+        y: d.y
+      };
+
+      data.nodes[data.nodes.length] = node;
+
+      relationship = {
+        id: s.relationships + 1 + i,
+        type: label.toUpperCase(),
+        startNode: d.id,
+        endNode: s.nodes + 1 + i,
+        properties: {
+          from: Date.now()
+        },
+        relation: '關係A',
+        source: d.id,
+        target: s.nodes + 1 + i
+      };
+
+      data.relationships[data.relationships.length] = relationship;
+    }
+    console.log('randomD3Data' , data)
+    return data;
   }
 
   const image = (d) => {
@@ -520,30 +589,8 @@ const props = defineProps({
 
   const genNeo4jData = () => {
     return {
-      nodesData: [
-        {"id": 1, "name": "A"},
-        {"id": 2, "name": "B"},
-        {"id": 3, "name": "C"},
-        {"id": 4, "name": "D"},
-        {"id": 5, "name": "E"},
-        {"id": 6, "name": "F"},
-        {"id": 7, "name": "G"},
-        {"id": 8, "name": "H"},
-        {"id": 9, "name": "I"},
-        {"id": 10, "name": "J"}
-      ],
-      relationsData: [
-        {"source": 1, relation: '關係A', "target": 2},
-        {"source": 1, relation: '關係A', "target": 3},
-        {"source": 1, relation: '關係A', "target": 6},
-        {"source": 2, relation: '關係A', "target": 3},
-        {"source": 2, relation: '關係A', "target": 7},
-        {"source": 3, relation: '關係A', "target": 4},
-        {"source": 8, relation: '關係A', "target": 3},
-        {"source": 4, relation: '關係A', "target": 5},
-        {"source": 4, relation: '關係A', "target": 9},
-        {"source": 5, relation: '關係A', "target": 10}
-      ]
+      nodesData: state.nodesData,
+      relationsData: state.relationsData
     }
   }
   const genColors = () => {
@@ -603,8 +650,8 @@ const props = defineProps({
   }
 
   const stickNode = (dragEvent , d) => {
-    dragEvent.subject.fx = dragEvent.x;
-    dragEvent.subject.fy = dragEvent.y;
+    d.fx = dragEvent.x;
+    d.fy = dragEvent.y;
     // d.fx = dragEvent.x;
     // d.fy = dragEvent.y;
   }
@@ -637,61 +684,6 @@ const props = defineProps({
   const ticked = () => {
     tickNodes()
     tickRelationships()
-
-    // Array.prototype.forEach(state.relationship)
-    // llll.each( (d) => {
-    //   console.log(this)
-    //   let rel = d3.select(this),
-    //       outline = rel.select('.outline'),
-    //       text = rel.select('.text');
-    //
-    //   outline.attr('d', function(d) {
-    //     console.log('outline ', d)
-    //     let center = { x: 0, y: 0 },
-    //         angle = rotation(d.source, d.target),
-    //         textBoundingBox = text.node().getBBox(),
-    //         textPadding = 5,
-    //         u = unitaryVector(d.source, d.target),
-    //         textMargin = { x: (d.target.x - d.source.x - (textBoundingBox.width + textPadding) * u.x) * 0.5, y: (d.target.y - d.source.y - (textBoundingBox.width + textPadding) * u.y) * 0.5 },
-    //         n = unitaryNormalVector(d.source, d.target),
-    //         rotatedPointA1 = rotatePoint(center, { x: 0 + (state.options.nodeRadius + 1) * u.x - n.x, y: 0 + (state.options.nodeRadius + 1) * u.y - n.y }, angle),
-    //         rotatedPointB1 = rotatePoint(center, { x: textMargin.x - n.x, y: textMargin.y - n.y }, angle),
-    //         rotatedPointC1 = rotatePoint(center, { x: textMargin.x, y: textMargin.y }, angle),
-    //         rotatedPointD1 = rotatePoint(center, { x: 0 + (state.options.nodeRadius + 1) * u.x, y: 0 + (state.options.nodeRadius + 1) * u.y }, angle),
-    //         rotatedPointA2 = rotatePoint(center, { x: d.target.x - d.source.x - textMargin.x - n.x, y: d.target.y - d.source.y - textMargin.y - n.y }, angle),
-    //         rotatedPointB2 = rotatePoint(center, { x: d.target.x - d.source.x - (state.options.nodeRadius + 1) * u.x - n.x - u.x * state.options.arrowSize, y: d.target.y - d.source.y - (state.options.nodeRadius + 1) * u.y - n.y - u.y * state.options.arrowSize }, angle),
-    //         rotatedPointC2 = rotatePoint(center, { x: d.target.x - d.source.x - (state.options.nodeRadius + 1) * u.x - n.x + (n.x - u.x) * state.options.arrowSize, y: d.target.y - d.source.y - (state.options.nodeRadius + 1) * u.y - n.y + (n.y - u.y) * state.options.arrowSize }, angle),
-    //         rotatedPointD2 = rotatePoint(center, { x: d.target.x - d.source.x - (state.options.nodeRadius + 1) * u.x, y: d.target.y - d.source.y - (state.options.nodeRadius + 1) * u.y }, angle),
-    //         rotatedPointE2 = rotatePoint(center, { x: d.target.x - d.source.x - (state.options.nodeRadius + 1) * u.x + (- n.x - u.x) * state.options.arrowSize, y: d.target.y - d.source.y - (state.options.nodeRadius + 1) * u.y + (- n.y - u.y) * state.options.arrowSize }, angle),
-    //         rotatedPointF2 = rotatePoint(center, { x: d.target.x - d.source.x - (state.options.nodeRadius + 1) * u.x - u.x * state.options.arrowSize, y: d.target.y - d.source.y - (state.options.nodeRadius + 1) * u.y - u.y * state.options.arrowSize }, angle),
-    //         rotatedPointG2 = rotatePoint(center, { x: d.target.x - d.source.x - textMargin.x, y: d.target.y - d.source.y - textMargin.y }, angle);
-    //
-    //     return 'M ' + rotatedPointA1.x + ' ' + rotatedPointA1.y +
-    //         ' L ' + rotatedPointB1.x + ' ' + rotatedPointB1.y +
-    //         ' L ' + rotatedPointC1.x + ' ' + rotatedPointC1.y +
-    //         ' L ' + rotatedPointD1.x + ' ' + rotatedPointD1.y +
-    //         ' Z M ' + rotatedPointA2.x + ' ' + rotatedPointA2.y +
-    //         ' L ' + rotatedPointB2.x + ' ' + rotatedPointB2.y +
-    //         ' L ' + rotatedPointC2.x + ' ' + rotatedPointC2.y +
-    //         ' L ' + rotatedPointD2.x + ' ' + rotatedPointD2.y +
-    //         ' L ' + rotatedPointE2.x + ' ' + rotatedPointE2.y +
-    //         ' L ' + rotatedPointF2.x + ' ' + rotatedPointF2.y +
-    //         ' L ' + rotatedPointG2.x + ' ' + rotatedPointG2.y +
-    //         ' Z';
-    //   });
-    // });
-    // links
-    //     .attr("x1", (d) => d.source.x)
-    //     .attr("y1", (d) => d.source.y)
-    //     .attr("x2", (d) => d.target.x)
-    //     .attr("y2", (d) => d.target.y);
-    // linksText
-    //     .attr('x', function (d) { return (d.source.x + d.target.x) / 2 })
-    //     .attr('y', function (d) { return (d.source.y + d.target.y) / 2 })
-    //
-    // dots.attr("cx", d=> d.x)
-    //     .attr("cy", d => d.y)
-    //     .attr('transform', function (d) { return 'translate(' + d.x + ',' + d.y + ')' });
   }
 
   const tickNodes = () => {
@@ -709,40 +701,8 @@ const props = defineProps({
       });
 
       tickRelationshipsTexts();
-      const bbb = toRef(state,'relationship')
-      const llll = d3.selectAll('.relationship')
-      const llll2 = state.svgRelationships.selectAll('.relationship')
-      state.relationshipOutline
-              .attr("x1", (d) => d.source.x)
-              .attr("y1", (d) => d.source.y)
-              .attr("x2", (d) => d.target.x)
-              .attr("y2", (d) => d.target.y)
-              .attr("stroke" , "#1f77b4");
-
-      // console.log('bbb' , bbb , llll2 , llll)
-      //
-      // llll2.each((d) => {
-      //   console.log('d3.select(this) llll2' , d3.select(this))
-      //   console.log('tickRelationshipsTexts llll2' , d , this)
-      // })
-      //
-      // llll.each((d) => {
-      //   console.log('d3.select(this) llll' , d3.select(this))
-      //   console.log('tickRelationshipsTexts llll' , d , this)
-      // })
-      // bbb.each((d) => {
-      //   console.log('d3.select(this) bbb' , d3.select(this))
-      //   console.log('tickRelationshipsTexts' , d , this)
-      // })
-      // toRaw(state.relationshipOutline).each( (relationship) => {
-      //   let rel = d3.select(this)
-      //   console.log('d3.select(this)' ,rel.select('.text'))
-      //   let text = rel.select('.text'),
-      //       bbox = text.node().getBBox(),
-      //       padding = 3;
-      // })
-      // tickRelationshipsOutlines();
-      // tickRelationshipsOverlays();
+      tickRelationshipsOutlines();
+      tickRelationshipsOverlays();
     }
   }
 
@@ -761,8 +721,7 @@ const props = defineProps({
   }
 
   const tickRelationshipsOutlines = () => {
-    state.relationship.each( (relationship) => {
-      console.log('d3.select(this)' ,relationship.value, d3.select(relationship))
+    state.relationship.each( function (relationship) {
       let rel = d3.select(this),
           outline = rel.select('.outline'),
           text = rel.select('.text'),
@@ -802,6 +761,24 @@ const props = defineProps({
             ' L ' + rotatedPointG2.x + ' ' + rotatedPointG2.y +
             ' Z';
       });
+    });
+  }
+  const tickRelationshipsOverlays = () => {
+    state.relationshipOverlay.attr('d', function(d) {
+      let center = { x: 0, y: 0 },
+          angle = rotation(d.source, d.target),
+          n1 = unitaryNormalVector(d.source, d.target),
+          n = unitaryNormalVector(d.source, d.target, 50),
+          rotatedPointA = rotatePoint(center, { x: 0 - n.x, y: 0 - n.y }, angle),
+          rotatedPointB = rotatePoint(center, { x: d.target.x - d.source.x - n.x, y: d.target.y - d.source.y - n.y }, angle),
+          rotatedPointC = rotatePoint(center, { x: d.target.x - d.source.x + n.x - n1.x, y: d.target.y - d.source.y + n.y - n1.y }, angle),
+          rotatedPointD = rotatePoint(center, { x: 0 + n.x - n1.x, y: 0 + n.y - n1.y }, angle);
+
+      return 'M ' + rotatedPointA.x + ' ' + rotatedPointA.y +
+          ' L ' + rotatedPointB.x + ' ' + rotatedPointB.y +
+          ' L ' + rotatedPointC.x + ' ' + rotatedPointC.y +
+          ' L ' + rotatedPointD.x + ' ' + rotatedPointD.y +
+          ' Z';
     });
   }
 
@@ -924,5 +901,12 @@ const props = defineProps({
 </script>
 
 <style lang="scss" scoped>
-
+::v-deep(.node .ring) {
+    fill: none;
+    -ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=0)';
+    filter: alpha(opacity=0);
+    opacity: 0;
+    stroke: #6ac6ff;
+    stroke-width: 8px;
+  }
 </style>
