@@ -568,60 +568,6 @@ const props = defineProps({
     function ticked () {
       tickNodes()
       tickRelationships()
-      // Array.prototype.forEach(state.relationship)
-      // llll.each( (d) => {
-      //   console.log(this)
-      //   let rel = d3.select(this),
-      //       outline = rel.select('.outline'),
-      //       text = rel.select('.text');
-      //
-      //   outline.attr('d', function(d) {
-      //     console.log('outline ', d)
-      //     let center = { x: 0, y: 0 },
-      //         angle = rotation(d.source, d.target),
-      //         textBoundingBox = text.node().getBBox(),
-      //         textPadding = 5,
-      //         u = unitaryVector(d.source, d.target),
-      //         textMargin = { x: (d.target.x - d.source.x - (textBoundingBox.width + textPadding) * u.x) * 0.5, y: (d.target.y - d.source.y - (textBoundingBox.width + textPadding) * u.y) * 0.5 },
-      //         n = unitaryNormalVector(d.source, d.target),
-      //         rotatedPointA1 = rotatePoint(center, { x: 0 + (state.options.nodeRadius + 1) * u.x - n.x, y: 0 + (state.options.nodeRadius + 1) * u.y - n.y }, angle),
-      //         rotatedPointB1 = rotatePoint(center, { x: textMargin.x - n.x, y: textMargin.y - n.y }, angle),
-      //         rotatedPointC1 = rotatePoint(center, { x: textMargin.x, y: textMargin.y }, angle),
-      //         rotatedPointD1 = rotatePoint(center, { x: 0 + (state.options.nodeRadius + 1) * u.x, y: 0 + (state.options.nodeRadius + 1) * u.y }, angle),
-      //         rotatedPointA2 = rotatePoint(center, { x: d.target.x - d.source.x - textMargin.x - n.x, y: d.target.y - d.source.y - textMargin.y - n.y }, angle),
-      //         rotatedPointB2 = rotatePoint(center, { x: d.target.x - d.source.x - (state.options.nodeRadius + 1) * u.x - n.x - u.x * state.options.arrowSize, y: d.target.y - d.source.y - (state.options.nodeRadius + 1) * u.y - n.y - u.y * state.options.arrowSize }, angle),
-      //         rotatedPointC2 = rotatePoint(center, { x: d.target.x - d.source.x - (state.options.nodeRadius + 1) * u.x - n.x + (n.x - u.x) * state.options.arrowSize, y: d.target.y - d.source.y - (state.options.nodeRadius + 1) * u.y - n.y + (n.y - u.y) * state.options.arrowSize }, angle),
-      //         rotatedPointD2 = rotatePoint(center, { x: d.target.x - d.source.x - (state.options.nodeRadius + 1) * u.x, y: d.target.y - d.source.y - (state.options.nodeRadius + 1) * u.y }, angle),
-      //         rotatedPointE2 = rotatePoint(center, { x: d.target.x - d.source.x - (state.options.nodeRadius + 1) * u.x + (- n.x - u.x) * state.options.arrowSize, y: d.target.y - d.source.y - (state.options.nodeRadius + 1) * u.y + (- n.y - u.y) * state.options.arrowSize }, angle),
-      //         rotatedPointF2 = rotatePoint(center, { x: d.target.x - d.source.x - (state.options.nodeRadius + 1) * u.x - u.x * state.options.arrowSize, y: d.target.y - d.source.y - (state.options.nodeRadius + 1) * u.y - u.y * state.options.arrowSize }, angle),
-      //         rotatedPointG2 = rotatePoint(center, { x: d.target.x - d.source.x - textMargin.x, y: d.target.y - d.source.y - textMargin.y }, angle);
-      //
-      //     return 'M ' + rotatedPointA1.x + ' ' + rotatedPointA1.y +
-      //         ' L ' + rotatedPointB1.x + ' ' + rotatedPointB1.y +
-      //         ' L ' + rotatedPointC1.x + ' ' + rotatedPointC1.y +
-      //         ' L ' + rotatedPointD1.x + ' ' + rotatedPointD1.y +
-      //         ' Z M ' + rotatedPointA2.x + ' ' + rotatedPointA2.y +
-      //         ' L ' + rotatedPointB2.x + ' ' + rotatedPointB2.y +
-      //         ' L ' + rotatedPointC2.x + ' ' + rotatedPointC2.y +
-      //         ' L ' + rotatedPointD2.x + ' ' + rotatedPointD2.y +
-      //         ' L ' + rotatedPointE2.x + ' ' + rotatedPointE2.y +
-      //         ' L ' + rotatedPointF2.x + ' ' + rotatedPointF2.y +
-      //         ' L ' + rotatedPointG2.x + ' ' + rotatedPointG2.y +
-      //         ' Z';
-      //   });
-      // });
-      // links
-      //     .attr("x1", (d) => d.source.x)
-      //     .attr("y1", (d) => d.source.y)
-      //     .attr("x2", (d) => d.target.x)
-      //     .attr("y2", (d) => d.target.y);
-      // linksText
-      //     .attr('x', function (d) { return (d.source.x + d.target.x) / 2 })
-      //     .attr('y', function (d) { return (d.source.y + d.target.y) / 2 })
-      //
-      // dots.attr("cx", d=> d.x)
-      //     .attr("cy", d => d.y)
-      //     .attr('transform', function (d) { return 'translate(' + d.x + ',' + d.y + ')' });
     }
 
     const tickNodes = () => {

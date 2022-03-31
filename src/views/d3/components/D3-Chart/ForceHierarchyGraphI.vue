@@ -87,12 +87,16 @@ const props = defineProps({
   const data = {
     classes2colors: {},
     container: null,
+    rootHierarchy: null,
     svg: null,
     svgNodes: null,
     svgRelationships: null,
 
     node: null,
     nodes: null,
+    link: null,
+    links: null,
+    linksData: null,
 
     relationship: null,
     relationships: null,
@@ -126,7 +130,7 @@ const props = defineProps({
       imageMap: {},
       images: undefined,
       infoPanel: true,
-      minCollision: 50,
+      minCollision: 60,
       neo4jData: undefined,
       neo4jDataUrl: undefined,
       nodeOutlineFillColor: undefined,
@@ -148,30 +152,32 @@ const props = defineProps({
       zoomFit: true
     },
 
-    nodesData: [
-      {"id": 1, "name": "A"},
-      {"id": 2, "name": "B"},
-      {"id": 3, "name": "C"},
-      {"id": 4, "name": "D"},
-      {"id": 5, "name": "E"},
-      {"id": 6, "name": "F"},
-      {"id": 7, "name": "G"},
-      {"id": 8, "name": "H"},
-      {"id": 9, "name": "I"},
-      {"id": 10, "name": "J"}
-    ],
-    relationsData: [
-      {"id": 1,"source": 1, relation: '關係A', "target": 2},
-      {"id": 2,"source": 1, relation: '關係A', "target": 3},
-      {"id": 3,"source": 1, relation: '關係A', "target": 6},
-      {"id": 4,"source": 2, relation: '關係A', "target": 3},
-      {"id": 5,"source": 2, relation: '關係A', "target": 7},
-      {"id": 6,"source": 3, relation: '關係A', "target": 4},
-      {"id": 7,"source": 8, relation: '關係A', "target": 3},
-      {"id": 8,"source": 4, relation: '關係A', "target": 5},
-      {"id": 9,"source": 4, relation: '關係A', "target": 9},
-      {"id": 10,"source": 5, relation: '關係A', "target": 10}
-    ]
+    nodesData: {
+      "name": "flare",
+      "children": [
+        {
+          "name": "query",
+          "children": [
+            {"name": "ExpressionIterator", "size": 3617},
+            {
+              "name": "methods",
+              "children": [
+                {"name": "xor", "size": 354},
+                {"name": "_", "size": 264}
+              ]
+            },
+            {"name": "Variance", "size": 1876},
+            {"name": "Xor", "size": 1101}
+          ]
+        },
+        {
+          "name": "scale",
+          "children": [
+            {"name": "TimeScale", "size": 5833}
+          ]
+        },
+      ]
+    }
   }
   // reactive声明响应式数据，用于声明引用数据类型
   const state = reactive(data)
@@ -184,7 +190,7 @@ const props = defineProps({
         .attr('width', '100%')
         .attr('height', '100%')
         .attr('class', 'neo4jd3-graph')
-        .call(d3.zoom().on('zoom', function(zoomEvent) {
+        .call(d3.zoom().scaleExtent([1/2, 8]).on('zoom', function(zoomEvent) {
           let scale = zoomEvent.transform.k,
               translate = [zoomEvent.transform.x, zoomEvent.transform.y];
           if (state.svgTranslate) {
@@ -198,10 +204,25 @@ const props = defineProps({
 
           state.svg.attr('transform', 'translate(' + translate[0] + ', ' + translate[1] + ') scale(' + scale + ')');
         }))
+        // .call(d3.zoom().on('zoom', function(zoomEvent) {
+        //   let scale = zoomEvent.transform.k,
+        //       translate = [zoomEvent.transform.x, zoomEvent.transform.y];
+        //   if (state.svgTranslate) {
+        //     translate[0] += state.svgTranslate[0];
+        //     translate[1] += state.svgTranslate[1];
+        //   }
+        //
+        //   if (svgScale.value) {
+        //     scale *= svgScale.value;
+        //   }
+        //
+        //   state.svg.attr('transform', 'translate(' + translate[0] + ', ' + translate[1] + ') scale(' + scale + ')');
+        // }))
         .on('dblclick.zoom', null)
         .append('g')
         .attr('width', '100%')
-        .attr('height', '100%');
+        .attr('height', '100%')
+        // .attr('transform', 'translate(40,0)');
 
     state.svgRelationships = state.svg.append('g')
         .attr('class', 'relationships');
@@ -211,7 +232,6 @@ const props = defineProps({
   }
 
   function zoomFit(transitionDuration) {
-    console.log('state.svg.node()' , state.svg.node())
     let bounds = state.svg.node().getBBox(),
         parent = state.svg.node().parentElement.parentElement,
         fullWidth = parent.clientWidth,
@@ -238,20 +258,21 @@ const props = defineProps({
     return d3.forceSimulation()
         // .alphaDecay(0) // 收斂永不停止
         // .velocityDecay(0.2) // 設定摩擦係數
-        .force("link", d3.forceLink().id((d) => d.id))
+        .force('link', d3.forceLink().id(function(d) { return d.id; }))
+        // .force('charge', d3.forceManyBody().strength(-15).distanceMax(300))
+        .force('center', d3.forceCenter( state.svg.node().parentElement.parentElement.clientWidth/2, state.svg.node().parentElement.parentElement.clientHeight/4 ))
+        // .force("link", d3.forceLink().id(function(d) { return d.id; }))
         // 設定中心點位置
-        // .force("center", d3.forceCenter(250, 150))
-        // .force("center", d3.forceCenter().x(550).y(150))
-        // .force("center", d3.forceCenter().x(550).y(150))
-        .force('center', d3.forceCenter(state.svg.node().parentElement.parentElement.clientWidth / 2, state.svg.node().parentElement.parentElement.clientHeight / 4))
+        // .force('center', d3.forceCenter(state.svg.node().parentElement.parentElement.clientWidth / 2, state.svg.node().parentElement.parentElement.clientHeight / 2))
         // 設定節點間電荷力
-        .force("charge", d3.forceManyBody().strength(0.3))
+        .force("charge", d3.forceManyBody().strength(-300))
+        // .force('charge', d3.forceManyBody().strength(-15).distanceMax(300))
         // .force("charge", d3.forceManyBody().strength(1))
         // 設定節點間彼此的互斥力
-        // .force("collide", d3.forceCollide().strength(0.2).radius(60).iterations(3))
-        .force('collide', d3.forceCollide().radius(function(d) {
-          return state.options.minCollision;
-        }).iterations(1))
+        .force("collide", d3.forceCollide().strength(0.2).radius(50).iterations(1))
+        // .force('collide', d3.forceCollide().radius(function(d) {
+        //   return state.options.minCollision;
+        // }).iterations(2))
         .on('tick', ticked)
         .on('end', () => {
           if (state.options.zoomFit && !justLoaded) {
@@ -271,34 +292,52 @@ const props = defineProps({
   }
 
   function updateWithNeo4jData(neo4jData) {
-    // let d3Data = neo4jDataToD3Data(neo4jData);
-    let d3Data = { nodes: neo4jData.nodesData , relationships: neo4jData.relationsData }
+    //
+    state.rootHierarchy = d3.hierarchy(neo4jData)
 
-    updateWithD3Data(d3Data);
+    updateWithD3Data();
   }
 
-  function updateWithD3Data(d3Data) {
-    updateNodesAndRelationships(d3Data.nodes, d3Data.relationships);
+  function updateWithD3Data() {
+    updateNodesAndRelationships();
   }
 
-  function updateNodesAndRelationships(nodeData, relationshipsData) {
-    updateRelationships(relationshipsData);
-    updateNodes(nodeData);
+  function updateNodesAndRelationships() {
+    state.nodes = flatten(state.rootHierarchy)
+    state.linksData = state.rootHierarchy.links()
+
+    updateRelationships(state.linksData);
+    updateNodes(state.nodes);
 
     state.simulation.nodes(state.nodes);
-    state.simulation.force('link').links(state.relationships);
+    state.simulation.force('link').links(state.linksData);
   }
 
+  const flatten = (root) => {
+    const nodes = []
+    let i = 0
+
+    function recurse(node) {
+      if (node.children) node.children.forEach(recurse)
+      if (!node.id) node.id = ++i;
+      else ++i;
+      nodes.push(node)
+    }
+
+    recurse(root)
+    return nodes
+  }
 /**
  * Update Node Relationships
  * @param relationshipsData
  */
 function updateRelationships(relationshipsData) {
 
-    Array.prototype.push.apply(state.relationships, relationshipsData);
+    // Array.prototype.push.apply(state.relationships, relationshipsData);
 
     state.relationship = state.svgRelationships.selectAll('.relationship')
-        .data(state.relationships, function(d) { return d.id; });
+        .data(state.linksData, function(d) { return d.target.id; });
+    state.relationship.exit().remove()
 
     let relationshipEnter = appendRelationshipToGraph();
     state.relationship = relationshipEnter.relationship.merge(state.relationship);
@@ -356,7 +395,7 @@ function updateRelationships(relationshipsData) {
   function appendOverlayToRelationship(relationship) {
     return relationship.append('path')
         .attr('class', 'overlay')
-        .style('opacity', 0);
+        .style('opacity', 0.1);
   }
 
   function appendTextToRelationship(relationship) {
@@ -372,10 +411,13 @@ function updateRelationships(relationshipsData) {
 
 
   function updateNodes(n) {
-    Array.prototype.push.apply(state.nodes, n);
+    // Array.prototype.push.apply(state.nodes, n);
 
     state.node = state.svgNodes.selectAll('.node')
         .data(state.nodes, function(d) { return d.id; });
+
+    state.node.exit().remove()
+
     let nodeEnter = appendNodeToGraph();
     state.node = nodeEnter.merge(state.node);
   }
@@ -427,11 +469,16 @@ function updateRelationships(relationshipsData) {
             }
           return classes;
         })
-        .on('click', (d) => {
-          d.fx = d.fy = null;
-
-          if (typeof options.onNodeClick === 'function') {
-            options.onNodeClick(d);
+        .on('click', (event , d) => {
+          if (!event.defaultPrevented) {
+            if (d.children) {
+              d._children = d.children;
+              d.children = null;
+            } else {
+              d.children = d._children;
+              d._children = null;
+            }
+            updateNodesAndRelationships()
           }
         })
         .on('dblclick', (event , d) => {
@@ -588,12 +635,8 @@ function updateRelationships(relationshipsData) {
     return d3.rgb(class2color(cls)).darker(1);
   }
 
-  const genNeo4jData = () => {
-    return {
-      nodesData: state.nodesData,
-      relationsData: state.relationsData
-    }
-  }
+  const genNeo4jData = () => state.nodesData;
+
   const genColors = () => {
     // d3.schemeCategory10,
     // d3.schemeCategory20,
@@ -623,7 +666,6 @@ function updateRelationships(relationshipsData) {
   }
 
   const dragEnded = (dragEvent , d) => {
-    console.log('dragEnded d' , d)
     if (!dragEvent.active) state.simulation.alphaTarget(0)
     d.fx = null
     d.fy = null
@@ -641,10 +683,10 @@ function updateRelationships(relationshipsData) {
     if (!dragEvent.active) {
       state.simulation.alphaTarget(0.3).restart();
     }
-    dragEvent.subject.fx = dragEvent.subject.x
-    dragEvent.subject.fy = dragEvent.subject.y
-    // d.fx = d.x;
-    // d.fy = d.y;
+    // dragEvent.subject.fx = dragEvent.subject.x
+    // dragEvent.subject.fy = dragEvent.subject.y
+    d.fx = d.x;
+    d.fy = d.y;
     if (typeof options.onNodeDragStart === 'function') {
       options.onNodeDragStart(d);
     }
@@ -660,9 +702,15 @@ function updateRelationships(relationshipsData) {
   function appendRingToNode(node) {
     return node.append('circle')
         .attr('class', 'ring')
-        .attr('r', state.options.nodeRadius * 1.16)
+        // .attr('r', state.options.nodeRadius * 1.16)
+        .attr("r", (d) => Math.sqrt(d.data.size) / 10 || 4.5)
+        .attr('fill', (d) => {
+          return d._children ? "#51A1DC" // collapsed package
+              : d.children ? "#51A1DC" // expanded package
+                  : "#F94B4C"
+        })
         .append('title')
-        .text(d => d.name)
+        .text(d => d.data.name)
         // .text( d => toString(d))
   }
 
@@ -690,7 +738,8 @@ function updateRelationships(relationshipsData) {
   const tickNodes = () => {
     if (state.node) {
       state.node.attr('transform', function(d) {
-        return 'translate(' + d.x + ', ' + d.y + ')';
+        // return 'translate(' + d.x + ', ' + d.y + ')';
+        return `translate(${d.x}, ${d.y})`
       });
     }
   }
@@ -834,49 +883,6 @@ function updateRelationships(relationshipsData) {
     // 初始化資料
     loadNeo4jData()
 
-    //////////////// 舊方法///////////
-    // const g = state.svg.append('g')
-    // // 生成節點 Group
-    // const dots = g.selectAll('.circleText')
-    //     .data(nodesData.value)
-    //     .enter()
-    //     .append('g')
-    // // 生成節點
-    // dots.append('circle')
-    //     .attr('r', 25)
-    //     .attr('fill', (d, i) => {
-    //       return colorScale(i)
-    //     })
-    //     .style('opacity', 0.4)
-    // // 生成節點文字
-    // dots.append("text")
-    //     .attr('x', -15)
-    //     .attr('y', -15)
-    //     .attr('dy', -10)
-    //     .text(d => d.name)
-    //
-    // // 生成線群組
-    // const links = g.append('g')
-    //       .selectAll("line")
-    //       .data(relations.value)
-    //       .join("line")
-    //       .style('opacity', 0.4) //不透明度
-    //       .attr('stroke', (d, i) => { //顏色
-    //         return colorScale(i)
-    //       })
-    //       .attr('stroke-width', 2.5) //粗細
-    //
-    // // 線上的文字
-    // const linksText = g.append('g')
-    //       .selectAll('text')
-    //       .data(relations.value)
-    //       .enter()
-    //       .append('text')
-    //       .text(data => data.relation)
-    //       .attr('x', -15)
-    //       .attr('y', -15)
-    //       .attr('dy', -10)
-
   }
 
 
@@ -903,11 +909,11 @@ function updateRelationships(relationshipsData) {
 
 <style lang="scss" scoped>
 ::v-deep(.node .ring) {
-    fill: none;
-    -ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=0)';
-    filter: alpha(opacity=0);
-    opacity: 0;
-    stroke: #6ac6ff;
-    stroke-width: 8px;
+    //fill: none;
+    //-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=0)';
+    //filter: alpha(opacity=0);
+    opacity: 1;
+    stroke: #666;
+    stroke-width: 2px;
   }
 </style>
