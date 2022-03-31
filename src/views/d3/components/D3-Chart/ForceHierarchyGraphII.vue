@@ -89,6 +89,8 @@ const props = defineProps({
     container: null,
     rootHierarchy: null,
     svg: null,
+    svgWidth: 1280,
+    svgHeight: 768,
     svgNodes: null,
     svgRelationships: null,
 
@@ -147,7 +149,7 @@ const props = defineProps({
             break;
         }
       },
-      nodeRadius: 25,
+      nodeRadius: 12,
       relationshipColor: '#a5abb6',
       zoomFit: true
     },
@@ -156,16 +158,108 @@ const props = defineProps({
       "name": "flare",
       "children": [
         {
+          "name": "animate",
+          "children": [
+            {"name": "Easing", "size": 17010},
+            {"name": "FunctionSequence", "size": 5842},
+            {
+              "name": "interpolate",
+              "children": [
+                {"name": "ArrayInterpolator", "size": 1983},
+                {"name": "ColorInterpolator", "size": 2047},
+                {"name": "DateInterpolator", "size": 1375},
+                {"name": "Interpolator", "size": 8746},
+                {"name": "MatrixInterpolator", "size": 2202},
+                {"name": "NumberInterpolator", "size": 1382},
+                {"name": "ObjectInterpolator", "size": 1629},
+                {"name": "PointInterpolator", "size": 1675},
+                {"name": "RectangleInterpolator", "size": 2042}
+              ]
+            },
+            {"name": "ISchedulable", "size": 1041},
+            {"name": "Parallel", "size": 5176},
+            {"name": "Pause", "size": 449},
+            {"name": "Scheduler", "size": 5593},
+            {"name": "Sequence", "size": 5534},
+            {"name": "Transition", "size": 9201},
+            {"name": "Transitioner", "size": 19975},
+            {"name": "TransitionEvent", "size": 1116},
+            {"name": "Tween", "size": 6006}
+          ]
+        },
+        {
+          "name": "physics",
+          "children": [
+            {"name": "DragForce", "size": 1082},
+            {"name": "GravityForce", "size": 1336},
+            {"name": "IForce", "size": 319},
+            {"name": "NBodyForce", "size": 10498},
+            {"name": "Particle", "size": 2822},
+            {"name": "Simulation", "size": 9983},
+            {"name": "Spring", "size": 2213},
+            {"name": "SpringForce", "size": 1681}
+          ]
+        },
+        {
           "name": "query",
           "children": [
+            {"name": "AggregateExpression", "size": 1616},
+            {"name": "And", "size": 1027},
+            {"name": "Arithmetic", "size": 3891},
+            {"name": "Average", "size": 891},
+            {"name": "BinaryExpression", "size": 2893},
+            {"name": "Comparison", "size": 5103},
+            {"name": "CompositeExpression", "size": 3677},
+            {"name": "Count", "size": 781},
+            {"name": "DateUtil", "size": 4141},
+            {"name": "Distinct", "size": 933},
+            {"name": "Expression", "size": 5130},
             {"name": "ExpressionIterator", "size": 3617},
             {
               "name": "methods",
               "children": [
+                {"name": "add", "size": 593},
+                {"name": "and", "size": 330},
+                {"name": "average", "size": 287},
+                {"name": "count", "size": 277},
+                {"name": "distinct", "size": 292},
+                {"name": "div", "size": 595},
+                {"name": "eq", "size": 594},
+                {"name": "fn", "size": 460},
+                {"name": "gt", "size": 603},
+                {"name": "gte", "size": 625},
+                {"name": "iff", "size": 748},
+                {"name": "isa", "size": 461},
+                {"name": "lt", "size": 597},
+                {"name": "lte", "size": 619},
+                {"name": "max", "size": 283},
+                {"name": "min", "size": 283},
+                {"name": "mod", "size": 591},
+                {"name": "mul", "size": 603},
+                {"name": "neq", "size": 599},
+                {"name": "not", "size": 386},
+                {"name": "or", "size": 323},
+                {"name": "orderby", "size": 307},
+                {"name": "range", "size": 772},
+                {"name": "select", "size": 296},
+                {"name": "stddev", "size": 363},
+                {"name": "sub", "size": 600},
+                {"name": "sum", "size": 280},
+                {"name": "update", "size": 307},
+                {"name": "variance", "size": 335},
+                {"name": "where", "size": 299},
                 {"name": "xor", "size": 354},
                 {"name": "_", "size": 264}
               ]
             },
+            {"name": "Minimum", "size": 843},
+            {"name": "Not", "size": 1554},
+            {"name": "Or", "size": 970},
+            {"name": "Query", "size": 13896},
+            {"name": "Range", "size": 1594},
+            {"name": "StringUtil", "size": 4130},
+            {"name": "Sum", "size": 791},
+            {"name": "Variable", "size": 1124},
             {"name": "Variance", "size": 1876},
             {"name": "Xor", "size": 1101}
           ]
@@ -173,9 +267,154 @@ const props = defineProps({
         {
           "name": "scale",
           "children": [
+            {"name": "IScaleMap", "size": 2105},
+            {"name": "LinearScale", "size": 1316},
+            {"name": "LogScale", "size": 3151},
+            {"name": "OrdinalScale", "size": 3770},
+            {"name": "QuantileScale", "size": 2435},
+            {"name": "QuantitativeScale", "size": 4839},
+            {"name": "RootScale", "size": 1756},
+            {"name": "Scale", "size": 4268},
+            {"name": "ScaleType", "size": 1821},
             {"name": "TimeScale", "size": 5833}
           ]
         },
+        {
+          "name": "vis",
+          "children": [
+            {
+              "name": "axis",
+              "children": [
+                {"name": "Axes", "size": 1302},
+                {"name": "Axis", "size": 24593},
+                {"name": "AxisGridLine", "size": 652},
+                {"name": "AxisLabel", "size": 636},
+                {"name": "CartesianAxes", "size": 6703}
+              ]
+            },
+            {
+              "name": "controls",
+              "children": [
+                {"name": "AnchorControl", "size": 2138},
+                {"name": "ClickControl", "size": 3824},
+                {"name": "Control", "size": 1353},
+                {"name": "ControlList", "size": 4665},
+                {"name": "DragControl", "size": 2649},
+                {"name": "ExpandControl", "size": 2832},
+                {"name": "HoverControl", "size": 4896},
+                {"name": "IControl", "size": 763},
+                {"name": "PanZoomControl", "size": 5222},
+                {"name": "SelectionControl", "size": 7862},
+                {"name": "TooltipControl", "size": 8435}
+              ]
+            },
+            {
+              "name": "data",
+              "children": [
+                {"name": "Data", "size": 20544},
+                {"name": "DataList", "size": 19788},
+                {"name": "DataSprite", "size": 10349},
+                {"name": "EdgeSprite", "size": 3301},
+                {"name": "NodeSprite", "size": 19382},
+                {
+                  "name": "render",
+                  "children": [
+                    {"name": "ArrowType", "size": 698},
+                    {"name": "EdgeRenderer", "size": 5569},
+                    {"name": "IRenderer", "size": 353},
+                    {"name": "ShapeRenderer", "size": 2247}
+                  ]
+                },
+                {"name": "ScaleBinding", "size": 11275},
+                {"name": "Tree", "size": 7147},
+                {"name": "TreeBuilder", "size": 9930}
+              ]
+            },
+            {
+              "name": "events",
+              "children": [
+                {"name": "DataEvent", "size": 2313},
+                {"name": "SelectionEvent", "size": 1880},
+                {"name": "TooltipEvent", "size": 1701},
+                {"name": "VisualizationEvent", "size": 1117}
+              ]
+            },
+            {
+              "name": "legend",
+              "children": [
+                {"name": "Legend", "size": 20859},
+                {"name": "LegendItem", "size": 4614},
+                {"name": "LegendRange", "size": 10530}
+              ]
+            },
+            {
+              "name": "operator",
+              "children": [
+                {
+                  "name": "distortion",
+                  "children": [
+                    {"name": "BifocalDistortion", "size": 4461},
+                    {"name": "Distortion", "size": 6314},
+                    {"name": "FisheyeDistortion", "size": 3444}
+                  ]
+                },
+                {
+                  "name": "encoder",
+                  "children": [
+                    {"name": "ColorEncoder", "size": 3179},
+                    {"name": "Encoder", "size": 4060},
+                    {"name": "PropertyEncoder", "size": 4138},
+                    {"name": "ShapeEncoder", "size": 1690},
+                    {"name": "SizeEncoder", "size": 1830}
+                  ]
+                },
+                {
+                  "name": "filter",
+                  "children": [
+                    {"name": "FisheyeTreeFilter", "size": 5219},
+                    {"name": "GraphDistanceFilter", "size": 3165},
+                    {"name": "VisibilityFilter", "size": 3509}
+                  ]
+                },
+                {"name": "IOperator", "size": 1286},
+                {
+                  "name": "label",
+                  "children": [
+                    {"name": "Labeler", "size": 9956},
+                    {"name": "RadialLabeler", "size": 3899},
+                    {"name": "StackedAreaLabeler", "size": 3202}
+                  ]
+                },
+                {
+                  "name": "layout",
+                  "children": [
+                    {"name": "AxisLayout", "size": 6725},
+                    {"name": "BundledEdgeRouter", "size": 3727},
+                    {"name": "CircleLayout", "size": 9317},
+                    {"name": "CirclePackingLayout", "size": 12003},
+                    {"name": "DendrogramLayout", "size": 4853},
+                    {"name": "ForceDirectedLayout", "size": 8411},
+                    {"name": "IcicleTreeLayout", "size": 4864},
+                    {"name": "IndentedTreeLayout", "size": 3174},
+                    {"name": "Layout", "size": 7881},
+                    {"name": "NodeLinkTreeLayout", "size": 12870},
+                    {"name": "PieLayout", "size": 2728},
+                    {"name": "RadialTreeLayout", "size": 12348},
+                    {"name": "RandomLayout", "size": 870},
+                    {"name": "StackedAreaLayout", "size": 9121},
+                    {"name": "TreeMapLayout", "size": 9191}
+                  ]
+                },
+                {"name": "Operator", "size": 2490},
+                {"name": "OperatorList", "size": 5248},
+                {"name": "OperatorSequence", "size": 4190},
+                {"name": "OperatorSwitch", "size": 2581},
+                {"name": "SortOperator", "size": 2023}
+              ]
+            },
+            {"name": "Visualization", "size": 16540}
+          ]
+        }
       ]
     }
   }
@@ -187,10 +426,23 @@ const props = defineProps({
   function appendGraph() {
     state.svg = state.container
         .append('svg')
-        .attr('width', '100%')
-        .attr('height', '100%')
+        .attr('width', state.svgWidth)
+        .attr('height', state.svgHeight)
         .attr('class', 'neo4jd3-graph')
-        .call(d3.zoom().scaleExtent([1/2, 8]).on('zoom', zoomed))
+        // .call(d3.zoom().scaleExtent([1/2, 8]).on('zoom', zoomed))
+        .call(d3.zoom().on('zoom', function(zoomEvent) {
+          let scale = zoomEvent.transform.k,
+              translate = [zoomEvent.transform.x, zoomEvent.transform.y];
+          if (state.svgTranslate) {
+            translate[0] += state.svgTranslate[0];
+            translate[1] += state.svgTranslate[1];
+          }
+          if (svgScale.value) {
+            scale *= svgScale.value;
+          }
+          // state.svg.attr('transform', 'translate(' + translate[0] + ', ' + translate[1] + ') scale(' + scale + ')');
+          state.svg.attr('transform', zoomEvent.transform)
+        }))
         .on('dblclick.zoom', null)
         .append('g')
         .attr('width', '100%')
@@ -232,10 +484,14 @@ const props = defineProps({
   const initSimulation = () => {
     // 設定力模擬器
     return d3.forceSimulation()
-        .force('link', d3.forceLink().id(function(d) { return d.id; }))
-        .force('charge', d3.forceManyBody().strength(-15).distanceMax(300))
-        // .force('center', d3.forceCenter( width/2, height/4 ))
-        .force('center', d3.forceCenter( state.svg.node().parentElement.parentElement.clientWidth/2, state.svg.node().parentElement.parentElement.clientHeight/4 ))
+        .force('link', d3.forceLink().id(function(d) { return d.id; }).distance(80).strength(1))
+        // 設定節點間電荷力
+        // .force('charge', d3.forceManyBody().strength(-15).distanceMax(300))
+        .force("charge", d3.forceManyBody().strength(-250))
+        // 設定節點間彼此的互斥力
+        .force("collide", d3.forceCollide().strength(0.2).radius(30).iterations(1))
+        .force('x', d3.forceX(state.svgWidth/1.5))
+        .force('y', d3.forceY(state.svgHeight/3))
         .on('tick', ticked)
         .on('end', () => {
           if (state.options.zoomFit && !justLoaded) {
@@ -269,11 +525,14 @@ const props = defineProps({
     state.nodes = flatten(state.rootHierarchy)
     state.linksData = state.rootHierarchy.links()
 
+    state.simulation
+        .nodes(state.nodes)
+        .force('link', d3.forceLink(state.linksData))
+        .restart();
+
     updateRelationships(state.linksData);
     updateNodes(state.nodes);
 
-    state.simulation.nodes(state.nodes);
-    state.simulation.force('link').links(state.linksData);
   }
 
   const flatten = (root) => {
@@ -305,41 +564,41 @@ function updateRelationships(relationshipsData) {
     let relationshipEnter = appendRelationshipToGraph();
     state.relationship = relationshipEnter.relationship.merge(state.relationship);
     // outline
-    // state.relationshipOutline = state.svg.selectAll('.relationship .outline');
-    // state.relationshipOutline = relationshipEnter.outline.merge(state.relationshipOutline);
+    state.relationshipOutline = state.svg.selectAll('.relationship .outline');
+    state.relationshipOutline = relationshipEnter.outline.merge(state.relationshipOutline);
 
     // outlineOverlay
-    // state.relationshipOverlay = state.svg.selectAll('.relationship .overlay');
-    // state.relationshipOverlay = relationshipEnter.overlay.merge(state.relationshipOverlay);
+    state.relationshipOverlay = state.svg.selectAll('.relationship .overlay');
+    state.relationshipOverlay = relationshipEnter.overlay.merge(state.relationshipOverlay);
 
     // outlineText
-    // state.relationshipText = state.svg.selectAll('.relationship .text');
-    // state.relationshipText = relationshipEnter.text.merge(state.relationshipText);
+    state.relationshipText = state.svg.selectAll('.relationship .text');
+    state.relationshipText = relationshipEnter.text.merge(state.relationshipText);
   }
 
   const appendRelationshipToGraph = () => {
 
-    let relationship = appendRelationship()
-        // text = appendTextToRelationship(relationship),
-        // outline = appendOutlineToRelationship(relationship),
-        // overlay = appendOverlayToRelationship(relationship);
+    let relationship = appendRelationship(),
+        text = appendTextToRelationship(relationship),
+        outline = appendOutlineToRelationship(relationship),
+        overlay = appendOverlayToRelationship(relationship);
     return {
-      // outline: outline,
-      // overlay: overlay,
+      outline: outline,
+      overlay: overlay,
       relationship: relationship,
-      // text: text
+      text: text
     }
   }
 
   // 新增線群組
   function appendRelationship() {
     return state.relationship.enter()
+        // .append('line')
         .append('g')
-        .append('line')
         .attr('class', 'relationship')
-        .style('stroke', '#000' )
-        .style('opacity', '0.2')
-        .style('stroke-width', 2)
+        // .style('stroke', '#000' )
+        // .style('opacity', '0.2')
+        // .style('stroke-width', 2)
         // .on('dblclick', function(d) {
         //   if (typeof options.onRelationshipDoubleClick === 'function') {
         //     options.onRelationshipDoubleClick(d);
@@ -362,7 +621,7 @@ function updateRelationships(relationshipsData) {
   function appendOverlayToRelationship(relationship) {
     return relationship.append('path')
         .attr('class', 'overlay')
-        .style('opacity', 0.1);
+        .style('opacity', 0);
   }
 
   function appendTextToRelationship(relationship) {
@@ -372,7 +631,8 @@ function updateRelationships(relationshipsData) {
             .attr('font-size', '8px')
             .attr('pointer-events', 'none')
             .attr('text-anchor', 'middle')
-            .text(data => data.relation)
+            .text(data => 'childrenNode2')
+            // .text(data => data.relation)
             // .text( data => data.type)
   }
 
@@ -392,8 +652,9 @@ function updateRelationships(relationshipsData) {
   function appendNodeToGraph() {
     let nodeEnter = appendNode();
 
+    //內圈
     appendRingToNode(nodeEnter);
-    // appendOutlineToNode(nodeEnter);
+    appendOutlineToNode(nodeEnter);
     //
     // if (options.icons) {
     //   appendTextToNode(n);
@@ -405,7 +666,7 @@ function updateRelationships(relationshipsData) {
 
     return nodeEnter;
   }
-
+  // 外圈
   const appendNode = () => {
     return state.node.enter()
         .append('g')
@@ -436,14 +697,6 @@ function updateRelationships(relationshipsData) {
             }
           return classes;
         })
-        .attr('stroke', '#666')
-        .attr('stroke-width', 2)
-        .style('fill', (d) => {
-          return d._children ? "#51A1DC" // collapsed package
-              : d.children ? "#51A1DC" // expanded package
-                  : "#F94B4C"
-        })
-        .style('opacity', 1)
         .on('click', (event , d) => {
           if (!event.defaultPrevented) {
             if (d.children) {
@@ -456,13 +709,13 @@ function updateRelationships(relationshipsData) {
             updateNodesAndRelationships()
           }
         })
-        .on('dblclick', (event , d) => {
-          stickNode(event,d);
-
-          if (typeof state.options.onNodeDoubleClick === 'function') {
-            state.options.onNodeDoubleClick(d);
-          }
-        })
+        // .on('dblclick', (event , d) => {
+        //   stickNode(event,d);
+        //
+        //   if (typeof state.options.onNodeDoubleClick === 'function') {
+        //     state.options.onNodeDoubleClick(d);
+        //   }
+        // })
         // .on('mouseenter', (d) => {
         //   if (info) {
         //     updateInfo(d);
@@ -616,6 +869,8 @@ function updateRelationships(relationshipsData) {
     // d3.schemeCategory10,
     // d3.schemeCategory20,
     return [
+      '#e84646', // dark red
+      '#405f9e', // navy blue
       '#68bdf6', // light blue
       '#6dce9e', // green #1
       '#faafc2', // light pink
@@ -623,12 +878,10 @@ function updateRelationships(relationshipsData) {
       '#ff928c', // light red
       '#fcea7e', // light yellow
       '#ffc766', // light orange
-      '#405f9e', // navy blue
       '#a5abb6', // dark gray
       '#78cecb', // green #2,
       '#b88cbb', // dark purple
       '#ced2d9', // light gray
-      '#e84646', // dark red
       '#fa5f86', // dark pink
       '#ffab1a', // dark orange
       '#fcda19', // dark yellow
@@ -678,13 +931,7 @@ function updateRelationships(relationshipsData) {
   function appendRingToNode(node) {
     return node.append('circle')
         .attr('class', 'ring')
-        // .attr('r', state.options.nodeRadius * 1.16)
-        .attr("r", (d) => 12)
-        .attr('fill', (d) => {
-          return d._children ? "#51A1DC" // collapsed package
-              : d.children ? "#51A1DC" // expanded package
-                  : "#F94B4C"
-        })
+        .attr('r', state.options.nodeRadius * 1.16)
         .append('title')
         .text(d => d.data.name)
         // .text( d => toString(d))
@@ -694,8 +941,14 @@ function updateRelationships(relationshipsData) {
     return node.append('circle')
         .attr('class', 'outline')
         .attr('r', state.options.nodeRadius)
-        .style('fill', (d) => {
-          return state.options.nodeOutlineFillColor ? state.options.nodeOutlineFillColor : class2color(d.name);
+        .attr('fill', (d) => {
+          let clsName = d._children ? "_children" // collapsed package
+              : d.children ? "_children" // expanded package
+                  : "noChildren"
+          return state.options.nodeOutlineFillColor ? state.options.nodeOutlineFillColor : class2color(clsName);
+          // return d._children ? "#70edee" // collapsed package
+          //     : d.children ? "#70edee" // expanded package
+          //         : "#F94B4C"
         })
         .style('stroke', (d) => {
           return state.options.nodeOutlineFillColor ? class2darkenColor(state.options.nodeOutlineFillColor) : class2darkenColor(d.name);
@@ -713,26 +966,27 @@ function updateRelationships(relationshipsData) {
 
   const tickNodes = () => {
     if (state.node) {
-      state.node.attr('transform', function(d) {
-        // return 'translate(' + d.x + ', ' + d.y + ')';
-        return `translate(${d.x}, ${d.y})`
-      });
+      // state.node.attr('transform', function(d) {
+      //   // return 'translate(' + d.x + ', ' + d.y + ')';
+      //   return `translate(${d.x}, ${d.y})`
+      // });
+      state.node.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
     }
   }
   const tickRelationships = () => {
     if (state.relationship) {
-      // state.relationship.attr('transform', function(d) {
-      //   let angle = rotation(d.source, d.target);
-      //   return 'translate(' + d.source.x + ', ' + d.source.y + ') rotate(' + angle + ')';
-      // });
-      state.relationship.attr('x1', function(d){ return d.source.x; })
-          .attr('y1', function(d){ return d.source.y; })
-          .attr('x2', function(d){ return d.target.x; })
-          .attr('y2', function(d){ return d.target.y; })
+      state.relationship.attr('transform', function(d) {
+        let angle = rotation(d.source, d.target);
+        return 'translate(' + d.source.x + ', ' + d.source.y + ') rotate(' + angle + ')';
+      });
+      // state.relationship.attr('x1', function(d){ return d.source.x; })
+      //     .attr('y1', function(d){ return d.source.y; })
+      //     .attr('x2', function(d){ return d.target.x; })
+      //     .attr('y2', function(d){ return d.target.y; })
 
-      // tickRelationshipsTexts();
-      // tickRelationshipsOutlines();
-      // tickRelationshipsOverlays();
+      tickRelationshipsTexts();
+      tickRelationshipsOutlines();
+      tickRelationshipsOverlays();
     }
   }
 
@@ -848,14 +1102,9 @@ function updateRelationships(relationshipsData) {
 
   async function forceLink2(){
 
-    // js
-    // 設定一个顏色比例尺
-    // let colorScale = d3.scaleOrdinal()
-    //     .domain(d3.range(nodesData.value.length))
-    //     .range(d3.schemeCategory10)
-
     // 取得基礎位置
     state.container = d3.select('.container-border')
+
     // 取得畫圖範圍
     appendGraph()
     // 定義力導向圖
@@ -889,11 +1138,11 @@ function updateRelationships(relationshipsData) {
 
 <style lang="scss" scoped>
 ::v-deep(.node .ring) {
-    //fill: none;
-    //-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=0)';
-    //filter: alpha(opacity=0);
-    opacity: 1;
-    stroke: #666;
-    stroke-width: 2px;
+    fill: none;
+    -ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=0)';
+    filter: alpha(opacity=0);
+    opacity: 0;
+    stroke: #6ac6ff;
+    stroke-width: 8px;
   }
 </style>

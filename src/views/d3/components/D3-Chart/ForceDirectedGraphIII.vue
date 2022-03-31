@@ -343,7 +343,6 @@ const props = defineProps({
       return state.node.enter()
           .append('g')
           .attr('class', (d) => {
-            console.log('appendNode', d)
             let highlight, i,
                 classes = 'node',
                 label = d.name;

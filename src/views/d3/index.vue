@@ -6,7 +6,7 @@
       <el-col>
         <!--基礎網路力向圖-->
 <!--        <ForceBasedChart id="funnelChart" height="400px" width="100%" class="chart-container"/>-->
-        <router-view v-slot="{ Component ,route}" class="chart-container" height="1000px" width="100%">
+        <router-view v-slot="{ Component ,route}" class="chart-container" height="900px" width="100%">
           <transition name="router-fade" mode="out-in">
             <component :is="Component" :key="route.path"/>
           </transition>

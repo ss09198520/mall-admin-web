@@ -309,8 +309,9 @@ const props = defineProps({
     updateRelationships(state.linksData);
     updateNodes(state.nodes);
 
-    state.simulation.nodes(state.nodes);
-    state.simulation.force('link').links(state.linksData);
+    state.simulation.nodes(state.nodes)
+        .force('link', d3.forceLink(state.linksData).distance(50).strength(2))
+        .restart();
   }
 
   const flatten = (root) => {
