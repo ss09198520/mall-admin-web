@@ -103,6 +103,12 @@ export const constantRoutes: Array<RouteRecordRaw> = [
                         name: 'd3-ForceHierarchyGraphII',
                         meta: {title: 'Force Hierarchy Graph II', noCache: true}
                     },
+                    {
+                        path: 'ForceDirectedGraphIIII',
+                        component: () => import('@/views/d3/components/D3-Chart/ForceDirectedGraphIIII.vue'),
+                        name: 'd3-ForceDirectedGraphIIII',
+                        meta: {title: 'Force Directed Graph IIII', noCache: true}
+                    },
 
                 ]
             },

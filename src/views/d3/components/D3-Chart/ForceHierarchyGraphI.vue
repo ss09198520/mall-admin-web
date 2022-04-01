@@ -307,7 +307,7 @@ function appendGraph() {
       .attr('height', state.svgHeight)
       .attr('class', 'neo4jd3-graph')
       // .call(d3.zoom().scaleExtent([1/2, 8]).on('zoom', zoomed))
-      .call(d3.zoom().on('zoom', function(zoomEvent) {
+      .call(d3.zoom().scaleExtent([.01, 4]).on('zoom', function(zoomEvent) {
         let scale = zoomEvent.transform.k,
             translate = [zoomEvent.transform.x, zoomEvent.transform.y];
         if (state.svgTranslate) {
@@ -401,11 +401,18 @@ function updateWithD3Data() {
 function updateNodesAndRelationships() {
   state.nodes = flatten(state.rootHierarchy)
   state.linksData = state.rootHierarchy.links()
-
+  console.log('state.linksData' , state.linksData)
   state.simulation
       .nodes(state.nodes)
       .force('link', d3.forceLink(state.linksData))
       .restart();
+
+  state.adjlist = []
+
+  state.linksData.forEach((d) => {
+    state.adjlist[d.source.index + '-' + d.target.index] = true
+    state.adjlist[d.target.index + '-' + d.source.index] = true
+  })
 
   updateRelationships(state.linksData);
   updateNodes(state.nodes);
@@ -580,18 +587,9 @@ const appendNode = () => {
         }
         return classes;
       })
-      .on('click', (event , d) => {
-        if (!event.defaultPrevented) {
-          if (d.children) {
-            d._children = d.children;
-            d.children = null;
-          } else {
-            d.children = d._children;
-            d._children = null;
-          }
-          updateNodesAndRelationships()
-        }
-      })
+      .on('click', nodeClick)
+      .on('mouseover', focus)
+      .on('mouseout', unFocus)
       // .on('dblclick', (event , d) => {
       //   stickNode(event,d);
       //
@@ -802,6 +800,40 @@ const dragStarted = (dragEvent , d ) => {
   if (typeof options.onNodeDragStart === 'function') {
     options.onNodeDragStart(d);
   }
+}
+
+const nodeClick = (event , d) => {
+  if (!event.defaultPrevented) {
+    if (d.children) {
+      d._children = d.children;
+      d.children = null;
+    } else {
+      d.children = d._children;
+      d._children = null;
+    }
+    updateNodesAndRelationships()
+  }
+}
+
+function focus(event , d) {
+
+  let index = d3.select(this).datum().index
+
+  state.node.style('opacity', function (o) {
+    return neighbor(index, o.index) ? 1 : 0.1
+  })
+  state.relationship.style('opacity', function (o) {
+    return o.source.index === index || o.target.index === index ? 1 : 0.1
+  })
+}
+
+function neighbor(a, b) {
+  return a === b || state.adjlist[a + '-' + b]
+}
+
+function unFocus() {
+  state.node.style('opacity', 1)
+  state.relationship.style('opacity', 1)
 }
 
 const stickNode = (dragEvent , d) => {
