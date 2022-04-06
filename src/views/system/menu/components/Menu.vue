@@ -1,6 +1,6 @@
 <template>
   <div class="component-container">
-    <!-- 搜索表单 -->
+    <!-- 搜索表單 -->
     <el-form
         ref="queryFormRef"
         :model="queryParams"
@@ -13,7 +13,7 @@
       <el-form-item prop="name">
         <el-input
             v-model="queryParams.name"
-            placeholder="菜单名称"
+            placeholder="菜單名稱"
             clearable
             @keyup.enter.native="handleQuery"
         />
@@ -24,7 +24,7 @@
       </el-form-item>
     </el-form>
 
-    <!-- 数据表格 -->
+    <!-- 數據表格 -->
     <el-table
         v-loading="loading"
         :data="menuList"
@@ -34,16 +34,16 @@
         @row-click="handleRowClick"
         border
     >
-      <el-table-column label="菜单名称">
+      <el-table-column label="菜單名稱">
         <template #default="scope">
           <svg-icon color='#333' :icon-class="scope.row.icon?scope.row.icon:'build'"/>
           {{ scope.row.name }}
         </template>
       </el-table-column>
 
-      <el-table-column label="状态" align="center" width="100">
+      <el-table-column label="狀態" align="center" width="100">
         <template #default="scope">
-          <el-tag v-if="scope.row.visible===1" type="success">显示</el-tag>
+          <el-tag v-if="scope.row.visible===1" type="success">顯示</el-tag>
           <el-tag v-else type="info">隐藏</el-tag>
         </template>
       </el-table-column>
@@ -75,7 +75,7 @@
       </el-table-column>
     </el-table>
 
-    <!-- 弹窗表单 -->
+    <!-- 弹窗表單 -->
     <el-dialog
         :title="dialog.title"
         v-model="dialog.visible"
@@ -87,16 +87,16 @@
           :rules="rules"
           label-width="100px"
       >
-        <el-form-item label="父级菜单" prop="parentId">
+        <el-form-item label="父級菜單" prop="parentId">
           <tree-select
               v-model="formData.parentId"
               :options="menuOptions"
-              placeholder="选择上级菜单"
+              placeholder="選擇上級菜單"
           />
         </el-form-item>
 
-        <el-form-item label="菜单名称" prop="name">
-          <el-input v-model="formData.name" placeholder="请输入菜单名称"/>
+        <el-form-item label="菜單名稱" prop="name">
+          <el-input v-model="formData.name" placeholder="請輸入菜單名稱"/>
         </el-form-item>
 
         <el-form-item label="是否外链">
@@ -107,10 +107,10 @@
         </el-form-item>
 
         <el-form-item v-if="isExternalPath" label="外链地址" prop="path">
-          <el-input v-model="formData.path" placeholder="请输入外链完整路径"/>
+          <el-input v-model="formData.path" placeholder="請輸入外链完整路径"/>
         </el-form-item>
 
-        <el-form-item v-if="!isExternalPath" label="页面路径" prop="component">
+        <el-form-item v-if="!isExternalPath" label="頁面路径" prop="component">
           <el-input
               v-model="formData.component"
               placeholder="system/user/index"
@@ -121,13 +121,13 @@
           </el-input>
 
           <el-tooltip effect="dark"
-                      content="请输入组件路径，如果是父组件填写 Layout 即可"
+                      content="請輸入组件路径，如果是父组件填寫 Layout 即可"
                       placement="right">
             <i class="el-icon-info" style="margin-left: 10px;color:darkseagreen"></i>
           </el-tooltip>
         </el-form-item>
 
-        <el-form-item label="菜单图标">
+        <el-form-item label="菜單圖標">
           <el-popover
               placement="bottom-start"
               :width="540"
@@ -137,7 +137,7 @@
           >
             <icon-select ref="iconSelectRef" @selected="selected"/>
             <template #reference>
-              <el-input v-model="formData.icon" placeholder="点击选择图标" readonly>
+              <el-input v-model="formData.icon" placeholder="點擊選擇圖標" readonly>
                 <template #prefix>
                   <svg-icon
                       v-if="formData.icon"
@@ -153,9 +153,9 @@
           </el-popover>
         </el-form-item>
 
-        <el-form-item label="状态">
+        <el-form-item label="狀態">
           <el-radio-group v-model="formData.visible">
-            <el-radio :label="1">显示</el-radio>
+            <el-radio :label="1">顯示</el-radio>
             <el-radio :label="0">隐藏</el-radio>
           </el-radio-group>
         </el-form-item>
@@ -164,14 +164,14 @@
           <el-input-number v-model="formData.sort" style="width: 100px" controls-position="right" :min="0"/>
         </el-form-item>
 
-        <el-form-item label="跳转路径">
-          <el-input v-model="formData.redirect" placeholder="请输入跳转路径" maxlength="50"/>
+        <el-form-item label="跳轉路径">
+          <el-input v-model="formData.redirect" placeholder="請輸入跳轉路径" maxlength="50"/>
         </el-form-item>
       </el-form>
 
       <template #footer>
         <div class="dialog-footer">
-          <el-button type="primary" @click="submitForm">确 定</el-button>
+          <el-button type="primary" @click="submitForm">確 定</el-button>
           <el-button @click="cancel">取 消</el-button>
         </div>
       </template>
@@ -197,11 +197,11 @@ const dataFormRef = ref(ElForm)
 
 const state = reactive({
   loading: true,
-  // 选中ID数组
+  // 選中ID數组
   ids: [],
-  // 非单个禁用
+  // 非單個禁用
   single: true,
-  // 非多个禁用
+  // 非多個禁用
   multiple: true,
   queryParams: {
     pageNum: 1,
@@ -227,13 +227,13 @@ const state = reactive({
   },
   rules: {
     parentId: [
-      {required: true, message: '请选择顶级菜单', trigger: 'blur'}
+      {required: true, message: '請選擇頂級菜單', trigger: 'blur'}
     ],
     name: [
-      {required: true, message: '请输入菜单名称', trigger: 'blur'}
+      {required: true, message: '請輸入菜單名稱', trigger: 'blur'}
     ],
     component: [
-      {required: true, message: '请输入页面路径', trigger: 'blur'}
+      {required: true, message: '請輸入頁面路径', trigger: 'blur'}
     ]
   },
   menuOptions: [] as any[],
@@ -273,12 +273,12 @@ function handleQuery() {
 }
 
 /**
- * 加载菜单下拉树
+ * 加載菜單下拉樹
  */
 async function loadTreeSelectMenuOptions() {
   const menuOptions: any[] = []
   await listTreeSelectMenus().then(response => {
-    const menuOption = {id: 0, label: '顶级菜单', children: response.data}
+    const menuOption = {id: 0, label: '頂級菜單', children: response.data}
     menuOptions.push(menuOption)
     state.menuOptions = menuOptions
   })
@@ -307,11 +307,11 @@ function handleRowClick(row: any) {
 async function handleAdd(row: any) {
   await loadTreeSelectMenuOptions()
   state.dialog = {
-    title: '添加菜单',
+    title: '添加菜單',
     visible: true,
   }
   if (row.id) {
-    // 行点击新增
+    // 行點擊新增
     state.formData.parentId = row.id
     if (row.id == 0) {
       state.formData.component = 'Layout'
@@ -321,7 +321,7 @@ async function handleAdd(row: any) {
 
   } else {
     if (state.currentRow) {
-      // 工具栏新增
+      // 工具欄新增
       state.formData.parentId = (state.currentRow as any).id
       state.formData.component = ''
     } else {
@@ -334,7 +334,7 @@ async function handleAdd(row: any) {
 async function handleUpdate(row: any) {
   await loadTreeSelectMenuOptions()
   state.dialog = {
-    title: '修改菜单',
+    title: '修改菜單',
     visible: true
   }
   const id = row.id || state.ids
@@ -368,8 +368,8 @@ function submitForm() {
 
 function handleDelete(row: any) {
   const ids = [row.id || state.ids].join(',')
-  ElMessageBox.confirm('确认删除已选中的数据项?', '警告', {
-    confirmButtonText: '确定',
+  ElMessageBox.confirm('確認删除已選中的數據項?', '警告', {
+    confirmButtonText: '確定',
     cancelButtonText: '取消',
     type: 'warning'
   }).then(() => {
@@ -382,7 +382,7 @@ function handleDelete(row: any) {
   )
 }
 
-// 重置表单
+// 重置表單
 function resetForm() {
   dataFormRef.value.resetFields()
 }

@@ -1,11 +1,11 @@
 import {createI18n} from 'vue-i18n'
 import {localStorage} from '@/utils/storage'
 
-// Element Plus 国际化配置
+// Element Plus 國際化配置
 import elementPlusLocaleZhCn from 'element-plus/es/locale/lang/zh-cn'
 import elementPlusLocaleEn from 'element-plus/es/locale/lang/en'
 
-// 自定义国际化配置
+// 自定義國際化配置
 import enLocale from './en'
 import zhCnLocale from './zh-cn'
 import {Locale, Path} from "@intlify/core-base";
@@ -26,7 +26,7 @@ export const getLanguage = () => {
     if (language) {
         return language
     }
-    language = navigator.language.toLowerCase() // 浏览器使用的语言
+    language = navigator.language.toLowerCase() // 瀏覽器使用的語言
     const locales = Object.keys(messages)
     for (const locale of locales) {
         if (language.indexOf(locale) > -1) {

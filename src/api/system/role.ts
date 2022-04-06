@@ -1,7 +1,7 @@
 import request from '@/utils/request'
 
 /**
- * 获取角色分页列表
+ * 取得角色頁面列表
  *
  * @param queryParams
  */
@@ -14,7 +14,7 @@ export function listRolesWithPage(queryParams: object) {
 }
 
 /**
- * 获取角色列表
+ * 取得角色列表
  *
  * @param queryParams
  */
@@ -27,7 +27,7 @@ export function listRoles(queryParams?: object) {
 }
 
 /**
- * 获取角色详情
+ * 取得角色詳細資訊
  *
  * @param id
  */
@@ -39,7 +39,7 @@ export function getRoleDetail(id: number) {
 }
 
 /**
- * 添加角色
+ * 新增角色
  *
  * @param data
  */
@@ -66,7 +66,7 @@ export function updateRole(id: number, data: object) {
 }
 
 /**
- * 批量删除角色，多个以英文逗号(,)分割
+ * 批量删除角色，多個以英文逗號(,)分割
  *
  * @param ids
  */
@@ -79,7 +79,7 @@ export function deleteRoles(ids: string) {
 
 
 /**
- * 获取角色的菜单列表
+ * 取得角色的菜單列表
  *
  * @param roleId
  */
@@ -91,7 +91,7 @@ export function listRoleMenuIds(roleId: number) {
 }
 
 /**
- * 修改角色的菜单
+ * 修改角色的菜單
  *
  * @param roleId
  * @param menuIds
@@ -106,7 +106,7 @@ export function updateRoleMenu(roleId: number, menuIds: Array<Number>) {
 
 
 /**
- * 获取角色的权限列表
+ * 取得角色的權限列表
  *
  * @param roleId
  */
@@ -119,9 +119,9 @@ export function listRolePerms(roleId: number, menuId: number) {
 }
 
 /**
- * 保存角色权限
+ * 保存角色權限
  *
- * @param menuId 菜单ID，归类权限
+ * @param menuId 菜單ID，歸類權限
  * @param roleId
  * @param permIds
  */

@@ -11,7 +11,7 @@
       />
 
       <div style="margin-top: 20px">
-        <el-link type="info" :underline="false" v-show="pathLabels.length>0">您选择的商品分类:</el-link>
+        <el-link type="info" :underline="false" v-show="pathLabels.length>0">您選擇的商品分類:</el-link>
         <el-link type="danger" :underline="false" v-for="(item,index) in pathLabels" style="margin-left: 5px">
           {{ item }}
           <i v-show="index<pathLabels.length-1" class=" el-icon-arrow-right"></i>
@@ -20,7 +20,7 @@
 
     </div>
     <div class="component-container__footer">
-      <el-button type="primary" @click="handleNext">下一步，填写商品信息</el-button>
+      <el-button type="primary" @click="handleNext">下一步，填寫商品信息</el-button>
     </div>
   </div>
 </template>
@@ -59,13 +59,13 @@ const categoryRef = ref(ElCascaderPanel)
 
 function handleCategoryChange() {
   const checkNode = categoryRef.value.getCheckedNodes()[0]
-  state.pathLabels = checkNode.pathLabels // 商品分类选择层级提示
+  state.pathLabels = checkNode.pathLabels // 商品分類選擇層級提示
   props.modelValue.categoryId = checkNode.value
 }
 
 function handleNext() {
   if (!props.modelValue.categoryId) {
-    ElMessage.warning('请选择商品分类')
+    ElMessage.warning('請選擇商品分類')
     return false
   }
   emit('next' )

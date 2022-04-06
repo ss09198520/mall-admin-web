@@ -4,9 +4,9 @@ import { usePermissionStoreHook } from "@/store/modules/permission";
 import { useUserStoreHook } from "@/store/modules/user";
 import NProgress from 'nprogress';
 import 'nprogress/nprogress.css'
-NProgress.configure({showSpinner: false}) // 进度环显示/隐藏
+NProgress.configure({showSpinner: false}) // 進度環顯示/隐藏
 
-// 白名单
+// 白名單
 const whiteList = ['/login', '/auth-redirect']
 
 router.beforeEach(async (to, form, next) => {
@@ -14,7 +14,7 @@ router.beforeEach(async (to, form, next) => {
 
     const hasToken =useUserStoreHook().token
     if (hasToken) {
-        // 如果登录成功，跳转到首页
+        // 如果登入成功，跳轉到首頁
         if (to.path === '/login') {
             next({path: '/'})
             NProgress.done()

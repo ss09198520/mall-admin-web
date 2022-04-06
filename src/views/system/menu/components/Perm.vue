@@ -1,6 +1,6 @@
 <template>
   <div claas="component-container">
-    <!-- 搜索表单 -->
+    <!-- 搜索表單 -->
     <el-form
         ref="queryFormRef"
         :model="queryParams"
@@ -13,7 +13,7 @@
       <el-form-item prop="name">
         <el-input
             v-model="queryParams.name"
-            placeholder="权限名称"
+            placeholder="權限名稱"
             clearable
             @keyup.enter.native="handleQuery"
         />
@@ -24,7 +24,7 @@
       </el-form-item>
     </el-form>
 
-    <!-- 数据表格 -->
+    <!-- 數據表格 -->
     <el-table
         :data="pageList"
         v-loading="loading"
@@ -32,13 +32,13 @@
         border
     >
       <el-table-column type="selection" width="40" align="center"/>
-      <el-table-column label="权限名称" prop="name" width="150"/>
-      <el-table-column label="URL权限" align="center">
+      <el-table-column label="權限名稱" prop="name" width="150"/>
+      <el-table-column label="URL權限" align="center">
         <el-table-column prop="serviceName" label="所属服务"/>
-        <el-table-column prop="requestMethod" label="请求方式"/>
-        <el-table-column prop="requestPath" label="请求路径"/>
+        <el-table-column prop="requestMethod" label="請求方式"/>
+        <el-table-column prop="requestPath" label="請求路径"/>
       </el-table-column>
-      <el-table-column label="按钮权限" prop="btnPerm" width="200"/>
+      <el-table-column label="按鈕權限" prop="btnPerm" width="200"/>
       <el-table-column label="操作" align="center" width="150">
         <template #default="scope">
           <el-button
@@ -59,7 +59,7 @@
       </el-table-column>
     </el-table>
 
-    <!-- 分页工具条 -->
+    <!-- 分頁工具條 -->
     <pagination
         v-show="total>0"
         :total="total"
@@ -68,7 +68,7 @@
         @pagination="handleQuery"
     />
 
-    <!-- 表单弹窗 -->
+    <!-- 表單弹窗 -->
     <el-dialog
         :title="dialog.title"
         v-model="dialog.visible"
@@ -80,11 +80,11 @@
           label-width="120px"
       >
 
-        <el-form-item label="权限名称" prop="name">
-          <el-input v-model="formData.name" placeholder="请输入权限名称"/>
+        <el-form-item label="權限名稱" prop="name">
+          <el-input v-model="formData.name" placeholder="請輸入權限名稱"/>
         </el-form-item>
 
-        <el-form-item label="URL权限标识" prop="urlPerm">
+        <el-form-item label="URL權限標示" prop="urlPerm">
           <el-input placeholder="/api/v1/users" v-model="urlPerm.requestPath" class="input-with-select">
             <template #prepend>
               <el-select
@@ -100,7 +100,7 @@
                   v-model="urlPerm.requestMethod"
                   style="width: 120px;margin-left: 20px"
                   slot="prepend"
-                  placeholder="请求方式"
+                  placeholder="請求方式"
                   clearable
               >
                 <el-option
@@ -116,14 +116,14 @@
           </el-link>
         </el-form-item>
 
-        <el-form-item label="按钮权限标识" prop="btnPerm">
+        <el-form-item label="按鈕權限標示" prop="btnPerm">
           <el-input v-model="formData.btnPerm" placeholder="sys:user:add"/>
         </el-form-item>
 
       </el-form>
       <template #footer>
         <div class="dialog-footer">
-          <el-button type="primary" @click="submitForm">确 定</el-button>
+          <el-button type="primary" @click="submitForm">確 定</el-button>
           <el-button @click="cancel">取 消</el-button>
         </div>
       </template>
@@ -156,11 +156,11 @@ watch(() => props.menuId as any, (newVal, oldVal) => {
 
 const state = reactive({
   loading: true,
-  // 选中ID数组
+  // 選中ID數组
   ids: [],
-  // 非单个禁用
+  // 非單個禁用
   single: true,
-  // 非多个禁用
+  // 非多個禁用
   multiple: true,
   queryParams: {
     pageNum: 1,
@@ -183,13 +183,13 @@ const state = reactive({
   },
   rules: {
     name: [
-      {required: true, message: '请输入权限名称', trigger: 'blur'}
+      {required: true, message: '請輸入權限名稱', trigger: 'blur'}
     ],
     perm: [
-      {required: true, message: '请输入权限标识', trigger: 'blur'}
+      {required: true, message: '請輸入權限標示', trigger: 'blur'}
     ],
     method: [
-      {required: true, message: '请选择请求方式', trigger: 'blur'}
+      {required: true, message: '請選擇請求方式', trigger: 'blur'}
     ]
   },
   microServiceOptions: [] as Array<any>,
@@ -247,7 +247,7 @@ function handleSelectionChange(selection: any) {
 }
 
 /**
- * 加载字典数据
+ * 加載字典數據
  */
 function loadDictOptions() {
   proxy.$listDictsByCode('micro_service').then((response: any) => {
@@ -262,7 +262,7 @@ function loadDictOptions() {
 function handleAdd() {
   loadDictOptions()
   state.dialog = {
-    title: '添加权限',
+    title: '添加權限',
     visible: true
   }
 }
@@ -270,7 +270,7 @@ function handleAdd() {
 function handleUpdate(row: any) {
   loadDictOptions()
   state.dialog = {
-    title: '修改权限',
+    title: '修改權限',
     visible: true
   }
   const id = row.id || state.ids
@@ -291,20 +291,20 @@ function submitForm() {
   const dataForm = unref(dataFormRef)
   dataForm.validate((valid: any) => {
     if (valid) {
-      // 接口权限和按钮权限必填其一
+      // 接口權限和按鈕權限必填其一
       console.log(state.urlPerm.requestPath, state.formData.btnPerm)
       if (!(state.urlPerm.requestPath || state.formData.btnPerm)) {
-        ElMessage.warning('请至少填写一种权限')
+        ElMessage.warning('請至少填寫一种權限')
         return false
       }
-      // 如果填写了URL权限，完整性校验
+      // 如果填寫了URL權限，完整性校驗
       if (!state.urlPerm.requestPath) {
         if (!state.urlPerm.requestMethod) {
-          ElMessage.warning('URL权限的请求方式不能为空')
+          ElMessage.warning('URL權限的請求方式不能為空')
           return false
         }
         if (!state.urlPerm.serviceName) {
-          ElMessage.warning('URL权限的所属服务不能为空')
+          ElMessage.warning('URL權限的所属服务不能為空')
           return false
         }
         state.formData.urlPerm = state.urlPerm.requestMethod + ':/' + state.urlPerm.serviceName + state.urlPerm.requestPath;
@@ -331,7 +331,7 @@ function submitForm() {
 }
 
 /**
- * 重置表单
+ * 重置表單
  */
 function resetForm() {
   const dataForm = unref(dataFormRef)
@@ -345,8 +345,8 @@ function cancel() {
 
 function handleDelete(row: any) {
   const ids = [row.id || state.ids].join(',')
-  ElMessageBox.confirm('确认删除已选中的数据项?', '警告', {
-    confirmButtonText: '确定',
+  ElMessageBox.confirm('確認删除已選中的數據項?', '警告', {
+    confirmButtonText: '確定',
     cancelButtonText: '取消',
     type: 'warning'
   }).then(() => {

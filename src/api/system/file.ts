@@ -1,7 +1,7 @@
 import request from '@/utils/request'
 
 /**
- * 上传文件
+ * 上傳文件
  *
  * @param file
  */

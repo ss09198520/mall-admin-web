@@ -1,8 +1,8 @@
 <template>
   <div class="dashboard-container">
-    <github-corner class="github-corner"/>
+<!--    <github-corner class="github-corner"/>-->
 
-    <!-- 数据 -->
+    <!-- 數據 -->
     <el-row :gutter="40" class="card-panel-col">
 
       <el-col :xs="24" :sm="12"  :lg="6" class="card-panel-col">
@@ -12,7 +12,7 @@
           </div>
           <div class="card-panel-description">
             <div class="card-panel-text">
-             访问数
+             瀏覽數
             </div>
             <div class="card-panel-num">1000</div>
           </div>
@@ -26,7 +26,7 @@
           </div>
           <div class="card-panel-description">
             <div class="card-panel-text">
-              消息数
+              訊息數
             </div>
             <div class="card-panel-num">1000</div>
           </div>
@@ -40,7 +40,7 @@
           </div>
           <div class="card-panel-description">
             <div class="card-panel-text">
-              支付金额
+              交易金額
             </div>
             <div class="card-panel-num">1000</div>
           </div>
@@ -53,7 +53,7 @@
           </div>
           <div class="card-panel-description">
             <div class="card-panel-text">
-              订单数
+              訂單數量
             </div>
             <div class="card-panel-num">1000</div>
           </div>
@@ -61,27 +61,27 @@
       </el-col>
     </el-row>
 
-    <!-- 项目 + 团队成员介绍 -->
+    <!-- 項目 + 團隊成員介绍 -->
     <el-row :gutter="40">
 
-      <!-- 项目介绍 -->
+      <!-- 項目介绍 -->
       <!-- <el-col :md="12" :lg="12" class="card-panel-col">
         <Project/>
       </el-col> -->
 
-      <!-- 团队介绍 -->
+      <!-- 團隊介绍 -->
       <!-- <el-col :md="12" :lg="12" class="card-panel-col">
         <Team/>
       </el-col> -->
-      
+
 
     </el-row>
 
 
-    <!-- Echarts 图表 -->
+    <!-- Echarts 圖表 -->
     <el-row :gutter="40" style="margin-top: 20px">
       <el-col :xs="24" :sm="12" :lg="8" class="card-panel-col">
-        <!--订单漏斗图-->
+        <!--訂單漏斗圖-->
         <FunnelChart id="funnelChart" height="400px" width="100%" class="chart-container"/>
       </el-col>
       <el-col :sm="24" :lg="8" class="card-panel-col">
@@ -90,7 +90,7 @@
 
       <el-col :xs="24" :sm="12" :lg="8" class="card-panel-col">
         <PieChart id="pieChart" height="400px" width="100%" class="chart-container"/>
-        <!--订单漏斗图-->
+        <!--訂單漏斗圖-->
         <!--<FunnelChart id="funnelChart" height="400px" width="100%" class="chart-container"/>-->
       </el-col>
 

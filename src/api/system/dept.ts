@@ -1,7 +1,7 @@
 import request from '@/utils/request'
 
 /**
- * 部门树形表格
+ * 部門樹狀表格
  *
  * @param queryParams
  */
@@ -14,7 +14,7 @@ export function listDeptTable(queryParams?: object) {
 }
 
 /**
- * 部门下拉列表
+ * 部門下拉列表
  */
 export function listDeptSelect() {
     return request({
@@ -24,7 +24,7 @@ export function listDeptSelect() {
 }
 
 /**
- * 获取部门详情
+ * 取得部門詳情
  *
  * @param id
  */
@@ -37,7 +37,7 @@ export function getDeptDetail(id: any) {
 
 
 /**
- * 新增部门
+ * 新增部門
  *
  * @param data
  */
@@ -50,7 +50,7 @@ export function addDept(data: any) {
 }
 
 /**
- *  修改部门
+ *  修改部門
  *
  * @param id
  * @param data
@@ -64,7 +64,7 @@ export function updateDept(id: number, data: any) {
 }
 
 /**
- * 删除部门
+ * 删除部門
  *
  * @param id
  */

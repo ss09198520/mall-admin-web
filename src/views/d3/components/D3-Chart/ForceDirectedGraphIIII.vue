@@ -1,4 +1,4 @@
-<!-- 漏斗图 -->
+<!-- 漏斗圖 -->
 <template>
   <div
       :id="id"
@@ -68,12 +68,12 @@ const props = defineProps({
     deactivated
   } = resize()
 
-  // ref声明响应式数据，用于声明基本数据类型
+  // ref聲明响應式數據，用于聲明基本數據類型
   // const name = ref('Jerry')
   // // 修改
   // name.value = 'Tom'
   //
-  // // reactive声明响应式数据，用于声明引用数据类型
+  // // reactive聲明响應式數據，用于聲明引用數據類型
   // const state2 = reactive({
   //   name2: 'Jerry',
   //   sex: '男'
@@ -173,7 +173,7 @@ const props = defineProps({
       {"id": 10,"source": 5, relation: '關係A', "target": 10}
     ]
   }
-  // reactive声明响应式数据，用于声明引用数据类型
+  // reactive聲明响應式數據，用于聲明引用數據類型
   const state = reactive(data)
   // 使用toRefs解构
   const {svg , container ,nodesData, relationsData , svgTranslate , svgScale , options , justLoaded , simulation ,node , nodes ,relationship , relationships} = toRefs(state)
@@ -754,20 +754,20 @@ function updateRelationships() {
       });
     }
   }
-  const tickRelationships = () => {
+  const tickRelationships = async () => {
     if (state.relationship) {
-      state.relationship.attr('transform', function(d) {
+      state.relationship.attr('transform', function (d) {
         let angle = rotation(d.source, d.target);
         return 'translate(' + d.source.x + ', ' + d.source.y + ') rotate(' + angle + ')';
       });
 
-      tickRelationshipsTexts();
-      tickRelationshipsOutlines();
-      tickRelationshipsOverlays();
+      await tickRelationshipsTexts();
+      await tickRelationshipsOutlines();
+      await tickRelationshipsOverlays();
     }
   }
 
-  const tickRelationshipsTexts = () => {
+  const tickRelationshipsTexts = async () => {
     state.relationshipText.attr('transform', function(d) {
       let angle = (rotation(d.source, d.target) + 360) % 360,
           mirror = angle > 90 && angle < 270,
@@ -781,7 +781,7 @@ function updateRelationships() {
     });
   }
 
-  const tickRelationshipsOutlines = () => {
+  const tickRelationshipsOutlines = async () => {
     state.relationship.each( function (relationship) {
       let rel = d3.select(this),
           outline = rel.select('.outline'),
@@ -824,7 +824,7 @@ function updateRelationships() {
       });
     });
   }
-  const tickRelationshipsOverlays = () => {
+  const tickRelationshipsOverlays = async () => {
     state.relationshipOverlay.attr('d', function(d) {
       let center = { x: 0, y: 0 },
           angle = rotation(d.source, d.target),
@@ -880,7 +880,7 @@ function updateRelationships() {
   async function forceLink2(){
 
     // js
-    // 設定一个顏色比例尺
+    // 設定一個顏色比例尺
     // let colorScale = d3.scaleOrdinal()
     //     .domain(d3.range(nodesData.value.length))
     //     .range(d3.schemeCategory10)

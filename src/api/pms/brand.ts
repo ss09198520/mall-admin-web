@@ -1,7 +1,7 @@
 import request from '@/utils/request'
 
 /**
- * 获取品牌分页列表
+ * 取得品牌分頁列表
  *
  * @param queryParams
  */
@@ -14,7 +14,7 @@ export function listBrandsWithPage(queryParams: object) {
 }
 
 /**
- * 获取品牌列表
+ * 取得品牌列表
  *
  * @param queryParams
  */
@@ -27,7 +27,7 @@ export function listBrands(queryParams: object) {
 }
 
 /**
- * 获取品牌详情
+ * 取得品牌詳情
  *
  * @param id
  */

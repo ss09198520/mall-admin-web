@@ -22,15 +22,15 @@
           </el-select>
         </el-form-item>
 
-        <el-form-item label="商品名称" prop="name">
+        <el-form-item label="商品名稱" prop="name">
           <el-input style="width: 400px" v-model="modelValue.name"/>
         </el-form-item>
 
-        <el-form-item label="原价" prop="originPrice">
+        <el-form-item label="原價" prop="originPrice">
           <el-input style="width: 400px" v-model="modelValue.originPrice"/>
         </el-form-item>
 
-        <el-form-item label="现价" prop="price">
+        <el-form-item label="現價" prop="price">
           <el-input style="width: 400px" v-model="modelValue.price"/>
         </el-form-item>
 
@@ -44,9 +44,9 @@
             <single-upload v-model="item.url"/>
 
             <div class="bottom" v-if="item.url">
-              <el-button type="text" class="button" v-if="item.main==true" style="color:#ff4d51">商品主图</el-button>
-              <el-button type="text" class="button" v-else @click="changeMainPicture(index)">设为主图</el-button>
-              <el-button type="text" class="button" @click="removePicture(index)">删除图片</el-button>
+              <el-button type="text" class="button" v-if="item.main==true" style="color:#ff4d51">商品主圖</el-button>
+              <el-button type="text" class="button" v-else @click="changeMainPicture(index)">設為主圖</el-button>
+              <el-button type="text" class="button" @click="removePicture(index)">删除圖片</el-button>
             </div>
 
             <div class="bottom" v-else>
@@ -56,15 +56,15 @@
           </el-card>
         </el-form-item>
 
-        <el-form-item label="商品详情" prop="detail">
+        <el-form-item label="商品詳情" prop="detail">
           <editor v-model="modelValue.detail" style="height: 600px"/>
         </el-form-item>
 
       </el-form>
     </div>
     <div class="component-container__footer">
-      <el-button @click="handlePrev">上一步，选择商品分类</el-button>
-      <el-button type="primary" @click="handleNext">下一步，设置商品属性</el-button>
+      <el-button @click="handlePrev">上一步，選擇商品分類</el-button>
+      <el-button type="primary" @click="handleNext">下一步，設置商品属性</el-button>
     </div>
   </div>
 </template>
@@ -87,13 +87,13 @@ const props = defineProps({
 
 const state = reactive({
   brandOptions: [] as Array<any>,
-  // 商品图册
+  // 商品圖册
   pictures: [] as Array<any>,
   rules: {
-    name: [{required: true, message: '请填写商品名称', trigger: 'blur'}],
-    originPrice: [{required: true, message: '请填写原价', trigger: 'blur'}],
-    price: [{required: true, message: '请填写现价', trigger: 'blur'}],
-    brandId: [{required: true, message: '请选择商品品牌', trigger: 'blur'}],
+    name: [{required: true, message: '請填寫商品名稱', trigger: 'blur'}],
+    originPrice: [{required: true, message: '請填寫原價', trigger: 'blur'}],
+    price: [{required: true, message: '請填寫現價', trigger: 'blur'}],
+    brandId: [{required: true, message: '請選擇商品品牌', trigger: 'blur'}],
   }
 })
 
@@ -129,7 +129,7 @@ function resetForm() {
 }
 
 /**
- * 切换主图
+ * 切換主圖
  */
 function changeMainPicture(changeIndex: number) {
   const currMainPicture = JSON.parse(JSON.stringify(state.pictures[0]))
@@ -151,7 +151,7 @@ function handleNext() {
   const form = unref(dataForm)
   form.validate((valid: any) => {
     if (valid) {
-      // 商品图片
+      // 商品圖片
       const mainPicUrl = state.pictures.filter(item => item.main == true && item.url).map(item => item.url)
       if (mainPicUrl && mainPicUrl.length > 0) {
         props.modelValue.picUrl = mainPicUrl[0]

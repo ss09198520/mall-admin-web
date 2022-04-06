@@ -67,7 +67,7 @@ export function uppercaseFirst(string:string) {
 
 
 /**
- * 金额转换（分->元）
+ * 金額轉換（分->元）
  * 100 => 1
  * @param {number} num
  */

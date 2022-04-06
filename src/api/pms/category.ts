@@ -1,7 +1,7 @@
 import request from "@/utils/request";
 
 /**
- * 获取商品分类列表
+ * 取得商品分類列表
  *
  * @param queryParams
  */
@@ -14,7 +14,7 @@ export function listCategories(queryParams:object){
 }
 
 /**
- * 获取商品分类级联器树形列表
+ * 取得商品分類級聯器樹形列表
  *
  * @param queryParams
  */
@@ -27,7 +27,7 @@ export function listCascadeCategories(queryParams:object) {
 }
 
 /**
- * 获取商品分类详情
+ * 取得商品分類詳情
  *
  * @param id
  */
@@ -39,7 +39,7 @@ export function getCategoryDetail(id:number){
 }
 
 /**
- * 添加商品分类
+ * 添加商品分類
  *
  * @param data
  */
@@ -52,7 +52,7 @@ export function addCategory(data:object){
 }
 
 /**
- * 修改商品分类
+ * 修改商品分類
  *
  * @param id
  * @param data
@@ -66,7 +66,7 @@ export function updateCategory(id:number, data:object) {
 }
 
 /**
- * 删除商品分类
+ * 删除商品分類
  *
  * @param ids
  */
@@ -78,7 +78,7 @@ export function deleteCategories(ids:string) {
 }
 
 /**
- * 选择性修改商品分类
+ * 選擇性修改商品分類
  *
  * @param id
  * @param data

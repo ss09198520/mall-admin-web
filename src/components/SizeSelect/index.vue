@@ -30,7 +30,7 @@ import SvgIcon from '@/components/SvgIcon/index.vue'
 const size = computed(() => useAppStoreHook().size)
 
 const sizeOptions = ref([
-  {label: '默认', value: 'default'},
+  {label: '默認', value: 'default'},
   {label: '大型', value: 'large'},
   {label: '小型', value: 'small'}
 ])
@@ -38,7 +38,7 @@ const sizeOptions = ref([
 function handleSetSize(size: string) {
   useAppStoreHook().setSize(size)
   window.location.reload()
-  ElMessage.success('切换布局大小成功')
+  ElMessage.success('切換布局大小成功')
 }
 
 </script>

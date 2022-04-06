@@ -1,7 +1,7 @@
 import request from '@/utils/request'
 
 /**
- * 获取会员分页列表
+ * 取得會員分頁列表
  *
  * @param queryParams
  */
@@ -14,7 +14,7 @@ export function listMembersWithPage(queryParams:object) {
 }
 
 /**
- * 获取会员详情
+ * 取得會員詳情
  *
  * @param id
  */
@@ -26,7 +26,7 @@ export function getMemberDetail(id:number) {
 }
 
 /**
- * 添加会员
+ * 添加會員
  *
  * @param data
  */
@@ -39,7 +39,7 @@ export function addMember(data:object) {
 }
 
 /**
- * 添加会员
+ * 添加會員
  *
  * @param id
  * @param data

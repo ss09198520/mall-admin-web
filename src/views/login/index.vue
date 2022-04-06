@@ -56,7 +56,7 @@
         </el-form-item>
       </el-tooltip>
 
-      <!-- 验证码 -->
+      <!-- 驗证碼 -->
       <el-form-item prop="code">
          <span class="svg-container">
             <svg-icon icon-class="validCode"/>
@@ -93,17 +93,17 @@
 <script setup lang="ts">
 import {onMounted, reactive, ref, toRefs, watch, nextTick} from "vue";
 
-// 组件依赖
+// 组件依賴
 import {ElForm, ElInput} from "element-plus";
 import router from '@/router'
 import LangSelect from '@/components/LangSelect/index.vue';
 import SvgIcon from '@/components/SvgIcon/index.vue';
 
-// 状态管理依赖
+// 狀態管理依賴
 import {useUserStoreHook} from "@/store/modules/user";
 import {useAppStoreHook} from "@/store/modules/app";
 
-// API依赖
+// API依賴
 import {getCaptcha} from "@/api/login";
 import {useRoute} from "vue-router";
 
@@ -127,7 +127,7 @@ const state = reactive({
   passwordType: 'password',
   redirect: '',
   captchaBase64: '',
-  // 大写提示禁用
+  // 大寫提示禁用
   capslockTooltipDisabled: true,
   otherQuery: {},
   clientHeight: document.documentElement.clientHeight,
@@ -186,7 +186,7 @@ function handleLogin() {
   })
 }
 
-// 获取验证码
+// 取得驗证碼
 function handleCaptchaGenerate() {
   getCaptcha().then(response => {
     const {img, uuid} = response.data
@@ -230,7 +230,7 @@ onMounted(() => {
 </script>
 
 <style lang="scss">
-/* 修复input 背景不协调 和光标变色 */
+/* 修复input 背景不协调 和光標變色 */
 /* Detail see https://github.com/PanJiaChen/vue-element-admin/pull/927 */
 
 $bg: #283443;

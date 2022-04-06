@@ -5,7 +5,7 @@
         <el-card class="box-card" shadow="always">
           <template #header>
             <svg-icon icon-class="menu"/>
-            商品分类
+            商品分類
           </template>
           <category ref="categoryRef" @categoryClick="handleCategoryClick"/>
         </el-card>
@@ -15,9 +15,9 @@
         <el-card class="box-card" shadow="always">
           <template #header>
             <svg-icon icon-class="menu"/>
-            {{category.name}} 规格属性
+            {{category.name}} 規格属性
           </template>
-          <!-- 商品规格 -->
+          <!-- 商品規格 -->
           <attribute ref="specificationRef" :attributeType="1" :category="category"/>
           <!-- 商品属性 -->
           <attribute ref="attributeRef" :attributeType="2" :category="category"/>

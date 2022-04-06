@@ -10,7 +10,7 @@ const service = axios.create({
     headers: {'Content-Type': 'application/json;charset=utf-8'}
 })
 
-// 请求拦截器
+// 請求前攔截
 service.interceptors.request.use(
     (config) => {
         if (!config?.headers) {
@@ -25,16 +25,16 @@ service.interceptors.request.use(
     }
 )
 
-// 响应拦截器
+// 回應後攔截
 service.interceptors.response.use(
     ({data}) => {
-        // 对响应数据做点什么
+        // parse response
         const {code, msg} = data;
         if (code === '00000') {
             return data;
         } else {
             ElMessage({
-                message: msg || '系统出错',
+                message: msg || '系统發生異常',
                 type: 'error'
             })
             return Promise.reject(new Error(msg || 'Error'))
@@ -42,17 +42,17 @@ service.interceptors.response.use(
     },
     (error) => {
         const {code, msg} = error.response.data
-        if (code === 'A0230') {  // token 过期
-            localStorage.clear(); // 清除浏览器全部缓存
-            window.location.href = '/'; // 跳转登录页
-            ElMessageBox.alert('当前页面已失效，请重新登录', '提示', {})
+        if (code === 'A0230') {  // token 過期
+            localStorage.clear(); // 清除瀏覽器儲存空間
+            window.location.href = '/'; // 返回登入夜
+            ElMessageBox.alert('當前頁面已失效，請重新登入', '提示', {})
                 .then(() => {
                 })
                 .catch(() => {
                 });
         } else {
             ElMessage({
-                message: msg || '系统出错',
+                message: msg || '系统發生異常',
                 type: 'error'
             })
         }
@@ -60,5 +60,5 @@ service.interceptors.response.use(
     }
 );
 
-// 导出 axios 实例
+// 導出 axios instance
 export default service

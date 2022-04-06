@@ -3,7 +3,7 @@
     <div class="component-container__main">
       <el-card class="box-card">
         <template #header>
-          <span>商品规格</span>
+          <span>商品規格</span>
           <el-button
               :icon="Plus"
               type="success"
@@ -11,7 +11,7 @@
               size="small"
               style="float: right;"
           >
-            添加规格项
+            添加規格項
           </el-button>
         </template>
 
@@ -32,7 +32,7 @@
                 <svg-icon class="drag-handler" icon-class="drag"/>
               </template>
             </el-table-column>
-            <el-table-column label="规格名" width="200">
+            <el-table-column label="規格名" width="200">
               <template #default="scope">
                 <el-form-item
                     :prop="'specList[' + scope.$index + '].name'"
@@ -49,8 +49,8 @@
             </el-table-column>
             <el-table-column>
               <template #header>
-                规格值
-                <el-link type="danger" style="font-size:12px" :underline="false">（默认第一条规格包含图片）</el-link>
+                規格值
+                <el-link type="danger" style="font-size:12px" :underline="false">（默認第一條規格包含圖片）</el-link>
               </template>
 
               <template #default="scope">
@@ -87,7 +87,7 @@
                     style="vertical-align: top"
                     size="small"
                 >
-                  添加规格值
+                  添加規格值
                 </el-button>
               </template>
             </el-table-column>
@@ -109,7 +109,7 @@
 
       <el-card class="box-card">
         <template #header>
-          <span>商品库存</span>
+          <span>商品庫存</span>
         </template>
         <el-form
             ref="skuFormRef"
@@ -133,7 +133,7 @@
             </el-table-column>
 
             <el-table-column
-                label="商品编码"
+                label="商品编碼"
                 align="center"
             >
               <template #default="scope">
@@ -143,7 +143,7 @@
               </template>
             </el-table-column>
 
-            <el-table-column label="价格" align="center">
+            <el-table-column label="價格" align="center">
               <template #default="scope">
                 <el-form-item :prop="'skuList['+scope.$index+'].price'" :rules="rules.sku.price">
                   <el-input v-model="scope.row.price"/>
@@ -151,7 +151,7 @@
               </template>
             </el-table-column>
 
-            <el-table-column label="库存" align="center">
+            <el-table-column label="庫存" align="center">
               <template #default="scope">
                 <el-form-item :prop="'skuList['+scope.$index+'].stock'" :rules="rules.sku.stock">
                   <el-input v-model="scope.row.stock"/>
@@ -165,7 +165,7 @@
       </el-card>
     </div>
     <div class="component-container__footer">
-      <el-button @click="handlePrev">上一步，设置商品属性</el-button>
+      <el-button @click="handlePrev">上一步，設置商品属性</el-button>
       <el-button type="primary" @click="submitForm">提交</el-button>
     </div>
 
@@ -209,34 +209,34 @@ const state = reactive({
   skuForm: {
     skuList: []
   },
-  // 规格项表格标题
+  // 規格項表格標題
   specTitles: [],
   rules: {
     spec: {
-      name: [{required: true, message: '请输入规格名称', trigger: 'blur'}],
-      value: [{required: true, message: '请输入规格值', trigger: 'blur'}]
+      name: [{required: true, message: '請輸入規格名稱', trigger: 'blur'}],
+      value: [{required: true, message: '請輸入規格值', trigger: 'blur'}]
     },
     sku: {
-      sn: [{required: true, message: '请输入商品编号', trigger: 'blur'}],
-      price: [{required: true, message: '请输入商品价格', trigger: 'blur'}],
-      stock: [{required: true, message: '请输入商品库存', trigger: 'blur'}],
+      sn: [{required: true, message: '請輸入商品编號', trigger: 'blur'}],
+      price: [{required: true, message: '請輸入商品價格', trigger: 'blur'}],
+      stock: [{required: true, message: '請輸入商品庫存', trigger: 'blur'}],
     }
   },
   colors: ['', 'success', 'warning', 'danger'],
-  tagInputs: [{value: undefined, visible: false}], // 规格值标签临时值和显隐控制
+  tagInputs: [{value: undefined, visible: false}], // 規格值標签臨時值和顯隐控制
   loading: undefined
 })
 
 const {specForm, skuForm, specTitles, rules, colors, tagInputs, loading} = toRefs(state)
 
 watch(categoryId, (newVal, oldVal) => {
-      // 商品编辑不加载分类下的规格
+      // 商品编辑不加載分類下的規格
       const spuId = props.modelValue.id
       if (spuId) {
         return false;
       }
       if (newVal) {
-        // type=1 商品分类下的规格
+        // type=1 商品分類下的規格
         listAttributes({categoryId: newVal, type: 1}).then(response => {
           const specList = response.data
           if (specList && specList.length > 0) {
@@ -275,12 +275,12 @@ function loadData() {
     }
   })
 
-  // 每个规格项追加一个添加规格值按钮
+  // 每個規格項追加一個添加規格值按鈕
   for (let i = 0; i < state.specForm.specList.length; i++) {
     state.tagInputs.push({'value': undefined, 'visible': false})
   }
 
-  // SKU规格ID拼接字符串处理
+  // SKU規格ID拼接字符串处理
   props.modelValue.skuList.forEach((sku) => {
     sku.specIdArr = sku.specIds.split('_')
   })
@@ -305,7 +305,7 @@ function handleSpecChange() {
 }
 
 /**
- * 规格列表重排序
+ * 規格列表重排序
  */
 function handleSpecReorder() {
   state.specForm.specList.forEach((item, index) => {
@@ -325,7 +325,7 @@ function handleSpecReorder() {
     },
     onEnd: (evt: any) => {
       // oldIndex 拖拽行当前所在索引
-      // newIndex 拖拽行目标索引
+      // newIndex 拖拽行目標索引
       const targetRow = state.specForm.specList.splice(evt.oldIndex, 1)[0] //  返回被删除的行
       state.specForm.specList.splice(evt.newIndex, 0, targetRow) // 拼接
       generateSkuList() // 重新生成sku
@@ -336,17 +336,17 @@ function handleSpecReorder() {
 }*/
 
 /**
- *  根据商品规格笛卡尔积生成SKU列表
+ *  根據商品規格笛卡尔积生成SKU列表
  *
- * 规格列表：
+ * 規格列表：
  * [
  *    { 'id':1,'name':'颜色','values':[{id:1,value:'白色'},{id:2,value:'黑色'},{id:3,value:'蓝色'}] },
  *    { 'id':2,'name':'版本','values':[{id:1,value:'6+128G'},{id:2,value:'8+128G'},{id:3,value:'8G+256G'}] }
  * ]
  */
 function generateSkuList() {
-  const specList = JSON.parse(JSON.stringify(state.specForm.specList.filter(item => item.values.length > 0))) // 深拷贝，取有属性的规格项，否则笛卡尔积运算得到的SKU列表值为空
-  // 如果规格为空，生成SKU列表为空
+  const specList = JSON.parse(JSON.stringify(state.specForm.specList.filter(item => item.values.length > 0))) // 深拷贝，取有属性的規格項，否则笛卡尔积运算得到的SKU列表值為空
+  // 如果規格為空，生成SKU列表為空
   if (specList.length === 0) {
     state.skuForm.skuList = []
     return
@@ -357,8 +357,8 @@ function generateSkuList() {
       // curr => { 'id':1,'name':'颜色','values':[{id:1,value:'白色'},{id:2,value:'黑色'},{id:3,value:'蓝色'}] }
       curr.values.forEach((v) => {  // v=>{id:1,value:'白色'}
         let temp = Object.assign({}, item)
-        temp.specValues += v.value + '_' // 规格值拼接
-        temp.specIds += v.id + '|' // 规格ID拼接
+        temp.specValues += v.value + '_' // 規格值拼接
+        temp.specIds += v.id + '|' // 規格ID拼接
         result.push(temp)
       })
     })
@@ -373,7 +373,7 @@ function generateSkuList() {
         sku.specIdArr.length === specIdArr.length &&
         sku.specIdArr.every((a) => specIdArr.some((b) => a === b)) &&
         specIdArr.every((x) => sku.specIdArr.some((y) => x === y))
-    ) // 数据库的SKU列表
+    ) // 數據庫的SKU列表
 
     if (skus && skus.length > 0) {
       const sku = skus[0]
@@ -382,7 +382,7 @@ function generateSkuList() {
       item.price = sku.price / 100
       item.stock = sku.stock
     }
-    const specValueArr = item.specValues.substring(0, item.specValues.length - 1).split('_')  // ['黑','6+128G','官方标配']
+    const specValueArr = item.specValues.substring(0, item.specValues.length - 1).split('_')  // ['黑','6+128G','官方標配']
     specValueArr.forEach((v, i) => {
       const key = 'specValue' + (i + 1)
       item[key] = v
@@ -398,11 +398,11 @@ function generateSkuList() {
 }
 
 /**
- * 添加规格
+ * 添加規格
  */
 function handleSpecAdd() {
   if (state.specForm.specList.length >= 3) {
-    ElMessage.warning('最多支持3组规格')
+    ElMessage.warning('最多支持3组規格')
     return
   }
   state.specForm.specList.push({})
@@ -411,7 +411,7 @@ function handleSpecAdd() {
 }
 
 /**
- * 删除规格
+ * 删除規格
  * @param index
  */
 function handleSpecRemove(index) {
@@ -423,7 +423,7 @@ function handleSpecRemove(index) {
 }
 
 /**
- * 添加规格值
+ * 添加規格值
  *
  * @param specIndex
  */
@@ -432,7 +432,7 @@ function handleSpecValueAdd(specIndex) {
 }
 
 /**
- *  删除规格值
+ *  删除規格值
  *
  * @param rowIndex
  * @param specValueId
@@ -448,18 +448,18 @@ function handleSpecValueRemove(rowIndex, specValueId) {
 }
 
 /**
- * 规格值输入
+ * 規格值輸入
  */
 function handleSpecValueInput(rowIndex) {
   const currSpecValue = state.tagInputs[rowIndex].value
   const specValues = state.specForm.specList[rowIndex].values
   if (specValues && specValues.length > 0 && specValues.map((item) => item.value).includes(currSpecValue)) {
-    ElMessage.warning("规格值重复，请重新输入")
+    ElMessage.warning("規格值重复，請重新輸入")
     return false
   }
   if (currSpecValue) {
     if (specValues && specValues.length > 0) {
-      // 临时规格值ID tid_1_1
+      // 臨時規格值ID tid_1_1
       let maxSpecValueIndex = specValues.filter((item) => item.id.includes('tid_')).map((item) => item.id.split('_')[2]).reduce((acc, curr) => {
         return acc > curr ? acc : curr
       }, 0)
@@ -479,9 +479,9 @@ function handleSpecValueInput(rowIndex) {
 
 
 /**
- * 合并规格单元格
+ * 合並規格單元格
  *
- * @param cellObj 单元格对象
+ * @param cellObj 單元格對象
  */
 
 const objectSpanMethod = ({
@@ -491,40 +491,40 @@ const objectSpanMethod = ({
                             columnIndex,
                           }) => {
 
-  let mergeRows = [1, 1, 1] // 分别对应规格1、规格2、规格3列合并的行数
+  let mergeRows = [1, 1, 1] // 分别對應規格1、規格2、規格3列合並的行數
   const specLen = state.specForm.specList.filter(item => item.values && item.values.length > 0).length
   if (specLen == 2) {
-    const values_len_2 = state.specForm.specList[1].values ? state.specForm.specList[1].values.length : 1 // 第2个规格项的规格值的数量
+    const values_len_2 = state.specForm.specList[1].values ? state.specForm.specList[1].values.length : 1 // 第2個規格項的規格值的數量
     mergeRows = [values_len_2, 1, 1]
   } else if (specLen == 3) {
-    const values_len_2 = state.specForm.specList[1].values ? state.specForm.specList[1].values.length : 1 // 第2个规格项的规格值的数量
-    const values_len_3 = state.specForm.specList[2].values ? state.specForm.specList[2].values.length : 1 // 第3个规格项的规格值的数量
+    const values_len_2 = state.specForm.specList[1].values ? state.specForm.specList[1].values.length : 1 // 第2個規格項的規格值的數量
+    const values_len_3 = state.specForm.specList[2].values ? state.specForm.specList[2].values.length : 1 // 第3個規格項的規格值的數量
     mergeRows = [values_len_2 * values_len_3, values_len_3, 1]
   }
   if (columnIndex == 0) {
     if (rowIndex % mergeRows[0] === 0) {
-      return [mergeRows[0], 1]// 合并单元格
+      return [mergeRows[0], 1]// 合並單元格
     } else {
-      return [0, 0] // 隐藏单元格
+      return [0, 0] // 隐藏單元格
     }
   }
   if (columnIndex == 1) {
     if (rowIndex % mergeRows[1] === 0) {
-      return [mergeRows[1], 1]// 合并单元格
+      return [mergeRows[1], 1]// 合並單元格
     } else {
-      return [0, 0]  // 隐藏单元格
+      return [0, 0]  // 隐藏單元格
     }
   }
 }
 
 
 /**
- * 商品表单提交
+ * 商品表單提交
  */
 function submitForm() {
-  // 判断商品SKU列表是否为空
+  // 判断商品SKU列表是否為空
   if (!state.skuForm.skuList || state.skuForm.skuList.length === 0) {
-    ElMessage.warning("未添加商品库存")
+    ElMessage.warning("未添加商品庫存")
     return false;
   }
 
@@ -536,7 +536,7 @@ function submitForm() {
         if (skuValid) {
           // openFullScreen()
 
-          // 重组商品的规格和SKU列表
+          // 重组商品的規格和SKU列表
           let submitsData = Object.assign({}, props.modelValue)
           delete submitsData.specList
           delete submitsData.skuList
@@ -548,9 +548,9 @@ function submitForm() {
             })
             specList = specList.concat(item.values)
           })
-          submitsData.specList = specList  // 规格列表
+          submitsData.specList = specList  // 規格列表
 
-          submitsData.price *= 100  // 金额转成分保存至数据库
+          submitsData.price *= 100  // 金額轉成分保存至數據庫
           submitsData.originPrice *= 100
 
           let skuList = JSON.parse(JSON.stringify(state.skuForm.skuList))
@@ -559,7 +559,7 @@ function submitForm() {
             return item
           })
           submitsData.skuList = skuList
-          console.log('提交数据', submitsData)
+          console.log('提交數據', submitsData)
           const goodsId = props.modelValue.id
           if (goodsId) { // 编辑商品提交
             updateGoods(goodsId, submitsData).then((res) => {
@@ -596,7 +596,7 @@ function submitForm() {
 function openFullScreen() {
   state.loading = proxy.$loading({
     lock: true,
-    text: '商品信息提交中，请等待...',
+    text: '商品信息提交中，請等待...',
     spinner: 'el-icon-loading',
     background: 'rgba(0, 0, 0, 0.7)'
   });

@@ -35,7 +35,7 @@ function handleSetLanguage(lang: string) {
   if (lang == 'en') {
     ElMessage.success('Switch Language Successful!')
   } else {
-    ElMessage.success('切换语言成功！')
+    ElMessage.success('切換語言成功！')
   }
 }
 

@@ -2,19 +2,19 @@ import {useUserStoreHook} from "@/store/modules/user";
 import {Directive, DirectiveBinding} from "vue";
 
 /**
- * 按钮权限校验
+ * 按鈕權限校驗
  */
 export const hasPerm: Directive = {
     mounted(el: HTMLElement, binding: DirectiveBinding) {
-        // 「超级管理员」拥有所有的按钮权限
+        // 「超級管理員」拥有所有的按鈕權限
         const roles = useUserStoreHook().roles;
         if (roles.includes('ROOT')) {
             return true
         }
-        // 「其他角色」按钮权限校验
+        // 「其他角色」按鈕權限校驗
         const {value} = binding;
         if (value) {
-            const requiredPerms = value; // DOM绑定需要的按钮权限标识
+            const requiredPerms = value; // DOM绑定需要的按鈕權限標示
 
             const hasPerm = useUserStoreHook().perms.some(perm => {
                 return requiredPerms.includes(perm)
@@ -30,13 +30,13 @@ export const hasPerm: Directive = {
 };
 
 /**
- * 角色权限校验
+ * 角色權限校驗
  */
 export const hasRole: Directive = {
     mounted(el: HTMLElement, binding: DirectiveBinding) {
         const {value} = binding;
         if (value) {
-            const requiredRoles = value; // DOM绑定需要的角色编码
+            const requiredRoles = value; // DOM绑定需要的角色编碼
 
             const hasRole = useUserStoreHook().roles.some(perm => {
                 return requiredRoles.includes(perm)

@@ -1,13 +1,13 @@
 <template>
   <div class="app-container">
-    <!-- 搜索表单 -->
+    <!-- 搜索表單 -->
     <el-form
         ref="queryForm"
         :model="queryParams"
         :inline="true"
     >
       <el-form-item prop="orderSn">
-        <el-input v-model="queryParams.orderSn" placeholder="订单号"/>
+        <el-input v-model="queryParams.orderSn" placeholder="訂單號"/>
       </el-form-item>
 
       <el-form-item>
@@ -17,7 +17,7 @@
             value-format="yyyy-MM-dd"
             type="daterange"
             range-separator="-"
-            start-placeholder="开始日期"
+            start-placeholder="開始日期"
             end-placeholder="结束日期"
         />
       </el-form-item>
@@ -26,7 +26,7 @@
         <el-select
             v-model="queryParams.status"
             class="filter-item"
-            placeholder="订单状态"
+            placeholder="訂單狀態"
         >
           <el-option
               v-for="(key, value) in orderStatusMap"
@@ -47,53 +47,53 @@
         :data="pageList"
         border
     >
-      <el-table-column type="expand" width="100" label="订单商品">
+      <el-table-column type="expand" width="100" label="訂單商品">
         <template #default="scope">
           <el-table
               :data="scope.row.orderItems"
               border
           >
-            <el-table-column label="序号" type="index" width="100"/>
-            <el-table-column label="商品编号" align="center" prop="skuSn"/>
-            <el-table-column label="商品规格" align="center" prop="skuName"/>
-            <el-table-column label="图片" prop="picUrl">
+            <el-table-column label="序號" type="index" width="100"/>
+            <el-table-column label="商品编號" align="center" prop="skuSn"/>
+            <el-table-column label="商品規格" align="center" prop="skuName"/>
+            <el-table-column label="圖片" prop="picUrl">
               <template slot-scope="scope">
                 <img :src="scope.row.picUrl" width="40">
               </template>
             </el-table-column>
-            <el-table-column align="center" label="单价" prop="price">
+            <el-table-column align="center" label="單價" prop="price">
               <template slot-scope="scope">{{ scope.row.price}}</template>
             </el-table-column>
-            <el-table-column align="center" label="数量" prop="count">
+            <el-table-column align="center" label="數量" prop="count">
               <template slot-scope="scope">{{ scope.row.count }}</template>
             </el-table-column>
           </el-table>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" prop="orderSn" label="订单编号"/>
+      <el-table-column align="center" prop="orderSn" label="訂單编號"/>
 
-      <el-table-column align="center" prop="memberId" label="会员ID"/>
+      <el-table-column align="center" prop="memberId" label="會員ID"/>
 
-      <el-table-column align="center" label="订单来源">
+      <el-table-column align="center" label="訂單来源">
         <template #default="scope">
           <el-tag>{{ scope.row.sourceType }}</el-tag>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="订单状态">
+      <el-table-column align="center" label="訂單狀態">
         <template #default="scope">
           <el-tag>{{ scope.row.status }}</el-tag>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" prop="orderPrice" label="订单金额">
+      <el-table-column align="center" prop="orderPrice" label="訂單金額">
         <template #default="scope">
           {{ scope.row.totalAmount }}
         </template>
       </el-table-column>
 
-      <el-table-column align="center" prop="payPrice" label="支付金额">
+      <el-table-column align="center" prop="payPrice" label="支付金額">
         <template #default="scope">
           {{ scope.row.payAmount  }}
         </template>
@@ -105,7 +105,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column align="center" prop="gmtCreate" label="创建时间"/>
+      <el-table-column align="center" prop="gmtCreate" label="创建時間"/>
 
       <el-table-column align="center" label="操作">
         <template #default="scope">
@@ -114,7 +114,7 @@
       </el-table-column>
     </el-table>
 
-    <!-- 分页工具条 -->
+    <!-- 分頁工具條 -->
     <pagination
         v-show="total>0"
         :total="total"
@@ -132,7 +132,7 @@ import {onMounted, reactive, ref, toRefs} from "vue"
 import {ElForm, ElMessage, ElMessageBox} from "element-plus"
 import {Search, Plus, Edit, Refresh, Delete} from '@element-plus/icons-vue'
 
-const dataForm = ref(ElForm)  // 属性名必须和元素的ref属性值一致
+const dataForm = ref(ElForm)  // 属性名必須和元素的ref属性值一致
 
 const orderSourceMap = {
   1: '微信小程序',
@@ -142,14 +142,14 @@ const orderSourceMap = {
 
 const orderStatusMap = {
   101: '待付款',
-  102: '用户取消',
+  102: '用戶取消',
   103: '系统取消',
   201: '已付款',
-  202: '申请退款',
+  202: '申請退款',
   203: '已退款',
-  301: '待发货',
-  401: '已发货',
-  501: '用户收货',
+  301: '待發货',
+  401: '已發货',
+  501: '用戶收货',
   502: '系统收货',
   901: '已完成'
 }
@@ -157,7 +157,7 @@ const orderStatusMap = {
 const payTypeMap = {
   1: '支付宝',
   2: '微信',
-  3: '会员余额'
+  3: '會員余額'
 }
 
 
@@ -176,7 +176,7 @@ const state = reactive({
   pageList: [],
   total: 0,
   dialog: {
-    title: '订单详情',
+    title: '訂單詳情',
     visible: false
   },
   dialogVisible: false,

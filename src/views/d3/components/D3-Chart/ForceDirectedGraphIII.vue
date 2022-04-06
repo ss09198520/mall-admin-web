@@ -1,4 +1,4 @@
-<!-- 漏斗图 -->
+<!-- 漏斗圖 -->
 <template>
   <div
       :id="id"
@@ -57,12 +57,12 @@ const props = defineProps({
     deactivated
   } = resize()
 
-  // ref声明响应式数据，用于声明基本数据类型
+  // ref聲明响應式數據，用于聲明基本數據類型
   // const name = ref('Jerry')
   // // 修改
   // name.value = 'Tom'
   //
-  // // reactive声明响应式数据，用于声明引用数据类型
+  // // reactive聲明响應式數據，用于聲明引用數據類型
   // const state2 = reactive({
   //   name2: 'Jerry',
   //   sex: '男'

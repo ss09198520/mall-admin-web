@@ -16,11 +16,11 @@
         <el-card class="box-card">
           <template #header>
             <svg-icon color="#333" icon-class="dict"/>
-            <span style="margin:0 5px;">字典数据项</span>
+            <span style="margin:0 5px;">字典數據項</span>
             <el-tag type="success" v-if=" state.dictCode" size="small">{{ state.dictName }}</el-tag>
-            <el-tag type="warning" v-else size="small">未选择字典</el-tag>
+            <el-tag type="warning" v-else size="small">未選擇字典</el-tag>
           </template>
-          <!-- 字典项组件 -->
+          <!-- 字典項组件 -->
           <dict-item :dictName="state.dictName" :dictCode='state.dictCode'/>
         </el-card>
       </el-col>
@@ -37,7 +37,7 @@ import {reactive,toRefs} from 'vue'
 
 const state = reactive({
   dictCode: '',
-  dictName: ''  // 字典名称，用于字典项组件回显
+  dictName: ''  // 字典名稱，用于字典項组件回顯
 })
 
 const {dictCode,dictName} =toRefs(state)

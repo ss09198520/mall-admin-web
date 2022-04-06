@@ -1,6 +1,6 @@
 <template>
   <div class="component-container">
-    <!-- 上传组件 -->
+    <!-- 上傳组件 -->
     <el-upload
         ref="uploadRef"
         action=""
@@ -18,7 +18,7 @@
         <Plus/>
       </el-icon>
 
-      <!-- 删除图标 -->
+      <!-- 删除圖標 -->
       <el-icon
           v-if="imgUrl"
           class="single-uploader-remove-icon"
@@ -52,14 +52,14 @@ const imgUrl = computed<string | null>({
     return props.modelValue
   },
   set(val) {
-    // imgUrl改变时触发修改父组件绑定的v-model的值
+    // imgUrl改變時觸發修改父组件绑定的v-model的值
     emit('update:modelValue', val)
   }
 })
 
 
 /**
- * 自定义图片上传
+ * 自定義圖片上傳
  *
  * @param params
  */
@@ -70,7 +70,7 @@ function uploadImage({file}: any) {
 }
 
 /**
- * 后选择文件覆盖前面的文件
+ * 后選擇文件覆盖前面的文件
  *
  * Set limit and on-exceed to automatically replace the previous file when select a new file.
  *
@@ -85,14 +85,14 @@ function handleExceed(files: UploadFile[]) {
 }
 
 /**
- * 删除图片
+ * 删除圖片
  *
  * @param file
  */
 function handleRemove(file: string | null) {
   if (file) {
     deleteFile(file)
-    imgUrl.value = null // 这里会触发imgUrl的computed的set方法
+    imgUrl.value = null // 这里会觸發imgUrl的computed的set方法
   }
 }
 
@@ -100,12 +100,12 @@ function handleBeforeUpload(file: any) {
   const isJPG = file.type === 'image/jpeg'
   const isLt2M = file.size / 1024 / 1024 < 2
   /* if (!isJPG) {
-     ElMessage.warning("此文件非图片文件")
+     ElMessage.warning("此文件非圖片文件")
      return false
    }*/
 
   if (!isLt2M) {
-    ElMessage.warning("上传图片不能大于2M")
+    ElMessage.warning("上傳圖片不能大于2M")
   }
   return true
 }

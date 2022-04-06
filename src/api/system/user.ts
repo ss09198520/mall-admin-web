@@ -1,7 +1,7 @@
 import request from "@/utils/request";
 
 /**
- * 获取用户分页列表
+ * 取得用戶分頁列表
  *
  * @param queryParams
  */
@@ -14,7 +14,7 @@ export function listUsersWithPage(queryParams: any) {
 }
 
 /**
- * 获取用户表单详情
+ * 取得用戶表單詳細資料
  *
  * @param userId
  */
@@ -26,7 +26,7 @@ export function getUserFormDetail(userId: any) {
 }
 
 /**
- * 添加用户
+ * 新增用戶
  *
  * @param data
  */
@@ -39,7 +39,7 @@ export function addUser(data: any) {
 }
 
 /**
- * 修改用户
+ * 修改用戶
  *
  * @param id
  * @param data
@@ -53,7 +53,7 @@ export function updateUser(id: number, data: any) {
 }
 
 /**
- * 选择性修改用户
+ * 修改用戶部分資訊
  *
  * @param id
  * @param data
@@ -68,7 +68,7 @@ export function updateUserPart(id: number, data: any) {
 
 
 /**
- * 删除用户
+ * 删除用戶
  * @param ids
  */
 export function deleteUsers(ids: number) {

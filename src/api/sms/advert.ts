@@ -1,7 +1,7 @@
 import request from '@/utils/request'
 
 /**
- * 获取广告分页列表
+ * 取得廣告分頁列表
  *
  * @param queryParams
  */
@@ -14,7 +14,7 @@ export function listAdvertsWithPage(queryParams: object) {
 }
 
 /**
- * 获取广告详情
+ * 取得廣告詳情
  *
  * @param id
  */
@@ -26,7 +26,7 @@ export function getAdvertDetail(id:number) {
 }
 
 /**
- * 添加广告
+ * 添加廣告
  *
  * @param data
  */
@@ -39,7 +39,7 @@ export function addAdvert(data: object) {
 }
 
 /**
- * 修改广告
+ * 修改廣告
  *
  * @param id
  * @param data
@@ -53,7 +53,7 @@ export function updateAdvert(id: number, data: object) {
 }
 
 /**
- * 删除广告
+ * 删除廣告
  *
  * @param ids
  */

@@ -1,7 +1,7 @@
 import request from '@/utils/request'
 
 /**
- * 获取权限分页列表
+ * 取得權限分頁列表
  *
  * @param queryParams
  */
@@ -14,7 +14,7 @@ export function listPermsWithPage(queryParams: object) {
 }
 
 /**
- * 获取权限列表
+ * 取得權限列表
  *
  * @param queryParams
  */
@@ -27,7 +27,7 @@ export function listPerms(queryParams: object) {
 }
 
 /**
- * 获取权限详情
+ * 取得權限詳細
  *
  * @param id
  */
@@ -39,7 +39,7 @@ export function getPermDetail(id: number) {
 }
 
 /**
- * 添加权限
+ * 添加權限
  *
  * @param data
  */
@@ -52,7 +52,7 @@ export function addPerm(data: object) {
 }
 
 /**
- * 更新权限
+ * 更新權限
  *
  * @param id
  * @param data
@@ -66,7 +66,7 @@ export function updatePerm(id: number, data: object) {
 }
 
 /**
- * 批量删除权限，多个以英文逗号(,)分割
+ * 批量删除權限，多個以英文逗號(,)分割
  *
  * @param ids
  */

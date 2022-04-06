@@ -34,18 +34,18 @@ import {ref, getCurrentInstance, nextTick, onMounted, computed, watch} from "vue
 const {proxy} = getCurrentInstance();
 
 const state = defineProps({
-  // 配置项
+  // 配置項
   props: {
     type: Object,
     default: () => {
       return {
         value: 'id', // ID字段名
-        label: 'label', // 显示名称
-        children: 'children' // 子级字段名
+        label: 'label', // 顯示名稱
+        children: 'children' // 子級字段名
       }
     }
   },
-  // 自动收起
+  // 自動收起
   accordion: {
     type: Boolean,
     default: () => {
@@ -57,7 +57,7 @@ const state = defineProps({
     type: [String, Number],
     default: ''
   },
-  // 数据源
+  // 數據源
   options: {
     type: Array,
     default: []
@@ -89,8 +89,8 @@ function initHandle() {
       const node = proxy.$refs.selectTree.getNode(selectedValue)
       if (node) {
         valueTitle.value = node.data[state.props.label]
-        proxy.$refs.selectTree.setCurrentKey(selectedValue) // 设置默认选中
-        defaultExpandedKey.value = [selectedValue] // 设置默认展开
+        proxy.$refs.selectTree.setCurrentKey(selectedValue) // 設置默認選中
+        defaultExpandedKey.value = [selectedValue] // 設置默認展開
       } else {
         clearHandle()
       }

@@ -11,9 +11,9 @@ import {useAppStoreHook} from "@/store/modules/app";
 import {ElConfigProvider} from 'element-plus'
 import {localStorage} from "@/utils/storage";
 
-//官方文档: https://element-plus.gitee.io/zh-CN/guide/i18n.html
+//官方文件: https://element-plus.gitee.io/zh-CN/guide/i18n.html
 
-// 导入 Element Plus 语言包
+// 導入 Element Plus 語言包
 import zhCn from 'element-plus/es/locale/lang/zh-cn'
 import en from 'element-plus/es/locale/lang/en'
 

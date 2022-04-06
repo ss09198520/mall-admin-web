@@ -1,6 +1,6 @@
 import {RouteRecordRaw,RouteLocationNormalized} from "vue-router";
 
-// 接口类型声明
+// 接口類型聲明
 export interface UserState {
     token: string,
     nickname: string,
@@ -41,7 +41,7 @@ export interface TagsViewState{
     cachedViews: (string)[]
 }
 
-// 顶级类型声明
+// 頂級類型聲明
 export interface RootStateTypes {
     user: UserState,
     app: AppState,

@@ -1,10 +1,10 @@
 export default {
-    // 路由国际化
+    // 路由國際化
     route: {
         dashboard: 'Dashboard',
         document: 'Document'
     },
-    // 登录页面国际化
+    // 登入頁面國際化
     login: {
         title: 'Youlai Mall Management System',
         username: 'Username',
@@ -14,7 +14,7 @@ export default {
         copyright: 'Copyright © 2021 - 2022 youlai.tech All Rights Reserved. ',
         icp: ''
     },
-    // 导航栏国际化
+    // 導航欄國際化
     navbar:{
         dashboard: 'Dashboard',
         logout:'Logout',

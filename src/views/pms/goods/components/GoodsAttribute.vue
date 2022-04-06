@@ -27,7 +27,7 @@
               highlight-current-row
               border
           >
-            <el-table-column property="name" label="属性名称">
+            <el-table-column property="name" label="属性名稱">
               <template #default="scope">
                 <el-form-item
                     :prop="'attrList[' + scope.$index + '].name'"
@@ -68,8 +68,8 @@
 
     </div>
     <div class="component-container__footer">
-      <el-button @click="handlePrev">上一步，填写商品信息</el-button>
-      <el-button type="primary" @click="handleNext">下一步，设置商品库存</el-button>
+      <el-button @click="handlePrev">上一步，填寫商品信息</el-button>
+      <el-button type="primary" @click="handleNext">下一步，設置商品庫存</el-button>
     </div>
   </div>
 </template>
@@ -94,15 +94,15 @@ const props = defineProps({
 const categoryId = computed(() => props.modelValue.categoryId);
 
 watch(categoryId, (newVal) => {
-      // 商品编辑不加载分类下的属性
+      // 商品编辑不加載分類下的属性
       const spuId = props.modelValue.id
       if (spuId) {
         return false;
       }
 
-      // 商品新增加载默认分类下的属性
+      // 商品新增加載默認分類下的属性
       if (newVal) {
-        // type=2 商品分类下的属性
+        // type=2 商品分類下的属性
         listAttributes({categoryId: newVal, type: 2}).then(response => {
           const attrList = response.data
           if (attrList && attrList.length > 0) {
@@ -124,10 +124,10 @@ watch(categoryId, (newVal) => {
 const state = reactive({
   rules: {
     name: [
-      {required: true, message: '请填写属性名称', trigger: 'blur'}
+      {required: true, message: '請填寫属性名稱', trigger: 'blur'}
     ],
     value: [
-      {required: true, message: '请填写属性值', trigger: 'blur'}
+      {required: true, message: '請填寫属性值', trigger: 'blur'}
     ]
   }
 })

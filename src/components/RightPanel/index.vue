@@ -19,7 +19,7 @@ import {computed, onBeforeUnmount, onMounted, ref, watch} from "vue";
 import {addClass, removeClass} from '@/utils/index'
 import {useSettingStoreHook} from "@/store/modules/settings";
 
-// 图标依赖
+// 圖標依賴
 import {Close, Setting} from '@element-plus/icons-vue'
 import {ElColorPicker} from "element-plus";
 
@@ -51,7 +51,7 @@ function addEventClick() {
 
 function closeSidebar(evt: any) {
 
-  // 主题选择点击不关闭
+  // 主題選擇點擊不關閉
   let parent = evt.target.closest('.theme-picker-dropdown')
   if (parent) {
     return

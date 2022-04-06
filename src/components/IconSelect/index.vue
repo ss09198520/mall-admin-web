@@ -4,7 +4,7 @@
       v-model="iconName"
       style="position: relative;"
       clearable
-      placeholder="请输入图标名称"
+      placeholder="請輸入圖標名稱"
       @clear="filterIcons"
       @input="filterIcons"
     >

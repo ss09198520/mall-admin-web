@@ -1,7 +1,7 @@
 import request from '@/utils/request'
 
 /**
- * 获取路由列表
+ * 取得路由列表
  */
 export function listRoutes() {
     return request({
@@ -11,7 +11,7 @@ export function listRoutes() {
 }
 
 /**
- * 获取(表格)菜单列表
+ * 獲取(表格)菜單列表
  *
  * @param queryParams
  */
@@ -24,7 +24,7 @@ export function listTableMenus(queryParams: object) {
 }
 
 /**
- * 获取(下拉)菜单列表
+ * 獲取(下拉)菜單列表
  */
 export function listSelectMenus() {
     return request({
@@ -34,7 +34,7 @@ export function listSelectMenus() {
 }
 
 /**
- * 获取(树形下拉)菜单列表
+ * 獲取(樹狀下拉)菜單列表
  */
 export function listTreeSelectMenus() {
     return request({
@@ -45,7 +45,7 @@ export function listTreeSelectMenus() {
 
 
 /**
- * 获取菜单详情
+ * 獲取菜單詳細
  * @param id
  */
 export function getMenuDetail(id: number) {
@@ -56,7 +56,7 @@ export function getMenuDetail(id: number) {
 }
 
 /**
- * 添加菜单
+ * 添加菜單
  *
  * @param data
  */
@@ -69,7 +69,7 @@ export function addMenu(data: object) {
 }
 
 /**
- * 修改菜单
+ * 修改菜單
  *
  * @param id
  * @param data
@@ -83,9 +83,9 @@ export function updateMenu(id: number, data: object) {
 }
 
 /**
- * 批量删除菜单
+ * 批量删除菜單
  *
- * @param ids 菜单ID，多个以英文逗号(,)分割
+ * @param ids 菜單ID，多個以英文逗號(,)分割
  */
 export function deleteMenus(ids: string) {
     return request({

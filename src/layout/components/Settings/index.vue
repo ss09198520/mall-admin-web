@@ -2,14 +2,14 @@
   <div class="drawer-container">
       <h3 class="drawer-title">系统布局配置</h3>
       <div class="drawer-item">
-        <span>主题颜色</span>
+        <span>主題颜色</span>
         <div style="float: right;height: 26px;margin: -3px 8px 0 0;">
           <theme-picker @change="themeChange"/>
         </div>
       </div>
 
       <div class="drawer-item">
-        <span>开启 Tags-View</span>
+        <span>開啟 Tags-View</span>
         <el-switch v-model="tagsView" class="drawer-switch"/>
       </div>
 
@@ -19,7 +19,7 @@
       </div>
 
       <div class="drawer-item">
-        <span>侧边栏 Logo</span>
+        <span>側邊欄 Logo</span>
         <el-switch v-model="sidebarLogo" class="drawer-switch"/>
       </div>
   </div>

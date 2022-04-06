@@ -6,16 +6,16 @@
 
     >
       <el-form-item>
-        <el-button type="success" :icon="Plus" @click="handleAdd">发布商品</el-button>
+        <el-button type="success" :icon="Plus" @click="handleAdd">發布商品</el-button>
         <el-button type="danger" :icon="Delete" @click="handleDelete" :disabled="multiple">删除</el-button>
       </el-form-item>
       <el-form-item>
-        <el-input v-model="queryParams.name" placeholder="商品名称" clearable></el-input>
+        <el-input v-model="queryParams.name" placeholder="商品名稱" clearable></el-input>
       </el-form-item>
       <el-form-item>
         <el-cascader
             v-model="queryParams.categoryId"
-            placeholder="商品分类"
+            placeholder="商品分類"
             :props="{emitPath: false, expandTrigger: 'hover'}"
             :options="categoryOptions"
             clearable
@@ -37,45 +37,45 @@
         border
     >
       <el-table-column type="selection" min-width="5%" center/>
-      <el-table-column type="expand" width="120" label="库存信息">
+      <el-table-column type="expand" width="120" label="庫存信息">
 
         <template #default="props">
           <el-table
               :data="props.row.skuList"
               border>
-            <el-table-column align="center" label="商品编码" prop="sn"/>
-            <el-table-column align="center" label="商品规格" prop="name"/>
-            <el-table-column label="图片" prop="picUrl">
+            <el-table-column align="center" label="商品编碼" prop="sn"/>
+            <el-table-column align="center" label="商品規格" prop="name"/>
+            <el-table-column label="圖片" prop="picUrl">
               <template #default="scope">
                 <img :src="scope.row.picUrl" width="40">
               </template>
             </el-table-column>
-            <el-table-column align="center" label="现价" prop="price">
+            <el-table-column align="center" label="現價" prop="price">
               <template #default="scope">{{ moneyFormatter(scope.row.price) }}</template>
             </el-table-column>
-            <el-table-column align="center" label="库存" prop="stock"/>
+            <el-table-column align="center" label="庫存" prop="stock"/>
           </el-table>
         </template>
 
       </el-table-column>
-      <el-table-column label="商品名称" prop="name" min-width="140"/>
-      <el-table-column label="商品图片">
+      <el-table-column label="商品名稱" prop="name" min-width="140"/>
+      <el-table-column label="商品圖片">
         <template #default="row">
           <img :src="row.picUrl" width="40">
         </template>
       </el-table-column>
-      <el-table-column label="商品类目" prop="categoryName" min-width="100"/>
+      <el-table-column label="商品類目" prop="categoryName" min-width="100"/>
       <el-table-column label="商品品牌" prop="brandName" min-width="100"/>
-      <el-table-column align="center" label="零售价" prop="originalPrice">
+      <el-table-column align="center" label="零售價" prop="originalPrice">
         <template #default="scope">{{ moneyFormatter(scope.row.price) }}</template>
       </el-table-column>
-      <el-table-column align="center" label="促销价" prop="price">
+      <el-table-column align="center" label="促銷價" prop="price">
         <template #default="scope">{{ moneyFormatter(scope.row.price) }}</template>
       </el-table-column>
-      <el-table-column label="销量" prop="sales" min-width="100"/>
-      <el-table-column label="单位" prop="unit" min-width="100"/>
+      <el-table-column label="銷量" prop="sales" min-width="100"/>
+      <el-table-column label="單位" prop="unit" min-width="100"/>
       <el-table-column label="描述" prop="description" min-width="100"/>
-      <el-table-column label="详情" prop="detail">
+      <el-table-column label="詳情" prop="detail">
         <template #default="scope">
           <el-button type="primary"  @click="handleGoodsView(scope.row.detail)">查看</el-button>
         </template>
@@ -100,7 +100,7 @@
       </el-table-column>
     </el-table>
 
-    <!-- 分页工具条 -->
+    <!-- 分頁工具條 -->
     <pagination
         v-show="total>0"
         :total="total"
@@ -108,7 +108,7 @@
         v-model:limit="queryParams.pageSize"
         @pagination="handleQuery"
     />
-    <el-dialog v-model="dialogVisible" title="商品详情">
+    <el-dialog v-model="dialogVisible" title="商品詳情">
       <div class="goods-detail-box" v-html="goodDetail"/>
     </el-dialog>
   </div>
@@ -128,13 +128,13 @@ const dataTableRef = ref(ElTable)
 const router=useRouter()
 
 const state = reactive({
-  // 遮罩层
+  // 遮罩層
   loading: true,
-  // 选中数组
+  // 選中數组
   ids: [],
-  // 非单个禁用
+  // 非單個禁用
   single: true,
-  // 非多个禁用
+  // 非多個禁用
   multiple: true,
   total: 0,
   queryParams: {
@@ -199,8 +199,8 @@ function handleUpdate(row: any) {
 
 function handleDelete(row: any) {
   const ids = row.id || state.ids.join(',')
-  ElMessageBox.confirm('是否确认删除选中的数据项?', "警告", {
-    confirmButtonText: "确定",
+  ElMessageBox.confirm('是否確認删除選中的數據項?', "警告", {
+    confirmButtonText: "確定",
     cancelButtonText: "取消",
     type: "warning"
   }).then(function () {

@@ -4,7 +4,7 @@
       <el-form-item>
         <el-row>
           <el-col :span="16">
-            <el-button type="success" plain :icon="Switch" @click="toggleExpandAll">展开/折叠</el-button>
+            <el-button type="success" plain :icon="Switch" @click="toggleExpandAll">展開/折叠</el-button>
           </el-col>
           <el-col :span="8" style="text-align: right">
             <el-button type="primary" :icon="Check" @click="handleSubmit">提交</el-button>
@@ -21,7 +21,7 @@
         :data="menuOptions"
         show-checkbox
         node-key="id"
-        empty-text="加载菜单中..."
+        empty-text="加載菜單中..."
         :check-strictly="checkStrictly"
         highlight-current
         @node-click="handleNodeClick"
@@ -44,7 +44,7 @@ const props = defineProps({
   }
 })
 
-const menuRef = ref(ElTree) // 属性名必须和元素的ref属性值一致
+const menuRef = ref(ElTree) // 属性名必須和元素的ref属性值一致
 
 watch(() => props.role.id as any, (newVal, oldVal) => {
   const roleId = props.role.id
@@ -59,7 +59,7 @@ watch(() => props.role.id as any, (newVal, oldVal) => {
 })
 
 const state = reactive({
-  expandedKeys: [],  // 展开的节点
+  expandedKeys: [],  // 展開的节點
   menuOptions: [],
   checkStrictly: false,
   isExpandAll: true,
@@ -69,7 +69,7 @@ const state = reactive({
 const {expandedKeys, menuOptions, checkStrictly, isExpandAll, refreshTree} = toRefs(state)
 
 /**
- * 加载菜单树
+ * 加載菜單樹
  */
 async function loadTreeSelectMenuOptions() {
   await listTreeSelectMenus().then(response => {
@@ -82,7 +82,7 @@ function handleNodeClick(node: any) {
 }
 
 /**
- * 展开/收缩
+ * 展開/收缩
  */
 function toggleExpandAll() {
   state.refreshTree = false
@@ -93,7 +93,7 @@ function toggleExpandAll() {
 }
 
 /**
- * 保存角色的菜单
+ * 保存角色的菜單
  */
 function handleSubmit() {
   const checkedMenuIds = menuRef.value.getCheckedNodes(false, true).map((node: any) => node.id)

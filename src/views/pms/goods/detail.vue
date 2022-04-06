@@ -1,10 +1,10 @@
 <template>
   <div class="app-container">
     <el-steps :active="active" process-status="finish" finish-status="success" simple>
-      <el-step title="选择商品分类"/>
-      <el-step title="填写商品信息"/>
-      <el-step title="设置商品属性"/>
-      <el-step title="设置商品库存"/>
+      <el-step title="選擇商品分類"/>
+      <el-step title="填寫商品信息"/>
+      <el-step title="設置商品属性"/>
+      <el-step title="設置商品庫存"/>
     </el-steps>
 
     <goods-category

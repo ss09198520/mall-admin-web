@@ -1,7 +1,7 @@
 import request from '@/utils/request'
 
 /**
- * 获取商品属性列表
+ * 取得商品属性列表
  *
  * @param params
  */

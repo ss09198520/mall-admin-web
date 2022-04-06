@@ -1,4 +1,4 @@
-<!-- 漏斗图 -->
+<!-- 漏斗圖 -->
 <template>
   <div
       :id="id"
@@ -72,7 +72,7 @@ async function forceLink(){
       {"source": 5,"target": 10}
     ]
   }
-  // 设置一个颜色比例尺
+  // 設置一個颜色比例尺
   let colorScale = d3.scaleOrdinal()
       .domain(d3.range(data.nodes.length))
       .range(d3.schemeCategory10)
@@ -167,7 +167,7 @@ async function forceLink2(){
       {"source": 5,"target": 10}
     ]
   }
-  // 设置一个颜色比例尺
+  // 設置一個颜色比例尺
   let colorScale = d3.scaleOrdinal()
       .domain(d3.range(data.nodes.length))
       .range(d3.schemeCategory10)
@@ -344,7 +344,7 @@ async function initChart() {
     { name: '丽' },
     { name: '雪' },
     { name: '小明' },
-    { name: '组长' }
+    { name: '组長' }
   ]
   // Side Dataset
   let edges = [
@@ -355,7 +355,7 @@ async function initChart() {
     { source: 1, target: 6, relation: '籍贯', value: 2 },
     { source: 2, target: 5, relation: '籍贯', value: 0.9 },
     { source: 3, target: 7, relation: '籍贯', value: 1 },
-    { source: 5, target: 6, relation: '同学', value: 1.6 },
+    { source: 5, target: 6, relation: '同學', value: 1.6 },
     { source: 6, target: 7, relation: '朋友', value: 0.7 },
     { source: 6, target: 8, relation: '职责', value: 2 }
   ]
@@ -382,7 +382,7 @@ async function initChart() {
   console.log('start init...生成線資料')
   forceSimulation.force('link')
       .links(edges)
-      .distance(function (d) { // side length / 每一边的长度
+      .distance(function (d) { // side length / 每一邊的長度
         return d.value * 100
       })
   // Set drawing center location
@@ -467,7 +467,7 @@ async function initChart() {
   // drag
   function started (dragEvent , d) {
     if (!dragEvent.active) {
-      forceSimulation.alphaTarget(0.8).restart() // Set the attenuation coefficient to simulate the node position movement process. The higher the value, the faster the movement. The value range is [0, 1] // 设置衰减系数，对节点位置移动过程的模拟，数值越高移动越快，数值范围[0, 1]
+      forceSimulation.alphaTarget(0.8).restart() // Set the attenuation coefficient to simulate the node position movement process. The higher the value, the faster the movement. The value range is [0, 1] // 設置衰减系數，對节點位置移動過程的模拟，數值越高移動越快，數值范围[0, 1]
     }
     d.fx = d.x
     d.fy = d.y

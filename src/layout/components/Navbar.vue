@@ -54,7 +54,7 @@ import {ElMessageBox} from 'element-plus'
 import {useAppStoreHook} from '@/store/modules/app'
 import {useUserStoreHook} from '@/store/modules/user'
 
-// 组件依赖
+// 组件依賴
 import Breadcrumb from '@/components/Breadcrumb/index.vue'
 import Hamburger from '@/components/Hamburger/index.vue'
 import Screenfull from '@/components/Screenfull/index.vue'
@@ -62,7 +62,7 @@ import SizeSelect from '@/components/SizeSelect/index.vue'
 import LangSelect from '@/components/LangSelect/index.vue'
 import SvgIcon from '@/components/SvgIcon/index.vue'
 
-// 图标依赖
+// 圖標依賴
 import {CaretBottom} from '@element-plus/icons-vue'
 
 const route = useRoute()
@@ -77,8 +77,8 @@ function toggleSideBar() {
 }
 
 function logout() {
-  ElMessageBox.confirm('确定注销并退出系统吗？', '提示', {
-    confirmButtonText: '确定',
+  ElMessageBox.confirm('確定注銷並退出系统嗎？', '提示', {
+    confirmButtonText: '確定',
     cancelButtonText: '取消',
     type: 'warning'
   }).then(() => {

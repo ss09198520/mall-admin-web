@@ -1,7 +1,7 @@
 import request from '@/utils/request'
 
 /**
- * 获取订单分页列表
+ * 取得訂單分頁列表
  *
  * @param queryParams
  */
@@ -15,7 +15,7 @@ export function listOrdersWithPage(queryParams: object) {
 
 
 /**
- * 获取订单详情
+ * 取得訂單詳情
  *
  * @param orderId
  */

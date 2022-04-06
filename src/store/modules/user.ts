@@ -29,12 +29,12 @@ export const useUserStore = defineStore({
             this.$reset()
         },
         /**
-         * 用户登录请求
-         * @param userInfo 登录用户信息
-         *  username: 用户名
-         *  password: 密码
-         *  code: 验证码
-         *  uuid: 匹配正确验证码的 key
+         * 用戶登入請求
+         * @param userInfo 登入用戶信息
+         *  username: 用戶名
+         *  password: 密碼
+         *  code: 驗证碼
+         *  uuid: 匹配正確驗证碼的 key
          */
         login(userInfo: { username: string, password: string, code: string, uuid: string }) {
             const {username, password, code, uuid} = userInfo
@@ -67,7 +67,7 @@ export const useUserStore = defineStore({
             
         },
         /**
-         *  获取用户信息（昵称、头像、角色集合、权限集合）
+         *  取得用戶信息（暱稱、頭像、角色集合、權限集合）
          */
         getUserInfo() {
             return new Promise(((resolve, reject) => {

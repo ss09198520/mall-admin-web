@@ -8,7 +8,7 @@ declare module '*.vue' {
 }
 
 
-// 环境变量智能提示
+// 環境變量智能提示
 interface ImportMetaEnv {
     NODE_ENV:string,
     VITE_APP_TITLE: string,

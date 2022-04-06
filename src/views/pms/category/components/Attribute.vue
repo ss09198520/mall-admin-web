@@ -4,7 +4,7 @@
       <el-row>
         <el-col :span="12">
           <el-tag type="success" v-if="category && category.name">{{ category.name }} {{ attributeTypeName }} </el-tag>
-          <el-tag v-else type="info"><i class="el-icon-info"></i> 请选择商品分类</el-tag>
+          <el-tag v-else type="info"><i class="el-icon-info"></i> 請選擇商品分類</el-tag>
         </el-col>
         <el-col :span="12" style="text-align: right">
           <el-button type="primary" :icon="Check"  @click="submitForm">提交</el-button>
@@ -73,11 +73,11 @@ const props = defineProps({
   }
 })
 
-const attributeTypeName = computed(() => props.attributeType === 1 ? '规格' : '属性')
+const attributeTypeName = computed(() => props.attributeType === 1 ? '規格' : '属性')
 
 const attributeNameValidator = (rule: any, value: any, callback: any) => {
   if (!value) {
-    return callback(new Error('请输入' + attributeTypeName.value + '名称'))
+    return callback(new Error('請輸入' + attributeTypeName.value + '名稱'))
   } else {
     callback();
   }

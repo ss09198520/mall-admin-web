@@ -11,10 +11,10 @@ import '@/permission'
 import ElementPlus from 'element-plus'
 import 'element-plus/theme-chalk/index.css'
 
-// 国际化
+// 國際化
 import i18n from "@/lang/index";
 
-// 自定义样式
+// 自定義樣式
 import '@/styles/index.scss'
 
 // 全局方法
@@ -22,7 +22,7 @@ import {listDictsByCode} from '@/api/system/dict'
 
 const app = createApp(App)
 
-// 自定义指令
+// 自定義指令
 import * as directive from "@/directive";
 
 Object.keys(directive).forEach(key => {

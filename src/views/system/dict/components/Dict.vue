@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <!-- 搜索表单 -->
+    <!-- 搜索表單 -->
     <el-form
         :model="state.queryParams"
         ref="queryForm"
@@ -15,7 +15,7 @@
       <el-form-item prop="name">
         <el-input
             v-model="state.queryParams.name"
-            placeholder="字典名称"
+            placeholder="字典名稱"
             clearable
             @keyup.enter.native="handleQuery"/>
       </el-form-item>
@@ -25,7 +25,7 @@
       </el-form-item>
     </el-form>
 
-    <!-- 数据表格 -->
+    <!-- 數據表格 -->
     <el-table
         highlight-current-row
         :data="state.pageList"
@@ -35,11 +35,11 @@
         border
     >
       <el-table-column type="selection" width="55" align="center"/>
-      <el-table-column label="字典名称" prop="name" width="120"/>
-      <el-table-column label="字典编码" prop="code"/>
-      <el-table-column label="状态" align="center" width="80">
+      <el-table-column label="字典名稱" prop="name" width="120"/>
+      <el-table-column label="字典编碼" prop="code"/>
+      <el-table-column label="狀態" align="center" width="80">
         <template #default="scope">
-          <el-tag v-if="scope.row.status===1" type="success" >启用</el-tag>
+          <el-tag v-if="scope.row.status===1" type="success" >啟用</el-tag>
           <el-tag v-else type="info">禁用</el-tag>
         </template>
       </el-table-column>
@@ -72,7 +72,7 @@
         @pagination="handleQuery"
     />
 
-    <!-- 弹窗表单 -->
+    <!-- 弹窗表單 -->
     <el-dialog
         :title="state.dialog.title"
         v-model="state.dialog.visible"
@@ -83,25 +83,25 @@
           :model="state.formData"
           :rules="state.rules"
           label-width="80px">
-        <el-form-item label="字典名称" prop="name">
-          <el-input v-model="state.formData.name" placeholder="请输入字典名称"/>
+        <el-form-item label="字典名稱" prop="name">
+          <el-input v-model="state.formData.name" placeholder="請輸入字典名稱"/>
         </el-form-item>
-        <el-form-item label="字典编码" prop="code">
-          <el-input v-model="state.formData.code" placeholder="请输入字典编码"/>
+        <el-form-item label="字典编碼" prop="code">
+          <el-input v-model="state.formData.code" placeholder="請輸入字典编碼"/>
         </el-form-item>
-        <el-form-item label="状态" prop="status">
+        <el-form-item label="狀態" prop="status">
           <el-radio-group v-model="state.formData.status">
             <el-radio :label="1">正常</el-radio>
             <el-radio :label="0">停用</el-radio>
           </el-radio-group>
         </el-form-item>
         <el-form-item label="备注" prop="remark">
-          <el-input v-model="state.formData.remark" type="textarea" placeholder="请输入内容"></el-input>
+          <el-input v-model="state.formData.remark" type="textarea" placeholder="請輸入内容"></el-input>
         </el-form-item>
       </el-form>
       <template #footer>
         <div class="dialog-footer">
-          <el-button type="primary" @click="submitForm">确 定</el-button>
+          <el-button type="primary" @click="submitForm">確 定</el-button>
           <el-button @click="cancel">取 消</el-button>
         </div>
       </template>
@@ -119,11 +119,11 @@ const emit = defineEmits(['dictClick'])
 
 const state = reactive({
   loading: true,
-  // 选中ID数组
+  // 選中ID數组
   ids: [],
-  // 非单个禁用
+  // 非單個禁用
   single: true,
-  // 非多个禁用
+  // 非多個禁用
   multiple: true,
   queryParams: {
     pageNum: 1,
@@ -145,10 +145,10 @@ const state = reactive({
   },
   rules: {
     name: [
-      {required: true, message: '请输入字典名称', trigger: 'blur'}
+      {required: true, message: '請輸入字典名稱', trigger: 'blur'}
     ],
     code: [
-      {required: true, message: '请输入字典编码', trigger: 'blur'}
+      {required: true, message: '請輸入字典编碼', trigger: 'blur'}
     ]
   }
 })
@@ -240,8 +240,8 @@ function cancel() {
 
 function handleDelete(row: any) {
   const ids = [row.id || state.ids].join(',')
-  ElMessageBox.confirm('确认删除已选中的数据项?', '警告', {
-    confirmButtonText: '确定',
+  ElMessageBox.confirm('確認删除已選中的數據項?', '警告', {
+    confirmButtonText: '確定',
     cancelButtonText: '取消',
     type: 'warning'
   }).then(() => {

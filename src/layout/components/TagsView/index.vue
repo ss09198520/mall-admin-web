@@ -23,23 +23,23 @@
       </li>
       <li v-if="!isAffix(selectedTag)" @click="closeSelectedTag(selectedTag)">
         <close style="width: 1em; height: 1em;"/>
-        关闭
+        關閉
       </li>
       <li @click="closeOtherTags">
         <circle-close style="width: 1em; height: 1em;"/>
-        关闭其它
+        關閉其它
       </li>
       <li v-if="!isFirstView()" @click="closeLeftTags">
         <back style="width: 1em; height: 1em;"/>
-        关闭左侧
+        關閉左側
       </li>
       <li v-if="!isLastView()" @click="closeRightTags">
         <right style="width: 1em; height: 1em;"/>
-        关闭右侧
+        關閉右側
       </li>
       <li @click="closeAllTags(selectedTag)">
         <circle-close style="width: 1em; height: 1em;"/>
-        关闭所有
+        關閉所有
       </li>
     </ul>
   </div>

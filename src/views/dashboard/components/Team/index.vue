@@ -1,12 +1,12 @@
-<!-- 团队介绍 -->
+<!-- 團隊介绍 -->
 <template>
   <div class="component-container">
     <el-card class="team-card">
       <template #header>
-        <span class="fw-b">有来开源组织 & 技术团队 </span>
+        <span class="fw-b">有来開源组織 & 技術團隊 </span>
       </template>
       <el-tabs v-model="teamActiveName">
-        <el-tab-pane label="开发者「无回」" name="developer">
+        <el-tab-pane label="開發者「无回」" name="developer">
           <div class="developer">
             <ul class="developer__container">
               <li class="developer__item" v-for="(item,index) in developers">
@@ -28,7 +28,7 @@
                     </div>
                     <div class="developer__homepage">
                       <a :href="item.homepage" target="_blank">
-                        个人主页
+                        個人主頁
                       </a>
                     </div>
                   </div>
@@ -47,7 +47,7 @@
                 :preview-src-list="['https://gitee.com/haoxr/image/raw/master/default/20220129090754.png']"
             />
             <div class="group-tip">
-              群二维码过期可添加开发者微信由其拉入群，备注「有来」即可。
+              群二维碼過期可添加開發者微信由其拉入群，备注「有来」即可。
             </div>
           </div>
         </el-tab-pane>
@@ -55,11 +55,11 @@
         <el-tab-pane label="加入我们" name="3">
           <div class="join">
             <p>1. 人品良好、善于思考、执行力强；</p>
-            <p>2. 熟悉项目，且至少给项目提交(过)一个PR； </p>
-            <p>3. Git代码库活跃，个人主页或博客完善者优先；</p>
-            <p>4. 过分优秀者我们会主动联系您...</p>
+            <p>2. 熟悉項目，且至少给項目提交(過)一個PR； </p>
+            <p>3. Git代碼庫活跃，個人主頁或博客完善者优先；</p>
+            <p>4. 過分优秀者我们会主動聯系您...</p>
             <div class="join__desc">
-              申请加入方式: 添加开发者微信申请即可。
+              申請加入方式: 添加開發者微信申請即可。
             </div>
           </div>
         </el-tab-pane>
@@ -110,7 +110,7 @@ onMounted(() => {
     click: true,
     scrollX: true,
     scrollY: false,
-    eventPassthrough: "vertical" // 横向滚动，保留纵向原生滚动
+    eventPassthrough: "vertical" // 横向滚動，保留纵向原生滚動
   })
 })
 

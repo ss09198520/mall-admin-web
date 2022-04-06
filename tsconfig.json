@@ -17,7 +17,7 @@
     },
     "extends": "./tsconfig.extends.json",
     "skipLibCheck": true,  // element-plus PROD打包報錯，通過此設定修改 TS 不對第三方依賴檢查
-    "allowSyntheticDefaultImports": true // 默认导入
+    "allowSyntheticDefaultImports": true // 默認導入
   },
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"]
 }

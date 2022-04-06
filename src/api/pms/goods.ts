@@ -1,7 +1,7 @@
 import request from '@/utils/request'
 
 /**
- * 获取商品分页列表
+ * 取得商品分頁列表
  *
  * @param queryParams
  */
@@ -14,7 +14,7 @@ export function listGoodsWithPage(queryParams: object) {
 }
 
 /**
- * 获取商品详情
+ * 取得商品詳情
  *
  * @param id
  */

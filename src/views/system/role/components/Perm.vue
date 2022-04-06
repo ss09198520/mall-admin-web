@@ -7,7 +7,7 @@
               :indeterminate="isIndeterminate"
               v-model="checkAll"
               @change="handleCheckAllChange"
-          >全选
+          >全選
           </el-checkbox>
         </el-col>
         <el-col :span="12" style="text-align: right">
@@ -34,7 +34,7 @@
       </el-row>
     </div>
     <div style="text-align: center" v-else>
-      <el-empty :description=" !role? '请选择角色': !menu? '请选择菜单': '暂无数据，您可在【菜单管理】配置权限数据'"></el-empty>
+      <el-empty :description=" !role? '請選擇角色': !menu? '請選擇菜單': '暂无數據，您可在【菜單管理】配置權限數據'"></el-empty>
     </div>
   </div>
 </template>
@@ -80,7 +80,7 @@ function handleCheckAllChange(checked: Boolean) {
   if (checked) {
     state.permissionOptions.map((item) => (item.checked = true));
   } else {
-    // 全不选
+    // 全不選
     state.permissionOptions.map((item) => (item.checked = false));
   }
 }

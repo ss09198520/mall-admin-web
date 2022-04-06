@@ -37,10 +37,10 @@ export default {
     const toolbarConfig = {}
     const isEditorShow = ref(true)
     const editorConfig = {
-      placeholder: '请输入内容...',
+      placeholder: '請輸入内容...',
       MENU_CONF: {
         uploadImage: {
-          // 自定义图片上传
+          // 自定義圖片上傳
           // @link https://www.wangeditor.com/v5/guide/menu-config.html#%E8%87%AA%E5%AE%9A%E4%B9%89%E5%8A%9F%E8%83%BD
           async customUpload(file, insertFn) {
             uploadFile(file).then(response => {
@@ -51,14 +51,14 @@ export default {
         }
       }
     }
-    // 组件销毁时，也及时销毁编辑器
+    // 组件銷毁時，也及時銷毁编辑器
     onBeforeUnmount(() => {
       const editor = getEditor(editorId)
       if (editor == null) return
       editor.destroy()
       removeEditor(editorId)
     })
-    // 编辑器回调函数
+    // 编辑器回调函數
     const handleCreated = (editor) => {
       console.log('created', editor);
     }
@@ -75,15 +75,15 @@ export default {
       console.log('blur', editor)
     }
     const customAlert = (info, type) => {
-      alert(`【自定义提示】${type} - ${info}`)
+      alert(`【自定義提示】${type} - ${info}`)
     }
     const customPaste = (editor, event, callback) => {
-      console.log('ClipboardEvent 粘贴事件对象', event)
-      // 自定义插入内容
+      console.log('ClipboardEvent 粘贴事件對象', event)
+      // 自定義插入内容
       editor.insertText('xxx')
       // 返回值（注意，vue 事件的返回值，不能用 return）
-      callback(false) // 返回 false ，阻止默认粘贴行为
-      // callback(true) // 返回 true ，继续默认的粘贴行为
+      callback(false) // 返回 false ，阻止默認粘贴行為
+      // callback(true) // 返回 true ，繼续默認的粘贴行為
     }
     const insertText = () => {
       const editor = getEditor(editorId)

@@ -107,7 +107,7 @@ const useTagsViewStore = defineStore({
                     return
                 }
                 this.visitedViews = this.visitedViews.filter((item, index) => {
-                    // affix:true 固定tag，例如“首页”
+                    // affix:true 固定tag，例如“首頁”
                     if (index >= currIndex || (item.meta && item.meta.affix)) {
                         return true
                     }
@@ -130,7 +130,7 @@ const useTagsViewStore = defineStore({
                     return
                 }
                 this.visitedViews = this.visitedViews.filter((item, index) => {
-                    // affix:true 固定tag，例如“首页”
+                    // affix:true 固定tag，例如“首頁”
                     if (index <= currIndex || (item.meta && item.meta.affix)) {
                         return true
                     }

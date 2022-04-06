@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <!-- 搜索表单 -->
+    <!-- 搜索表單 -->
     <el-form
         ref="queryFormRef"
         :model="queryParams"
@@ -12,7 +12,7 @@
       </el-form-item>
 
       <el-form-item prop="name">
-        <el-input v-model="queryParams.name" placeholder="品牌名称"/>
+        <el-input v-model="queryParams.name" placeholder="品牌名稱"/>
       </el-form-item>
 
       <el-form-item>
@@ -21,7 +21,7 @@
       </el-form-item>
     </el-form>
 
-    <!-- 数据表格 -->
+    <!-- 數據表格 -->
     <el-table
         ref="dataTable"
         v-loading="loading"
@@ -36,7 +36,7 @@
       />
       <el-table-column
           prop="name"
-          label="品牌名称"
+          label="品牌名稱"
           min-width="10"
       />
       <el-table-column
@@ -85,7 +85,7 @@
       </el-table-column>
     </el-table>
 
-    <!-- 分页工具条 -->
+    <!-- 分頁工具條 -->
     <pagination
         v-show="total>0"
         :total="total"
@@ -94,7 +94,7 @@
         @pagination="handleQuery"
     />
 
-    <!-- 表单弹窗 -->
+    <!-- 表單弹窗 -->
     <el-dialog
         :title="dialog.title"
         v-model="dialog.visible"
@@ -107,7 +107,7 @@
           :rules="rules"
           label-width="100px"
       >
-        <el-form-item label="品牌名称" prop="name">
+        <el-form-item label="品牌名稱" prop="name">
           <el-input v-model="formData.name" auto-complete="off"/>
         </el-form-item>
 
@@ -122,7 +122,7 @@
 
       <template #footer>
         <div class="dialog-footer">
-          <el-button type="primary" @click="submitForm">确 定</el-button>
+          <el-button type="primary" @click="submitForm">確 定</el-button>
           <el-button @click="cancel">取 消</el-button>
         </div>
       </template>
@@ -138,16 +138,16 @@ import {ElForm, ElTable, ElMessage, ElMessageBox} from "element-plus";
 import {Search, Plus, Edit, Refresh, Delete} from '@element-plus/icons-vue'
 
 const dataTableRef = ref(ElTable)
-const queryFormRef = ref(ElForm)  // 属性名必须和元素的ref属性值一致
-const dataFormRef = ref(ElForm)  // 属性名必须和元素的ref属性值一致
+const queryFormRef = ref(ElForm)  // 属性名必須和元素的ref属性值一致
+const dataFormRef = ref(ElForm)  // 属性名必須和元素的ref属性值一致
 
 const state = reactive({
   loading: true,
-  // 选中ID数组
+  // 選中ID數组
   ids: [],
-  // 非单个禁用
+  // 非單個禁用
   single: true,
-  // 非多个禁用
+  // 非多個禁用
   multiple: true,
   queryParams: {
     pageNum: 1,
@@ -168,7 +168,7 @@ const state = reactive({
   },
   rules: {
     name: [{
-      required: true, message: '请输入品牌名称', trigger: 'blur'
+      required: true, message: '請輸入品牌名稱', trigger: 'blur'
     }]
   }
 })
@@ -244,7 +244,7 @@ function submitForm() {
 }
 
 /**
- * 重置表单
+ * 重置表單
  */
 function resetForm() {
   const dataForm = unref(dataFormRef)
@@ -258,8 +258,8 @@ function cancel() {
 
 function handleDelete(row: any) {
   const ids = [row.id || state.ids].join(',')
-  ElMessageBox.confirm('确认删除已选中的数据项?', '警告', {
-    confirmButtonText: '确定',
+  ElMessageBox.confirm('確認删除已選中的數據項?', '警告', {
+    confirmButtonText: '確定',
     cancelButtonText: '取消',
     type: 'warning'
   }).then(() => {
