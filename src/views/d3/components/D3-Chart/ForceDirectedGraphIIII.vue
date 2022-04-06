@@ -242,7 +242,10 @@ const props = defineProps({
         .attr('class', 'nodes');
   }
 
-  function filterData () {
+  /**
+   * Filter Node 過濾節點
+   */
+  const filterData = () => {
     state.node.each(function(d) {
       d.show = false; // by default don't show if a filter is applied.
     })
