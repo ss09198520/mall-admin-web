@@ -371,7 +371,7 @@ const initSimulation = () => {
       .force('y', d3.forceY(state.svgHeight/3))
       .on('tick', ticked)
       .on('end', () => {
-        if (state.options.zoomFit && !justLoaded) {
+        if (state.options.zoomFit && !state.justLoaded) {
           state.justLoaded = true
           zoomFit(2)
         }
@@ -402,6 +402,7 @@ function updateNodesAndRelationships() {
   state.nodes = flatten(state.rootHierarchy)
   state.linksData = state.rootHierarchy.links()
   console.log('state.linksData' , state.linksData)
+
   state.simulation
       .nodes(state.nodes)
       .force('link', d3.forceLink(state.linksData))
