@@ -56,7 +56,7 @@ async function initChart() {
     fileAddress = window.location.origin + window.location.pathname + 'json/miserables.json'
   } else {
     // localhost or 127.0.0.1
-    fileAddress = window.location.origin + '/json/miserables.json'
+    fileAddress = window.location.origin + '/json2/miserables.json'
   }
 
   await fetch({url: fileAddress, method: 'get'}).then(res => {

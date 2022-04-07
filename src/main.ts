@@ -16,6 +16,7 @@ import i18n from "@/lang/index";
 
 // 自定義樣式
 import '@/styles/index.scss'
+import '@/styles/font-awesome.min.css';
 
 // 全局方法
 import {listDictsByCode} from '@/api/system/dict'
