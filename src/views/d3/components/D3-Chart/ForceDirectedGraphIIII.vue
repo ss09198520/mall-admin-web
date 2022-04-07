@@ -153,9 +153,62 @@ const props = defineProps({
         }
       ],
       iconMap: iconMapData,
-      icons: undefined,
       imageMap: {},
-      images: undefined,
+      // icons: undefined,
+      // images: undefined,
+      // icons: undefined,
+      // images: undefined,
+      icons: {
+//                        'Address': 'home',
+        'Api': 'gear',
+//                        'BirthDate': 'birthday-cake',
+        'Cookie': 'paw',
+//                        'CreditCard': 'credit-card',
+//                        'Device': 'laptop',
+        'Email': 'at',
+        'Git': 'git',
+        'Github': 'github',
+        'Google': 'google',
+//                        'icons': 'font-awesome',
+        'Ip': 'map-marker',
+        'Issues': 'exclamation-circle',
+        'Language': 'language',
+        'Options': 'sliders',
+        'Password': 'lock',
+        'Phone': 'phone',
+        'Project': 'folder-open',
+        'SecurityChallengeAnswer': 'commenting',
+        'User': 'user',
+        'zoomFit': 'arrows-alt',
+        'zoomIn': 'search-plus',
+        'zoomOut': 'search-minus'
+      },
+      images: {
+        'Address': 'img/twemoji/1f3e0.svg',
+//                        'Api': 'img/twemoji/1f527.svg',
+        'BirthDate': 'img/twemoji/1f382.svg',
+        'Cookie': 'img/twemoji/1f36a.svg',
+        'CreditCard': 'img/twemoji/1f4b3.svg',
+        'FET': 'fet_logo_en_sm.jpg',
+        'Device': 'img/twemoji/1f4bb.svg',
+        'Email': 'img/twemoji/2709.svg',
+        'Git': 'img/twemoji/1f5c3.svg',
+        'Github': 'img/twemoji/1f5c4.svg',
+        'icons': 'img/twemoji/1f38f.svg',
+        'Ip': 'img/twemoji/1f4cd.svg',
+        'Issues': 'img/twemoji/1f4a9.svg',
+        'Language': 'img/twemoji/1f1f1-1f1f7.svg',
+        'Options': 'img/twemoji/2699.svg',
+        'Password': 'img/twemoji/1f511.svg',
+//                        'Phone': 'img/twemoji/1f4de.svg',
+        'Project': 'img/twemoji/2198.svg',
+        'Project2|name|neo4jd3': 'img/twemoji/2196.svg',
+//                        'SecurityChallengeAnswer': 'img/twemoji/1f4ac.svg',
+        'User': 'img/twemoji/1f600.svg'
+//                        'zoomFit': 'img/twemoji/2194.svg',
+//                        'zoomIn': 'img/twemoji/1f50d.svg',
+//                        'zoomOut': 'img/twemoji/1f50e.svg'
+      },
       infoPanel: true,
       minCollision: 50,
       neo4jData: undefined,
@@ -180,16 +233,21 @@ const props = defineProps({
     },
 
     nodesData: [
-      {"id": 1, "name": "A"},
-      {"id": 2, "name": "B"},
-      {"id": 3, "name": "C"},
-      {"id": 4, "name": "D"},
-      {"id": 5, "name": "E"},
-      {"id": 6, "name": "F"},
-      {"id": 7, "name": "G"},
-      {"id": 8, "name": "H"},
-      {"id": 9, "name": "I"},
-      {"id": 10, "name": "J"}
+      {id: 1   , name: "A", labels: ["Project2"],"properties": {
+          "name": "neo4jd3",
+          "title": "neo4jd3.js",
+          "description": "Neo4j graph visualization using D3.js.",
+          "url": "https://eisman.github.io/neo4jd3"
+        }},
+      {id: 2   , name: "B", avatar: 'image/url#1' ,  labels: ["Password"],},
+      {id: 3   , name: "C", avatar: 'image/url#1' ,  labels: ["FET"],},
+      {id: 4   , name: "D", avatar: 'image/url#1' ,  labels: ["Github"],},
+      {id: 5   , name: "E", avatar: 'image/url#1' ,  labels: ["Email"],},
+      {id: 6   , name: "F", avatar: 'image/url#1' ,  labels: ["Ip"],},
+      {id: 7   , name: "G", avatar: 'image/url#1' ,  labels: ["FET"],},
+      {id: 8   , name: "H", avatar: 'image/url#1' ,  labels: ["CreditCard"],},
+      {id: 9   , name: "I", avatar: 'image/url#1' ,  labels: ["BirthDate"],},
+      {id: 10  , name: "J", avatar: 'image/url#1' ,  labels: ["FET"],}
     ],
     relationsData: [
       {"id": 1,"source": 1, relation: '關係1', "target": 2},
@@ -511,7 +569,7 @@ function updateRelationships() {
     // }
     //
     // if (options.images) {
-    //   appendImageToNode(n);
+      appendImageToNode(nodeEnter);
     // }
 
     return nodeEnter;
@@ -524,18 +582,37 @@ function updateRelationships() {
         })
         .attr('fill', '#ffffff')
         .attr('font-size', function(d) {
-          // return icon(d) ? (state.options.nodeRadius + 'px') : '10px'
-          return '16px'
+          return icon(d) ? (state.options.nodeRadius + 'px') : '10px'
+          // return '16px'
         })
         .attr('pointer-events', 'none')
         .attr('text-anchor', 'middle')
         .attr('y', function(d) {
-          // return icon(d) ? (parseInt(Math.round(state.options.nodeRadius * 0.32)) + 'px') : '4px'
-          return '2px'
+          return icon(d) ? (parseInt(Math.round(state.options.nodeRadius * 0.32)) + 'px') : '4px'
+          // return '2px'
         })
         .html(function(d) {
           let _icon = icon(d)
           return _icon ? '&#x' + _icon : d.name
+        });
+  }
+
+  const appendImageToNode = (node) => {
+    return node.append('image')
+        .attr('height', function(d) {
+          return icon(d) ? '24px': '30px';
+        })
+        .attr('x', function(d) {
+          return icon(d) ? '5px': '-15px';
+        })
+        .attr('xlink:href', function(d) {
+          return window.location.origin + '/' + image(d)
+        })
+        .attr('y', function(d) {
+          return icon(d) ? '5px': '-16px';
+        })
+        .attr('width', function(d) {
+          return icon(d) ? '24px': '30px';
         });
   }
 
@@ -604,7 +681,8 @@ function updateRelationships() {
   const icon = (d) => {
     let code;
     // TODO: init icon
-    if (state.options.iconMap && state.options.showIcons && state.options.icons) {
+    // if (state.options.iconMap && state.options.showIcons && state.options.icons) {
+    if (state.options.iconMap && state.options.icons) {
       if (state.options.icons[d.labels[0]] && state.options.iconMap[state.options.icons[d.labels[0]]]) {
         code = state.options.iconMap[state.options.icons[d.labels[0]]];
       } else if (state.options.iconMap[d.labels[0]]) {
@@ -616,65 +694,12 @@ function updateRelationships() {
 
     return code;
   }
-  const randomLabel = () => {
-    let icons = Object.keys(state.options.iconMap);
-    return icons[icons.length * Math.random() << 0];
-  }
-
-  const randomD3Data = (d, maxNodesToGenerate) => {
-    let data = {
-          nodes: [],
-          relationships: []
-        },
-        i,
-        label,
-        node,
-        numNodes = (maxNodesToGenerate * Math.random() << 0) + 1,
-        relationship,
-        s = {
-          nodes: state.nodes.length,
-          relationships: state.relationships.length
-        };
-
-    for (i = 0; i < numNodes; i++) {
-      label = randomLabel();
-
-      node = {
-        id: s.nodes + 1 + i,
-        labels: [label],
-        properties: {
-          random: label
-        },
-        x: d.x,
-        y: d.y
-      };
-
-      data.nodes[data.nodes.length] = node;
-
-      relationship = {
-        id: s.relationships + 1 + i,
-        type: label.toUpperCase(),
-        startNode: d.id,
-        endNode: s.nodes + 1 + i,
-        properties: {
-          from: Date.now()
-        },
-        relation: '關係A',
-        source: d.id,
-        target: s.nodes + 1 + i
-      };
-
-      data.relationships[data.relationships.length] = relationship;
-    }
-    console.log('randomD3Data' , data)
-    return data;
-  }
 
   const image = (d) => {
-    let i, imagesForLabel, img, imgLevel, label, labelPropertyValue, property, value;
+    let i, imagesForLabel, img, imgLevel, label, labelPropertyValue, property, value
 
-    if (options.images) {
-      imagesForLabel = options.imageMap[d.labels[0]];
+    if (state.options.images) {
+      imagesForLabel = state.options.imageMap[d.labels[0]];
 
       if (imagesForLabel) {
         imgLevel = 0;
@@ -697,15 +722,30 @@ function updateRelationships() {
               (!property || d.properties[property] !== undefined) &&
               (!value || d.properties[property] === value)) {
             if (labelPropertyValue.length > imgLevel) {
-              img = options.images[imagesForLabel[i]];
+              img = state.options.images[imagesForLabel[i]];
               imgLevel = labelPropertyValue.length;
             }
           }
         }
       }
     }
-
     return img;
+  }
+
+  const initImageMap = () => {
+    let key, keys, selector;
+
+    for (key in state.options.images) {
+      if (state.options.images.hasOwnProperty(key)) {
+        keys = key.split('|');
+
+        if (!state.options.imageMap[keys[0]]) {
+          state.options.imageMap[keys[0]] = [key];
+        } else {
+          state.options.imageMap[keys[0]].push(key);
+        }
+      }
+    }
   }
 
   const class2color = (cls)  =>{
@@ -991,6 +1031,7 @@ function updateRelationships() {
     // 定義力導向圖
     state.simulation = initSimulation2();
     // 初始化資料
+    initImageMap()
     loadNeo4jData()
 
     //////////////// 舊方法///////////
@@ -1060,13 +1101,20 @@ function updateRelationships() {
 
 </script>
 
+
 <style lang="scss" scoped>
-::v-deep(.node .ring) {
-    fill: none;
-    -ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=0)';
-    filter: alpha(opacity=0);
-    opacity: 0;
-    stroke: #6ac6ff;
-    stroke-width: 8px;
+::v-deep(.node) {
+    .ring {
+      fill: none;
+      -ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=0)';
+      filter: alpha(opacity=0);
+      opacity: 0;
+      stroke: #6ac6ff;
+      stroke-width: 8px;
+
+    }
+    .text.icon {
+      font-family: FontAwesome;
+    }
   }
 </style>
