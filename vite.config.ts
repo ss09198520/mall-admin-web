@@ -22,6 +22,7 @@ export default ({command, mode}: ConfigEnv): UserConfig => {
                 })
 
             ],
+            logLevel: 'info' ,
             // 本地反向代理解決瀏覽器跨域限制
             server: {
                 host: 'localhost',
@@ -29,7 +30,7 @@ export default ({command, mode}: ConfigEnv): UserConfig => {
                 open: true, // 自動開啟瀏覽器
                 proxy: {
                     [env.VITE_APP_BASE_API]: {
-                        target: 'http://localhost:9999',
+                        target: 'http://localhost:8099',
                         changeOrigin: true,
                         rewrite: path => path.replace(new RegExp('^' + env.VITE_APP_BASE_API), '')
                     }

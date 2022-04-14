@@ -109,6 +109,12 @@ export const constantRoutes: Array<RouteRecordRaw> = [
                         name: 'd3-ForceDirectedGraphIIII',
                         meta: {title: 'Force Directed Graph IIII', noCache: true}
                     },
+                    {
+                        path: 'ForceDirectedGraphMovie',
+                        component: () => import('@/views/d3/components/D3-Chart/ForceDirectedGraphMovie.vue'),
+                        name: 'd3-ForceDirectedGraphMovie',
+                        meta: {title: 'Force Directed Graph Movie', noCache: true}
+                    },
 
                 ]
             },
