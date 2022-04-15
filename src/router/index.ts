@@ -67,30 +67,30 @@ export const constantRoutes: Array<RouteRecordRaw> = [
                         name: 'd3-ForceBasedLabelPlacementI',
                         meta: {title: 'Force-based I', noCache: true}
                     },
-                    {
-                        path: 'ForceDirectedGraph',
-                        component: () => import('@/views/d3/components/D3-Chart/ForceDirectedGraph.vue'),
-                        name: 'd3-ForceDirectedGraph',
-                        meta: {title: 'Force Directed Graph I', noCache: true}
-                    },
-                    {
-                        path: 'ForceDirectedGraphI',
-                        component: () => import('@/views/d3/components/D3-Chart/ForceDirectedGraphI.vue'),
-                        name: 'd3-ForceDirectedGraphI',
-                        meta: {title: 'Force Directed Graph II', noCache: true}
-                    },
-                    {
-                        path: 'ForceDirectedGraphII',
-                        component: () => import('@/views/d3/components/D3-Chart/ForceDirectedGraphII.vue'),
-                        name: 'd3-ForceDirectedGraphII',
-                        meta: {title: 'Force Directed Graph II', noCache: true}
-                    },
-                    {
-                        path: 'ForceDirectedGraphIII',
-                        component: () => import('@/views/d3/components/D3-Chart/ForceDirectedGraphIII.vue'),
-                        name: 'd3-ForceDirectedGraphIII',
-                        meta: {title: 'Force Directed Graph III', noCache: true}
-                    },
+                    // {
+                    //     path: 'ForceDirectedGraph',
+                    //     component: () => import('@/views/d3/components/D3-Chart/ForceDirectedGraph.vue'),
+                    //     name: 'd3-ForceDirectedGraph',
+                    //     meta: {title: 'Force Directed Graph I', noCache: true}
+                    // },
+                    // {
+                    //     path: 'ForceDirectedGraphI',
+                    //     component: () => import('@/views/d3/components/D3-Chart/ForceDirectedGraphI.vue'),
+                    //     name: 'd3-ForceDirectedGraphI',
+                    //     meta: {title: 'Force Directed Graph II', noCache: true}
+                    // },
+                    // {
+                    //     path: 'ForceDirectedGraphII',
+                    //     component: () => import('@/views/d3/components/D3-Chart/ForceDirectedGraphII.vue'),
+                    //     name: 'd3-ForceDirectedGraphII',
+                    //     meta: {title: 'Force Directed Graph II', noCache: true}
+                    // },
+                    // {
+                    //     path: 'ForceDirectedGraphIII',
+                    //     component: () => import('@/views/d3/components/D3-Chart/ForceDirectedGraphIII.vue'),
+                    //     name: 'd3-ForceDirectedGraphIII',
+                    //     meta: {title: 'Force Directed Graph III', noCache: true}
+                    // },
                     {
                         path: 'ForceHierarchyGraphI',
                         component: () => import('@/views/d3/components/D3-Chart/ForceHierarchyGraphI.vue'),
