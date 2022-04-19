@@ -38,33 +38,33 @@ export const useUserStore = defineStore({
          */
         login(userInfo: { username: string, password: string, code: string, uuid: string }) {
             const {username, password, code, uuid} = userInfo
-            return new Promise((resolve, reject) => {
-                login(
-                    {
-                        username: username.trim(),
-                        password: password,
-                        grant_type: 'captcha',
-                        code: code,
-                        uuid: uuid
-                    }
-                ).then(response => {
-                    const {access_token, token_type} = response.data
-                    const accessToken = token_type + " " + access_token
-                    localStorage.set("token", accessToken)
-                    this.token = accessToken
-                    resolve(access_token)
-                }).catch(error => {
-                    reject(error)
-                })
-            })
             // return new Promise((resolve, reject) => {
-            //     const {access_token, token_type} = {access_token: "2YotnFZFEjr1zCsicMWpAA" ,token_type: "example"}
-            //     const accessToken = token_type + " " + access_token
-            //     localStorage.set("token", accessToken)
-            //     this.token = accessToken
-            //     resolve(access_token)
+            //     login(
+            //         {
+            //             username: username.trim(),
+            //             password: password,
+            //             grant_type: 'captcha',
+            //             code: code,
+            //             uuid: uuid
+            //         }
+            //     ).then(response => {
+            //         const {access_token, token_type} = response.data
+            //         const accessToken = token_type + " " + access_token
+            //         localStorage.set("token", accessToken)
+            //         this.token = accessToken
+            //         resolve(access_token)
+            //     }).catch(error => {
+            //         reject(error)
+            //     })
             // })
-            
+            return new Promise((resolve, reject) => {
+                const {access_token, token_type} = {access_token: "2YotnFZFEjr1zCsicMWpAA" ,token_type: "example"}
+                const accessToken = token_type + " " + access_token
+                localStorage.set("token", accessToken)
+                this.token = accessToken
+                resolve(access_token)
+            })
+
         },
         /**
          *  取得用戶信息（暱稱、頭像、角色集合、權限集合）

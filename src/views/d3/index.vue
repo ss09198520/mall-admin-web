@@ -2,7 +2,8 @@
   <div class="app-container">
 
     <!-- D3圖表  -->
-    <el-row style="margin-top: 20px">
+<!--    <el-row style="margin-top: 20px">-->
+    <el-row>
       <el-col>
         <!--基礎網路力向圖-->
 <!--        <ForceBasedChart id="funnelChart" height="400px" width="100%" class="chart-container"/>-->

@@ -1,79 +1,161 @@
 <!-- 漏斗圖 -->
 <template>
-  <div
-      :id="id"
-      :class="className"
-      :style="{height, width}"
-  >
-    <h2>Force-Direct Graph IIII</h2>
-    <el-form
-        class="login-form"
-        auto-complete="on"
-        label-position="left"
-    >
-      <el-form-item prop="code">
-        <span class="svg-container">
-          <svg-icon icon-class="validCode"/>
-        </span>
-        <el-input
-            v-model="queryMovieTile"
-            auto-complete="off"
-            :placeholder="'輸入電影名稱'"
-            style="width: 15%"
-        />
-        <el-button
-            type="success"
-            @click="queryMovieByTitle"
-            autofocus
-            style="float: left;"
-        >
-          查詢電影
-        </el-button>
-        <span class="svg-container">
-            <svg-icon icon-class="validCode"/>
-          </span>
-        <el-input
-            v-model="queryPersonName"
-            auto-complete="off"
-            :placeholder="'輸入人員名稱'"
-            style="width: 15%"
-            @keyup="filterData"
-        />
-        <el-button
-            v-model="queryPersonName"
-            type="primary"
-            @click="queryMovieByPersonName"
-            autofocus
-            style="float: left;"
-        >
-          查詢人員
-        </el-button>
-      </el-form-item>
-      <el-form-item>
-        <span class="svg-container">
-          <svg-icon icon-class="validCode"/>
-        </span>
-        <el-input
-            v-model="filterStr"
-            auto-complete="off"
-            :placeholder="'輸入篩選條件'"
-            style="width: 15%"
-            @keyup="filterData"
-        />
-        <el-button
-            type="success"
-            @click="filterData"
-            autofocus
-            style="float: left;"
-        >
-          清空條件
-        </el-button>
-      </el-form-item>
+  <div >
+<!--    <el-form-->
+<!--        class="login-form"-->
+<!--        auto-complete="on"-->
+<!--        label-position="left"-->
+<!--    >-->
+<!--      <el-form-item prop="code">-->
+<!--        <span class="svg-container">-->
+<!--          <svg-icon icon-class="validCode"/>-->
+<!--        </span>-->
+<!--        <el-input-->
+<!--            v-model="queryMovieTile"-->
+<!--            auto-complete="off"-->
+<!--            :placeholder="'輸入電影名稱'"-->
+<!--            style="width: 15%"-->
+<!--        />-->
+<!--        <el-button-->
+<!--            type="success"-->
+<!--            @click="queryMovieByTitle"-->
+<!--            autofocus-->
+<!--            style="float: left;"-->
+<!--        >-->
+<!--          查詢電影-->
+<!--        </el-button>-->
+<!--        <span class="svg-container">-->
+<!--            <svg-icon icon-class="validCode"/>-->
+<!--          </span>-->
+<!--        <el-input-->
+<!--            v-model="queryPersonName"-->
+<!--            auto-complete="off"-->
+<!--            :placeholder="'輸入人員名稱'"-->
+<!--            style="width: 15%"-->
+<!--            @keyup="filterData"-->
+<!--        />-->
+<!--        <el-button-->
+<!--            v-model="queryPersonName"-->
+<!--            type="primary"-->
+<!--            @click="queryMovieByPersonName"-->
+<!--            autofocus-->
+<!--            style="float: left;"-->
+<!--        >-->
+<!--          查詢人員-->
+<!--        </el-button>-->
+<!--      </el-form-item>-->
+<!--      <el-form-item>-->
 
+<!--      </el-form-item>-->
+<!--    </el-form>-->
+    <el-row :gutter="20">
+      <!-- 部門數據 -->
+      <el-col
+          :span="4"
+          :xs="24"
+      >
+        <el-card class="box-card">
+          <el-input
+              placeholder="屬性名稱"
+              clearable
+              style="margin-bottom: 20px"
+          />
+          <el-tree
+              ref="deptTreeRef"
+              :props="{ children: 'children',label: 'label',disabled:''}"
+              :expand-on-click-node="false"
+              :filter-node-method="filterDeptNode"
+              default-expand-all
+          >
+          </el-tree>
+        </el-card>
+      </el-col>
 
+      <!-- 用戶數據 -->
+      <el-col :span="20" :xs="24" >
+        <el-card class="box-card">
+          <el-form
+              ref="queryFormRef"
+              :inline="true"
+          >
+<!--            <el-form-item>-->
+<!--              <el-button-->
+<!--                type="success"-->
+<!--              >-->
+<!--                新增-->
+<!--              </el-button>-->
+<!--              <el-button-->
+<!--                  type="danger"-->
+<!--              >-->
+<!--                删除-->
+<!--              </el-button>-->
+<!--            </el-form-item>-->
+            <el-form-item prop="keywords">
+<!--              <span class="svg-container">-->
+<!--                <svg-icon icon-class="validCode"/>-->
+<!--              </span>-->
+              <el-input
+                  v-model="filterStr"
+                  auto-complete="off"
+                  :placeholder="'輸入篩選條件'"
+                  style="width: 200px"
+                  @keyup="filterData"
+              />
+              <el-button
+                  type="success"
+                  @click="filterData"
+              >
+                篩選
+              </el-button>
+              <el-button
+                  @click="filterStr = null"
+                  type="danger"
+              >
+                重置
+              </el-button>
+            </el-form-item>
 
-    </el-form>
+            <el-form-item prop="keywords">
+              <el-input
+                  v-model="queryMovieTile"
+                  clearable
+                  auto-complete="off"
+                  :placeholder="'輸入電影名稱'"
+                  style="width: 15em"
+              />
+            </el-form-item>
 
+            <el-form-item prop="status">
+              <el-input
+                  v-model="queryPersonName"
+                  auto-complete="off"
+                  :placeholder="'輸入人員名稱'"
+                  style="width: 15em"
+              />
+            </el-form-item>
+
+            <el-form-item>
+              <el-button
+                  type="primary"
+                  :icon="Search"
+                  @click="queryMovie"
+              >
+                搜索
+              </el-button>
+              <el-button
+              >
+                重置
+              </el-button>
+            </el-form-item>
+          </el-form>
+          <div
+              :id="id"
+              :class="className"
+              :style="{height, width}"
+          />
+        </el-card>
+      </el-col>
+    </el-row>
 
   </div>
 </template>
@@ -92,7 +174,8 @@ import {
   unref
 } from "vue";
 
-import {ElForm, ElInput} from "element-plus";
+import {ElForm, ElTable, ElMessage, ElMessageBox} from "element-plus";
+import {Search, Plus, Edit, Refresh, Delete} from '@element-plus/icons-vue'
 import SvgIcon from '@/components/SvgIcon/index.vue';
 
 import * as d3 from 'd3';
@@ -498,6 +581,13 @@ const iconMapData = {'glass':'f000','music':'f001','search':'f002','envelope-o':
         .force('link', d3.forceLink(state.links))
         .restart()
 
+    state.adjlist = []
+
+    state.links.forEach((d) => {
+      state.adjlist[d.source.index + '-' + d.target.index] = true
+      state.adjlist[d.target.index + '-' + d.source.index] = true
+    })
+
     updateRelationships()
     updateNodes()
   }
@@ -706,6 +796,8 @@ const appendIconToNode = (node) => {
           return classes;
         })
         .on('click', nodeClick)
+        .on('mouseover', focus)
+        .on('mouseout', unFocus)
         .on('dblclick', (event , d) => {
           stickNode(event,d);
 
@@ -885,6 +977,27 @@ const appendIconToNode = (node) => {
     console.log('recurse2' , state.relationships)
 
     updateNodesAndRelationships()
+  }
+
+  function focus(event , d) {
+
+    let index = d3.select(this).datum().index
+
+    state.node.style('opacity', function (o) {
+      return neighbor(index, o.index) ? 1 : 0.3
+    })
+    state.relationship.style('opacity', function (o) {
+      return o.source.index === index || o.target.index === index ? 1 : 0.3
+    })
+  }
+
+  function neighbor(a, b) {
+    return a === b || state.adjlist[a + '-' + b]
+  }
+
+  function unFocus() {
+    state.node.style('opacity', 1)
+    state.relationship.style('opacity', 1)
   }
 
   const dragged = (dragEvent, d) => {
@@ -1089,7 +1202,24 @@ const appendIconToNode = (node) => {
     state.loading = false
     updateWithNeo4jData()
   }
-``
+
+  /**
+   * 電影查询
+   **/
+  async function queryMovie() {
+    state.loading = true
+    let response
+    if(state?.queryMovieTile){
+      response = await graphMovieByTitle(state.queryMovieTile)
+    } else {
+      response = await graphMovieByPersonName(state.queryPersonName)
+    }
+    const {nodes, links} = response
+    state.nodesData = nodes
+    state.relationsData = links
+    state.loading = false
+    updateWithNeo4jData()
+  }
   /**
    * 用戶查询
    **/
