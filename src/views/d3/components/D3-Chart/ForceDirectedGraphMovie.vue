@@ -387,6 +387,7 @@ const iconMapData = {'glass':'f000','music':'f001','search':'f002','envelope-o':
         .append('svg')
         .attr('width', '100%')
         .attr('height', '100%')
+        // .attr("viewBox", [-state.svgWidth / 2, -state.svgHeight / 2, state.svgWidth, state.svgHeight])
         .attr('class', 'neo4jd3-graph')
         .call(d3.zoom().scaleExtent([.05, 12]).on('zoom', function(zoomEvent) {
           let scale = zoomEvent.transform.k,
@@ -406,6 +407,25 @@ const iconMapData = {'glass':'f000','music':'f001','search':'f002','envelope-o':
         .append('g')
         .attr('width', '100%')
         .attr('height', '100%');
+    // 增加arrow marker
+    state.svg
+        .append('defs').selectAll('marker')
+        .data(['end'])
+        .enter()
+        .append('marker')
+          .attr('id', "arrowhead")
+          .attr('viewBox','0 -5 10 10')
+          .attr('refX', 22)
+          .attr('refY', .8)
+          .attr('orient','auto')
+          .attr('markerWidth', 20)
+          .attr('markerHeight', 20)
+          .attr('markerUnits', "strokeWidth")
+          .attr('xoverflow','visible')
+        .append('path')
+          .attr('d', 'M0,-5L10,0L0,5')
+          // .attr('d', 'M0,0 V4 L2,2 Z')
+          .attr('fill', '#ccc');
 
     state.svgRelationships = state.svg.append('g')
         .attr('class', 'relationships');
@@ -521,14 +541,12 @@ const iconMapData = {'glass':'f000','music':'f001','search':'f002','envelope-o':
     updateNodesAndRelationships();
   }
   function updateNodesAndRelationships() {
-    console.log(state.nodes)
     state.nodes = state.forceNodes.filter(function(d) {
       return d.collapsing === 0;
     });
     state.links = state.relationships.filter(function(d) {
       return d.source.collapsing === 0 && d.target.collapsing === 0;
     });
-
     state.simulation
         .nodes(state.nodes)
         .force('link', d3.forceLink(state.links))
@@ -566,7 +584,7 @@ const iconMapData = {'glass':'f000','music':'f001','search':'f002','envelope-o':
     state.relationshipOutline = state.svg.selectAll('.relationship .outline');
     state.relationshipOutline = relationshipEnter.outline.merge(state.relationshipOutline);
 
-    // outlineOverlay
+    // outlineTextOverlay
     state.relationshipOverlay = state.svg.selectAll('.relationship .overlay');
     state.relationshipOverlay = relationshipEnter.overlay.merge(state.relationshipOverlay);
 
@@ -604,31 +622,47 @@ const iconMapData = {'glass':'f000','music':'f001','search':'f002','envelope-o':
         // });
   }
   function appendOutlineToRelationship(relationship) {
-    return relationship.append('path')
+    return relationship
+        .append('path')
         .attr('class', 'outline')
-        .attr('fill', '#a5abb6')
-        .attr('stroke', 'none');
+        // .attr('fill', '#a5abb6')
+        .attr('fill', 'none')
+        .attr('stroke', '#a5abb6')
+        .attr('marker-end','url(#arrowhead)')
+        .style('stroke-width', '1');
   }
   function appendOverlayToRelationship(relationship) {
     return relationship.append('path')
         .attr('class', 'overlay')
-        .style('opacity', 0);
+        .style('opacity', 0)
+        .attr("id", function (d) {
+          return "overlay_" + d.source.id + "-" + d.relation + "-" + d.target.id;
+        })
   }
   function appendTextToRelationship(relationship) {
-    return relationship.append('text')
-            .attr('class', 'text')
-            .attr('fill', '#000000')
-            .attr('font-size', '8px')
-            .attr('pointer-events', 'none')
-            .attr('text-anchor', 'middle')
-            .text(data => data.relation)
+    // return relationship.append('text')
+    //         .attr('class', 'text')
+    //         .attr('fill', '#000000')
+    //         .attr('font-size', '8px')
+    //         .attr('pointer-events', 'none')
+    //         .attr('text-anchor', 'middle')
+    //         .text(data => data.relation)
             // .text( data => data.type)
+    return relationship.append('text')
+        .attr('class', 'text')
+        .append("textPath")
+        .attr("startOffset", "50%")
+        .attr("xlink:href", function(d) { return "#overlay_" + d.source.id + "-" + d.relation + "-" + d.target.id; })
+        .attr('fill', '#000000')
+        .attr('font-size', '8px')
+        .attr('pointer-events', 'none')
+        .attr('text-anchor', 'middle')
+        .text(data => data.relation);
   }
   function updateNodes() {
     // Array.prototype.push.apply(state.nodes, n);
-
     state.node = state.svgNodes.selectAll('.node')
-        .data(state.nodes, function(d) { return d.id; });
+        .data(state.nodes, function(d) { return d.title; });
 
     state.node.exit()
         .transition()
@@ -640,19 +674,20 @@ const iconMapData = {'glass':'f000','music':'f001','search':'f002','envelope-o':
   }
   function appendNodeToGraph() {
     let nodeEnter = appendNode();
-
     appendRingToNode(nodeEnter);
+    // nodeRing
+    state.nodeRing = state.svg.selectAll('.node .circle#ring');
+    state.nodeRing = nodeEnter.merge(state.nodeRing);
     appendOutlineToNode(nodeEnter);
-    //
-    // if (options.icons) {
-      appendTextToNode(nodeEnter);
-      appendIconToNode(nodeEnter);
-    // }
-    //
-    // if (options.images) {
-      appendImageToNode(nodeEnter);
-    // }
-
+    // nodeOutline
+    state.nodeOutline = state.svg.selectAll('.node .circle#outline');
+    state.nodeOutline = nodeEnter.merge(state.nodeOutline);
+    appendTextToNode(nodeEnter);
+    // nodeOutline
+    state.nodeText = state.svg.selectAll('.node .circle#text');
+    state.nodeText = nodeEnter.merge(state.nodeText);
+    appendIconToNode(nodeEnter);
+    appendImageToNode(nodeEnter);
     return nodeEnter;
   }
   const appendTextToNode = (node) => {
@@ -978,7 +1013,7 @@ const iconMapData = {'glass':'f000','music':'f001','search':'f002','envelope-o':
         .attr('class', 'ring')
         .attr('r', state.options.nodeRadius * 1.16)
         .append('title')
-        .text(d => d.name)
+        .text(d => d.title)
         // .text( d => toString(d))
   }
   function appendOutlineToNode(node) {
@@ -992,7 +1027,7 @@ const iconMapData = {'glass':'f000','music':'f001','search':'f002','envelope-o':
           return state.options.nodeOutlineFillColor ? class2darkenColor(state.options.nodeOutlineFillColor) : class2darkenColor(d.labels[0]);
         })
         .append('title')
-        .text(d => d.name)
+        .text(d => d.title)
         // .text( (d) =>  toString(d))
   }
   // 綁定節點 線 文字
@@ -1009,10 +1044,10 @@ const iconMapData = {'glass':'f000','music':'f001','search':'f002','envelope-o':
   }
   const tickRelationships = async () => {
     if (state.relationship) {
-      state.relationship.attr('transform', function (d) {
-        let angle = rotation(d.source, d.target);
-        return 'translate(' + d.source.x + ', ' + d.source.y + ') rotate(' + angle + ')';
-      });
+      // state.relationship.attr('transform', function (d) {
+      //   let angle = rotation(d.source, d.target);
+      //   return 'translate(' + d.source.x + ', ' + d.source.y + ') ';
+      // });
 
       await tickRelationshipsTexts();
       await tickRelationshipsOutlines();
@@ -1020,17 +1055,17 @@ const iconMapData = {'glass':'f000','music':'f001','search':'f002','envelope-o':
     }
   }
   const tickRelationshipsTexts = async () => {
-    state.relationshipText.attr('transform', function(d) {
-      let angle = (rotation(d.source, d.target) + 360) % 360,
-          mirror = angle > 90 && angle < 270,
-          center = { x: 0, y: 0 },
-          n = unitaryNormalVector(d.source, d.target),
-          nWeight = mirror ? 2 : -3,
-          point = { x: (d.target.x - d.source.x) * 0.5 + n.x * nWeight, y: (d.target.y - d.source.y) * 0.5 + n.y * nWeight },
-          rotatedPoint = rotatePoint(center, point, angle);
-
-      return 'translate(' + rotatedPoint.x + ', ' + rotatedPoint.y + ') rotate(' + (mirror ? 180 : 0) + ')';
-    });
+    // state.relationshipText.attr('transform', function(d) {
+    //   let angle = (rotation(d.source, d.target) + 360) % 360,
+    //       mirror = angle > 90 && angle < 270,
+    //       center = { x: 0, y: 0 },
+    //       n = unitaryNormalVector(d.source, d.target),
+    //       nWeight = mirror ? 2 : -3,
+    //       point = { x: (d.target.x - d.source.x) * 0.5 + n.x * nWeight, y: (d.target.y - d.source.y) * 0.5 + n.y * nWeight },
+    //       rotatedPoint = rotatePoint(center, point, angle);
+    //
+    //   return 'translate(' + rotatedPoint.x + ', ' + rotatedPoint.y + ') ';
+    // });
   }
   const tickRelationshipsOutlines = async () => {
     state.relationship.each( function (relationship) {
@@ -1039,60 +1074,120 @@ const iconMapData = {'glass':'f000','music':'f001','search':'f002','envelope-o':
           text = rel.select('.text'),
           bbox = text.node().getBBox(),
           padding = 3;
-
-      outline.attr('d', function(d) {
-        let center = { x: 0, y: 0 },
-            angle = rotation(d.source, d.target),
-            textBoundingBox = text.node().getBBox(),
-            textPadding = 5,
-            u = unitaryVector(d.source, d.target),
-            textMargin = { x: (d.target.x - d.source.x - (textBoundingBox.width + textPadding) * u.x) * 0.5, y: (d.target.y - d.source.y - (textBoundingBox.width + textPadding) * u.y) * 0.5 },
-            n = unitaryNormalVector(d.source, d.target),
-            rotatedPointA1 = rotatePoint(center, { x: 0 + (state.options.nodeRadius + 1) * u.x - n.x, y: 0 + (state.options.nodeRadius + 1) * u.y - n.y }, angle),
-            rotatedPointB1 = rotatePoint(center, { x: textMargin.x - n.x, y: textMargin.y - n.y }, angle),
-            rotatedPointC1 = rotatePoint(center, { x: textMargin.x, y: textMargin.y }, angle),
-            rotatedPointD1 = rotatePoint(center, { x: 0 + (state.options.nodeRadius + 1) * u.x, y: 0 + (state.options.nodeRadius + 1) * u.y }, angle),
-            rotatedPointA2 = rotatePoint(center, { x: d.target.x - d.source.x - textMargin.x - n.x, y: d.target.y - d.source.y - textMargin.y - n.y }, angle),
-            rotatedPointB2 = rotatePoint(center, { x: d.target.x - d.source.x - (state.options.nodeRadius + 1) * u.x - n.x - u.x * state.options.arrowSize, y: d.target.y - d.source.y - (state.options.nodeRadius + 1) * u.y - n.y - u.y * state.options.arrowSize }, angle),
-            rotatedPointC2 = rotatePoint(center, { x: d.target.x - d.source.x - (state.options.nodeRadius + 1) * u.x - n.x + (n.x - u.x) * state.options.arrowSize, y: d.target.y - d.source.y - (state.options.nodeRadius + 1) * u.y - n.y + (n.y - u.y) * state.options.arrowSize }, angle),
-            rotatedPointD2 = rotatePoint(center, { x: d.target.x - d.source.x - (state.options.nodeRadius + 1) * u.x, y: d.target.y - d.source.y - (state.options.nodeRadius + 1) * u.y }, angle),
-            rotatedPointE2 = rotatePoint(center, { x: d.target.x - d.source.x - (state.options.nodeRadius + 1) * u.x + (- n.x - u.x) * state.options.arrowSize, y: d.target.y - d.source.y - (state.options.nodeRadius + 1) * u.y + (- n.y - u.y) * state.options.arrowSize }, angle),
-            rotatedPointF2 = rotatePoint(center, { x: d.target.x - d.source.x - (state.options.nodeRadius + 1) * u.x - u.x * state.options.arrowSize, y: d.target.y - d.source.y - (state.options.nodeRadius + 1) * u.y - u.y * state.options.arrowSize }, angle),
-            rotatedPointG2 = rotatePoint(center, { x: d.target.x - d.source.x - textMargin.x, y: d.target.y - d.source.y - textMargin.y }, angle);
-
-        return 'M ' + rotatedPointA1.x + ' ' + rotatedPointA1.y +
-            ' L ' + rotatedPointB1.x + ' ' + rotatedPointB1.y +
-            ' L ' + rotatedPointC1.x + ' ' + rotatedPointC1.y +
-            ' L ' + rotatedPointD1.x + ' ' + rotatedPointD1.y +
-            ' Z M ' + rotatedPointA2.x + ' ' + rotatedPointA2.y +
-            ' L ' + rotatedPointB2.x + ' ' + rotatedPointB2.y +
-            ' L ' + rotatedPointC2.x + ' ' + rotatedPointC2.y +
-            ' L ' + rotatedPointD2.x + ' ' + rotatedPointD2.y +
-            ' L ' + rotatedPointE2.x + ' ' + rotatedPointE2.y +
-            ' L ' + rotatedPointF2.x + ' ' + rotatedPointF2.y +
-            ' L ' + rotatedPointG2.x + ' ' + rotatedPointG2.y +
-            ' Z';
-      });
+      outline.attr('d' , function (d) {
+        return arcPath(true,d);
+      })
+      // outline.attr('d', function(d) {
+      //   let center = { x: 0, y: 0 },
+      //       angle = rotation(d.source, d.target),
+      //       textBoundingBox = text.node().getBBox(),
+      //       textPadding = 5,
+      //       u = unitaryVector(d.source, d.target),
+      //       textMargin = { x: (d.target.x - d.source.x - (textBoundingBox.width + textPadding) * u.x) * 0.5, y: (d.target.y - d.source.y - (textBoundingBox.width + textPadding) * u.y) * 0.5 },
+      //       n = unitaryNormalVector(d.source, d.target),
+      //       rotatedPointA1 = rotatePoint(center, { x: 0 + (state.options.nodeRadius + 1) * u.x - n.x, y: 0 + (state.options.nodeRadius + 1) * u.y - n.y }, angle),
+      //       rotatedPointB1 = rotatePoint(center, { x: textMargin.x - n.x, y: textMargin.y - n.y }, angle),
+      //       rotatedPointC1 = rotatePoint(center, { x: textMargin.x, y: textMargin.y }, angle),
+      //       rotatedPointD1 = rotatePoint(center, { x: 0 + (state.options.nodeRadius + 1) * u.x, y: 0 + (state.options.nodeRadius + 1) * u.y }, angle),
+      //       rotatedPointA2 = rotatePoint(center, { x: d.target.x - d.source.x - textMargin.x - n.x, y: d.target.y - d.source.y - textMargin.y - n.y }, angle),
+      //       rotatedPointB2 = rotatePoint(center, { x: d.target.x - d.source.x - (state.options.nodeRadius + 1) * u.x - n.x - u.x * state.options.arrowSize, y: d.target.y - d.source.y - (state.options.nodeRadius + 1) * u.y - n.y - u.y * state.options.arrowSize }, angle),
+      //       rotatedPointC2 = rotatePoint(center, { x: d.target.x - d.source.x - (state.options.nodeRadius + 1) * u.x - n.x + (n.x - u.x) * state.options.arrowSize, y: d.target.y - d.source.y - (state.options.nodeRadius + 1) * u.y - n.y + (n.y - u.y) * state.options.arrowSize }, angle),
+      //       rotatedPointD2 = rotatePoint(center, { x: d.target.x - d.source.x - (state.options.nodeRadius + 1) * u.x, y: d.target.y - d.source.y - (state.options.nodeRadius + 1) * u.y }, angle),
+      //       rotatedPointE2 = rotatePoint(center, { x: d.target.x - d.source.x - (state.options.nodeRadius + 1) * u.x + (- n.x - u.x) * state.options.arrowSize, y: d.target.y - d.source.y - (state.options.nodeRadius + 1) * u.y + (- n.y - u.y) * state.options.arrowSize }, angle),
+      //       rotatedPointF2 = rotatePoint(center, { x: d.target.x - d.source.x - (state.options.nodeRadius + 1) * u.x - u.x * state.options.arrowSize, y: d.target.y - d.source.y - (state.options.nodeRadius + 1) * u.y - u.y * state.options.arrowSize }, angle),
+      //       rotatedPointG2 = rotatePoint(center, { x: d.target.x - d.source.x - textMargin.x, y: d.target.y - d.source.y - textMargin.y }, angle);
+      //
+      //   let svgPath = `
+      //       M ${rotatedPointA1.x} ${rotatedPointA1.y}
+      //       L ${rotatedPointB1.x} ${rotatedPointB1.y}
+      //       L ${rotatedPointC1.x} ${rotatedPointC1.y}
+      //       L ${rotatedPointD1.x} ${rotatedPointD1.y}
+      //       L ${rotatedPointA2.x} ${rotatedPointA2.y}
+      //       L ${rotatedPointB2.x} ${rotatedPointB2.y}
+      //       L ${rotatedPointC2.x} ${rotatedPointC2.y}
+      //       L ${rotatedPointD2.x} ${rotatedPointD2.y}
+      //       L ${rotatedPointE2.x} ${rotatedPointE2.y}
+      //       L ${rotatedPointF2.x} ${rotatedPointF2.y}
+      //       L ${rotatedPointG2.x} ${rotatedPointG2.y}
+      //       Z
+      //     `
+      //   return svgPath;
+      // });
     });
   }
   const tickRelationshipsOverlays = async () => {
-    state.relationshipOverlay.attr('d', function(d) {
-      let center = { x: 0, y: 0 },
-          angle = rotation(d.source, d.target),
-          n1 = unitaryNormalVector(d.source, d.target),
-          n = unitaryNormalVector(d.source, d.target, 50),
-          rotatedPointA = rotatePoint(center, { x: 0 - n.x, y: 0 - n.y }, angle),
-          rotatedPointB = rotatePoint(center, { x: d.target.x - d.source.x - n.x, y: d.target.y - d.source.y - n.y }, angle),
-          rotatedPointC = rotatePoint(center, { x: d.target.x - d.source.x + n.x - n1.x, y: d.target.y - d.source.y + n.y - n1.y }, angle),
-          rotatedPointD = rotatePoint(center, { x: 0 + n.x - n1.x, y: 0 + n.y - n1.y }, angle);
+    // state.relationshipOverlay.attr('d', function(d) {
+    //   let center = { x: 0, y: 0 },
+    //       angle = rotation(d.source, d.target),
+    //       n1 = unitaryNormalVector(d.source, d.target),
+    //       n = unitaryNormalVector(d.source, d.target, 50),
+    //       rotatedPointA = rotatePoint(center, { x: 0 - n.x, y: 0 - n.y }, angle),
+    //       rotatedPointB = rotatePoint(center, { x: d.target.x - d.source.x - n.x, y: d.target.y - d.source.y - n.y }, angle),
+    //       rotatedPointC = rotatePoint(center, { x: d.target.x - d.source.x + n.x - n1.x, y: d.target.y - d.source.y + n.y - n1.y }, angle),
+    //       rotatedPointD = rotatePoint(center, { x: 0 + n.x - n1.x, y: 0 + n.y - n1.y }, angle);
+    //
+    //   return 'M ' + rotatedPointA.x + ' ' + rotatedPointA.y +
+    //       ' L ' + rotatedPointB.x + ' ' + rotatedPointB.y +
+    //       ' L ' + rotatedPointC.x + ' ' + rotatedPointC.y +
+    //       ' L ' + rotatedPointD.x + ' ' + rotatedPointD.y +
+    //       ' Z';
+    // });
 
-      return 'M ' + rotatedPointA.x + ' ' + rotatedPointA.y +
-          ' L ' + rotatedPointB.x + ' ' + rotatedPointB.y +
-          ' L ' + rotatedPointC.x + ' ' + rotatedPointC.y +
-          ' L ' + rotatedPointD.x + ' ' + rotatedPointD.y +
-          ' Z';
-    });
+    state.relationshipOverlay.attr('d' , function (d) {
+      return arcPath(d.source.x < d.target.x , d);
+    })
   }
+  const arcPath  = function(leftHand, d) {
+    let x1 = leftHand ? d.source.x : d.target.x,
+        y1 = leftHand ? d.source.y : d.target.y,
+        x2 = leftHand ? d.target.x : d.source.x,
+        y2 = leftHand ? d.target.y : d.source.y,
+        dx = x2 - x1,
+        dy = y2 - y1,
+        dr = Math.sqrt(dx * dx + dy * dy),
+        drx = dr/0.5,
+        dry = dr/0.5,
+        sweep = leftHand ? 0 : 1;
+
+    let siblingCount = countSiblingLinks(d.source,d.target),
+        xRotation = 0,
+        largeArc = 0;
+
+    if (siblingCount > 1) {
+      let siblings = getSiblingLinks(d.source, d.target);
+      // console.log(siblings);
+      let arcScale = d3.scalePoint()
+          .domain(siblings)
+          .range([1, siblingCount]);
+      drx = drx/(1 + (1/siblingCount) * (arcScale(d.relation) - 1));
+      dry = dry/(1 + (1/siblingCount) * (arcScale(d.relation) - 1));
+    }
+    // const r = Math.hypot(d.target.x - d.source.x, d.target.y - d.source.y);
+    // return `
+    //   M ${d.source.x},${d.source.y}
+    //   A ${r}, ${r} 0 0,1 ${d.target.x},${d.target.y}
+    // `;
+    // return "M " + x1 + "," + y1 + " L " + x2 + "," + y2 ;
+    return "M " + x1 + "," + y1 + " A " + drx + ", " + dry + " " + xRotation + ", " + largeArc + ", " + sweep + " " + x2 + "," + y2;
+  };
+
+  const getSiblingLinks = function(source, target) {
+    let siblings = [];
+    for (let i = 0; i < state.links.length; ++i) {
+      if( (state.links[i].source.id === source.id && state.links[i].target.id === target.id) || (state.links[i].source.id === target.id && state.links[i].target.id === source.id) )
+        siblings.push(state.links[i].relation);
+    }
+    return siblings;
+  };
+  const countSiblingLinks = function(source, target) {
+    let count = 0;
+    for (let i = 0; i < state.links.length; ++i) {
+      if( (state.links[i].source.id === source.id && state.links[i].target.id === target.id) ||
+          (state.links[i].source.id === target.id && state.links[i].target.id === source.id) )
+        count++;
+    }
+    return count;
+  };
   const unitaryNormalVector = (source, target, newLength) => {
     let center = { x: 0, y: 0 },
         vector = unitaryVector(source, target, newLength);
@@ -1127,7 +1222,7 @@ const iconMapData = {'glass':'f000','music':'f001','search':'f002','envelope-o':
    **/
   async function initLoadNeo4j() {
     state.loading = true
-    const {nodes, links} = await graphMovie()
+    const {nodes, links} = await graphMovieByTitle('John')
     state.nodesData = nodes
     state.relationsData = links
     state.loading = false
@@ -1143,11 +1238,15 @@ const iconMapData = {'glass':'f000','music':'f001','search':'f002','envelope-o':
     } else {
       response = await graphMovieByPersonName(state.queryPersonName)
     }
-    const {nodes, links} = response
-    state.nodesData = nodes
-    state.relationsData = links
+    state.nodesData = response.nodes
+    state.relationsData = response.links
+    await reDrawSvg()
     state.loading = false
-    updateWithNeo4jData()
+  }
+
+  const reDrawSvg = async () => {
+    d3.selectAll('svg').remove();
+    await forceLink2();
   }
   /**
    * 左側篩選查询
