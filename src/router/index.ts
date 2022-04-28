@@ -142,45 +142,45 @@ export const constantRoutes: Array<RouteRecordRaw> = [
         ]
     }*/
     // 多級嵌套路由
-    {
-         path: '/nested',
-         component: Layout,
-         redirect: '/nested/level1/level2',
-         name: 'Nested',
-         meta: {title: '多級菜單', icon: 'nested'},
-         children: [
-             {
-                 path: 'level1',
-                 component: () => import('@/views/nested/level1/index.vue'),
-                 name: 'Level1',
-                 meta: {title: '菜單一級'},
-                 redirect: '/nested/level1/level2',
-                 children: [
-                     {
-                         path: 'level2',
-                         component: () => import('@/views/nested/level1/level2/index.vue'),
-                         name: 'Level2',
-                         meta: {title: '菜單二級'},
-                         redirect: '/nested/level1/level2/level3',
-                         children: [
-                             {
-                                 path: 'level3-1',
-                                 component: () => import('@/views/nested/level1/level2/level3/index1.vue'),
-                                 name: 'Level3-1',
-                                 meta: {title: '菜單三級-1'}
-                             },
-                             {
-                                 path: 'level3-2',
-                                 component: () => import('@/views/nested/level1/level2/level3/index2.vue'),
-                                 name: 'Level3-2',
-                                 meta: {title: '菜單三級-2'}
-                             }
-                         ]
-                     }
-                 ]
-             },
-         ]
-     }
+    // {
+    //      path: '/nested',
+    //      component: Layout,
+    //      redirect: '/nested/level1/level2',
+    //      name: 'Nested',
+    //      meta: {title: '多級菜單', icon: 'nested'},
+    //      children: [
+    //          {
+    //              path: 'level1',
+    //              component: () => import('@/views/nested/level1/index.vue'),
+    //              name: 'Level1',
+    //              meta: {title: '菜單一級'},
+    //              redirect: '/nested/level1/level2',
+    //              children: [
+    //                  {
+    //                      path: 'level2',
+    //                      component: () => import('@/views/nested/level1/level2/index.vue'),
+    //                      name: 'Level2',
+    //                      meta: {title: '菜單二級'},
+    //                      redirect: '/nested/level1/level2/level3',
+    //                      children: [
+    //                          {
+    //                              path: 'level3-1',
+    //                              component: () => import('@/views/nested/level1/level2/level3/index1.vue'),
+    //                              name: 'Level3-1',
+    //                              meta: {title: '菜單三級-1'}
+    //                          },
+    //                          {
+    //                              path: 'level3-2',
+    //                              component: () => import('@/views/nested/level1/level2/level3/index2.vue'),
+    //                              name: 'Level3-2',
+    //                              meta: {title: '菜單三級-2'}
+    //                          }
+    //                      ]
+    //                  }
+    //              ]
+    //          },
+    //      ]
+    //  }
 ]
 
 const router = createRouter({
