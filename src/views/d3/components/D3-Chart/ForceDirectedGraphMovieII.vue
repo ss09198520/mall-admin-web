@@ -415,8 +415,8 @@ const iconMapData = {'glass':'f000','music':'f001','search':'f002','envelope-o':
         .append('marker')
           .attr('id', "arrowhead")
           .attr('viewBox','0 -5 10 10')
-          .attr('refX', 10)
-          .attr('refY', -0.1)
+          .attr('refX', 22)
+          .attr('refY', .8)
           .attr('orient','auto')
           .attr('markerWidth', 20)
           .attr('markerHeight', 20)
@@ -1012,8 +1012,6 @@ const iconMapData = {'glass':'f000','music':'f001','search':'f002','envelope-o':
     return node.append('circle')
         .attr('class', 'ring')
         .attr('r', state.options.nodeRadius * 1.16)
-        .attr('cx', state.options.nodeRadius * 1.16)
-        .attr('cy', state.options.nodeRadius * 1.16)
         .append('title')
         .text(d => d.title)
         // .text( d => toString(d))
@@ -1144,15 +1142,13 @@ const iconMapData = {'glass':'f000','music':'f001','search':'f002','envelope-o':
         y1 = leftHand ? d.source.y : d.target.y,
         x2 = leftHand ? d.target.x : d.source.x,
         y2 = leftHand ? d.target.y : d.source.y,
-        diffX = x2 - x1,
-        diffY = y2 - y1,
-        diffR = Math.sqrt(diffX * diffX + diffY * diffY),
-        drx = diffR/0.5,
-        dry = diffR/0.5,
-        // x and y distances from center to outside edge of target node
-        offsetX = (diffX * state.options.nodeRadius) / diffR,
-        offsetY = (diffY * state.options.nodeRadius) / diffR,
+        dx = x2 - x1,
+        dy = y2 - y1,
+        dr = Math.sqrt(dx * dx + dy * dy),
+        drx = dr/0.5,
+        dry = dr/0.5,
         sweep = leftHand ? 0 : 1;
+
     let siblingCount = countSiblingLinks(d.source,d.target),
         xRotation = 0,
         largeArc = 0;
@@ -1165,10 +1161,6 @@ const iconMapData = {'glass':'f000','music':'f001','search':'f002','envelope-o':
           .range([1, siblingCount]);
       drx = drx/(1 + (1/siblingCount) * (arcScale(d.relation) - 1));
       dry = dry/(1 + (1/siblingCount) * (arcScale(d.relation) - 1));
-      // x1 = x1 + arcScale(d.relation) * 10
-      // x2 = x2 + arcScale(d.relation) * 10
-      // y1 = y1 + arcScale(d.relation) * 10
-      // y2 = y2 + arcScale(d.relation) * 10
     }
     // const r = Math.hypot(d.target.x - d.source.x, d.target.y - d.source.y);
     // return `
@@ -1176,7 +1168,7 @@ const iconMapData = {'glass':'f000','music':'f001','search':'f002','envelope-o':
     //   A ${r}, ${r} 0 0,1 ${d.target.x},${d.target.y}
     // `;
     // return "M " + x1 + "," + y1 + " L " + x2 + "," + y2 ;
-    return "M " + x1 + "," + y1 + " A " + drx + ", " + dry + " " + xRotation + ", " + largeArc + ", " + sweep + " " + (x2-offsetX) + "," + (y2-offsetY);
+    return "M " + x1 + "," + y1 + " A " + drx + ", " + dry + " " + xRotation + ", " + largeArc + ", " + sweep + " " + x2 + "," + y2;
   };
 
   const getSiblingLinks = function(source, target) {
@@ -1253,7 +1245,7 @@ const iconMapData = {'glass':'f000','music':'f001','search':'f002','envelope-o':
   }
 
   const reDrawSvg = async () => {
-    d3.selectAll('.neo4jd3-graph').remove();
+    d3.selectAll('svg').remove();
     await forceLink2();
   }
   /**
